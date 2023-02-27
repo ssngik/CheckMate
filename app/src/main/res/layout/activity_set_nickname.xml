@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SetNicknameActivity">
+
+    <TextView
+        android:id="@+id/setNickText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/main_font"
+        android:text="@string/set_nickname"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/warning_notice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/main_font"
+        android:text="@string/setting_nickname"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/putNickname"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setNickText" />
+
+    <EditText
+        android:id="@+id/putNickname"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="90dp"
+        android:background="@drawable/white_edit_text"
+        android:fontFamily="@font/main_font"
+        android:gravity="center"
+        android:hint="@string/nickname_hint"
+        android:inputType="text"
+        android:maxLength="8"
+        android:selectAllOnFocus="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/dupCheck"
+        app:layout_constraintTop_toBottomOf="@+id/warning_notice" />
+
+    <Button
+        android:id="@+id/dupCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/button_round_white"
+        android:enabled="false"
+        android:fontFamily="@font/main_font"
+        android:text="@string/dup_check"
+        app:layout_constraintLeft_toRightOf="@+id/putNickname"
+        app:layout_constraintTop_toBottomOf="@+id/warning_notice" />
+
+    <TextView
+        android:id="@+id/nick_error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#80FF0000"
+        app:layout_constraintBottom_toTopOf="@+id/putNickname"
+        app:layout_constraintStart_toStartOf="@+id/putNickname"
+        tools:text="" />
+
+    <TextView
+        android:id="@+id/nickNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/main_font"
+        android:text="@string/nickname_guide"
+        android:textColor="#616161"
+        android:textSize="15sp"
+        app:layout_constraintRight_toRightOf="@+id/putNickname"
+        app:layout_constraintTop_toBottomOf="@+id/putNickname" />
+
+    <Button
+        android:id="@+id/joinButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:background="@drawable/button_round_white"
+        android:enabled="false"
+        android:fontFamily="@font/main_font"
+        android:text="@string/set_complete"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/warning_notice" />
+</androidx.constraintlayout.widget.ConstraintLayout>

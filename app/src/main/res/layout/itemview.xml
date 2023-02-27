@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/clear"
+    android:orientation="horizontal"
+    android:paddingLeft="50dp">
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:background="@color/clear" />
+
+    <TextView
+        android:id="@+id/today_todo_textview"
+        android:layout_width="270dp"
+        android:layout_height="match_parent"
+        android:background="@color/clear"
+        android:fontFamily="@font/main_font"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="17dp" />
+
+</LinearLayout>

@@ -1,0 +1,127 @@
+<resources>
+    <string name="app_name">Check mate</string>
+    <string name="Category_spinner">카테고리</string>
+    <string-array name="Category_Spinner">
+        <item>운동</item>
+        <item>생활습관</item>
+        <item>독서</item>
+        <item>학습</item>
+        <item>취미생활</item>
+        <item>기타</item>
+    </string-array>
+
+    <string name="default_notification_channel_id">Channel ID</string>
+    <string name="default_notification_channel_name" translatable="true">Test</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="history_check_image">HistoryCheck</string>
+    <string name="nickname">Nickname</string>
+    <string name="loading">LOADING...</string>
+    <string name="change_nickname">닉네임 변경</string>
+    <string name="app_version">앱 버전</string>
+    <string name="support_email">teamcheckus@gmail.com</string>
+    <string name="support">문의하기</string>
+    <string name="app_version_value">0.0.1</string>
+    <string name="logout">로그아웃</string>
+    <string name="alarm_setting">알림 설정</string>
+    <string name="alarm">Alarm</string>
+    <string name="alarm_title">Alarm Title</string>
+    <string name="alarm_content">Alarm Content</string>
+    <string name="alarm_date_time">date_time</string>
+    <string name="info_according_to_method_info_1">-- 시작 시간, 인증 시간, 좋아요 개수만 수정 가능해요</string>
+    <string name="info_according_to_method_info_2">-- 내 목표를 클릭하면 수정 버튼이 보일 거예요</string>
+    <string name="info_according_to_method_info_3">-- 한 번 변경하면 일주일 후 변경을 할 수 있어요</string>
+    <string name="go_to_main_text">메인 화면으로 이동</string>
+    <string name="i_want_invite_text">초대할래요</string>
+    <string name="the_end">끝 !</string>
+    <string name="information_me_made">내가 만든 정보</string>
+    <string name="title_name">title_name</string>
+    <string name="period_text">기간</string>
+    <string name="period_start_information">0000-00-00</string>
+    <string name="wave">~</string>
+    <string name="period_end_information">0000-00-00</string>
+    <string name="certification_days">인증 요일</string>
+    <string name="day_value">hello</string>
+    <string name="certification_method">인증 방식</string>
+    <string name="method">method</string>
+    <string name="certification_time">인증 시간</string>
+    <string name="certification_time_value">00:00</string>
+    <string name="post_time">00:00:00</string>
+    <string name="like_count_text">좋아요 개수</string>
+    <string name="like_count_value">0</string>
+    <string name="goal_create_text">목표 생성</string>
+    <string name="goal_name_text">목표 이름</string>
+    <string name="what_is_goal_name">목표의 이름은 무엇인가요?</string>
+    <string name="set_period_text">기간 설정</string>
+    <string name="image_warning">이미지 없음</string>
+    <string name="start_text">시작</string>
+    <string name="end_text">종료</string>
+    <string name="certification_time_text">인증 시간</string>
+    <string name="no_certification_time">인증시간 없음</string>
+    <string name="method_instant">즉시 인증</string>
+    <string name="method_confirm">확인 후 인증</string>
+    <string name="like_num">좋아요 개수</string>
+    <string name="minimum_like_num">(확인 후 인증 시) 최소 값</string>
+    <string name="monday">월</string>
+    <string name="tuesday">화</string>
+    <string name="wednesday">수</string>
+    <string name="thursday">목</string>
+    <string name="friday">금</string>
+    <string name="saturday">토</string>
+    <string name="sunday">일</string>
+    <string name="complete">완료</string>
+    <string name="modify_complete">수정 완료</string>
+    <string name="nice_to_meet_you">만나서 반가워요</string>
+    <string name="login_to_naver">NAVER</string>
+    <string name="display_theme">화면 테마</string>
+    <string name="goals_completed">History</string>
+    <string name="do_goal">목표 인증하기</string>
+    <string name="there_is_no_method_info">method에 대한 정보가 없습니다.</string>
+    <string name="goal_period_information">2021년 1월 1일부터 n일째</string>
+    <string name="invite">더 초대할래요</string>
+    <string name="today_goals_guide">오늘 인증 할 목표들이에요.</string>
+    <string name="ongoing_goals_guide">진행중인 목표들이에요.</string>
+    <string name="wanna_new_goal_guide">나만의 새 목표를 만들어 볼까요?</string>
+    <string name="service_terms">서비스 이용약관</string>
+    <string name="privacy_policy">개인정보 처리방침</string>
+    <string name="open_source_license">오픈소스 라이센스</string>
+    <string name="service_quit">회원 탈퇴</string>
+    <string name="body">Body</string>
+    <string name="go_to_goal_detail">목표 상세로 이동</string>
+    <string name="history_guide_text">클릭하면 내가 수행한 목표들을 보러 갈 수 있어요.</string>
+    <string name="edit_nickname_warning">* 닉네임 변경 시 30일간 변경할 수 없어요.</string>
+    <string name="new_nickname">New Nickname</string>
+    <string name="dup_check">중복확인</string>
+    <string name="before_nickname">Before Nickname</string>
+    <string name="nickname_guide">* 특수문자 제외 2~8 글자만 가능해요</string>
+    <string name="set_complete">설정 완료</string>
+    <string name="good_job">어떤 목표든 꾸준히 이루었다면 대단한 일!</string>
+    <string name="upload_image">이미지 업로드</string>
+    <string name="do_my_goal_guide">오늘 하루를 공유해주세요!</string>
+    <string name="register">등록</string>
+    <string name="date_info_ex">20210101 토요일</string>
+    <string name="set_nickname">닉네임 설정</string>
+    <string name="setting_nickname">닉네임을 설정 해봅시다!</string>
+    <string name="nickname_hint">Put your Nickname!</string>
+    <string name="splash_title">Hello Checker</string>
+    <string name="image_upload">이미지 업로드</string>
+    <string name="text_certification_hint">오늘의 한일을 공유해볼까요?</string>
+    <string name="invite_teammate">팀원 초대하기</string>
+    <string name="find_teammate">이제 동료를 찾아볼까요?</string>
+    <string name="enter_nickname">닉네임을 입력해주세요</string>
+    <string name="invite_teammate_button">초대하기</string>
+    <string name="history_title">History title</string>
+    <string name="history_teammate">함께한 팀원들</string>
+    <string name="progress_percent">99.9%</string>
+    <string name="invite_request">초대를 받을까요?</string>
+    <string name="invite_msg">~님이 ~ 목표로 초대했습니다!</string>
+    <string name="accept">수락</string>
+    <string name="deny">거절</string>
+    <string name="teamcrew">TEAMCREW</string>
+    <string name="title">Title</string>
+    <string name="message">Message</string>
+    <string name="like_count">0 Like</string>
+    <string name="O">O</string>
+    <string name="day_date">  토 \n  19일</string>
+    <string name="to_history_guide">완료한 목표는 History에서 확인할 수 있어요</string>
+</resources>

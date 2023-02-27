@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="clear">#000000ff</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="green_200">#A5D6A7</color>
+    <color name="green_400">#66BB6A</color>
+    <color name="green_600">#43A047</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="gray_800">#424242</color>
+    <color name="gray_700">#616161</color>
+    <color name="gray_300">#8C8C8C</color>
+    <color name="almost_white">#CDCDCD</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="light_text">#383838</color>
+    <color name="dark_text">#ebebeb</color>
+    <color name="orange">#FF9518</color>
+    <color name="grn">#AEE6B2</color>
+    <color name="naver_green">#2DB400</color>
+    <color name="n2">#60cb6c</color>
+    <color name="green_bar">#5fc03a</color>
+
+    <color name="colorPrimary">#1f3197</color>
+    <color name="colorPrimaryDark">#172781</color>
+    <color name="colorAccent">#000000</color>
+
+<!--    new -->
+    <color name="gray_back">#ffffff</color>
+    <color name="background">#ebebeb</color>
+    <color name="scroll_bar">#d4d4d4</color>
+    <color name="gray_box">#8C8B8B</color>
+<!--    <color name="green_box">#68CF68</color>-->
+    <color name="green_box">#B9F6CA</color>
+</resources>

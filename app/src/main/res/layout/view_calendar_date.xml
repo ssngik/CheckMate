@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="50dp"
+    android:layout_height="80dp"
+    android:background="@color/clear"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/calendar_date"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="10dp"
+        android:background="@color/clear"
+        android:fontFamily="@font/main_font"
+        android:text="  토 \n  19일"
+        android:textColor="@color/black" />
+    <ImageView
+        android:id="@+id/calendar_icon"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16.5dp"
+        android:background="@color/clear"
+        tools:ignore="ContentDescription" />
+
+</LinearLayout>

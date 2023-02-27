@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="bannerImages">
+        <item>@drawable/check_mate_banner</item>
+        <item>@drawable/check_mate_banner_two</item>
+    </array>
+</resources>

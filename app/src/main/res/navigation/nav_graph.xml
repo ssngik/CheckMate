@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="kr.co.company.capstone.fragment.MainPageFragment"
+        android:label="home"
+        app:defaultNavHost="true"
+        tools:layout="@layout/fragment_main_icon">
+
+        <action
+            android:id="@+id/action_navigation_home_to_setNewGoalInfoFragment"
+            app:destination="@id/setNewGoalInfoFragment"
+        />
+        <action
+            android:id="@+id/action_navigation_home_to_goalDetailFragment"
+            app:destination="@id/goalDetailFragment"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="true"
+        />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_history"
+        android:name="kr.co.company.capstone.fragment.HistoryPageFragment"
+        android:label="favourites"
+        tools:layout="@layout/fragment_history_icon">
+
+        <action android:id="@+id/action_navigation_history_to_timeLineFragment" app:destination="@id/timeLineFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_alarm"
+        android:name="kr.co.company.capstone.fragment.AlarmPageFragment"
+        android:label="search"
+        tools:layout="@layout/fragment_alarm_icon">
+        <action
+            android:id="@+id/action_navigation_alarm_to_inviteResponseFragment"
+            app:destination="@id/inviteResponseFragment"
+        app:popUpTo="@id/navigation_alarm"
+        app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_navigation_alarm_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_alarm_to_goalDetailFragment"
+            app:destination="@id/goalDetailFragment" />
+        <action
+            android:id="@+id/action_navigation_alarm_to_timeLineFragment"
+            app:destination="@id/timeLineFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingPageFragment"
+        android:name="kr.co.company.capstone.fragment.SettingPageFragment"
+        android:label="profile"
+        tools:layout="@layout/fragment_setting_icon">
+        <action
+            android:id="@+id/action_settingPageFragment_to_editNicknameFragment"
+            app:destination="@id/editNicknameFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/setNewGoalInfoFragment"
+        android:name="kr.co.company.capstone.fragment.SetNewGoalInfoFragment"
+        android:label="profile"
+        tools:layout="@layout/fragment_create_goal_info">
+        <action
+            android:id="@+id/action_setNewGoalInfoFragment_to_goalCreateCompleteActivity"
+            app:destination="@id/goalCreateCompleteActivity"
+            app:popUpTo="@id/setNewGoalInfoFragment"
+            app:popUpToInclusive="true"
+        />
+        <action
+            android:id="@+id/action_setNewGoalInfoFragment_to_goalDetailFragment"
+            app:destination="@id/goalDetailFragment"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/goalCreateCompleteActivity"
+        android:name="kr.co.company.capstone.fragment.GoalCreateCompleteFragment"
+        android:label="completeactivity_main"
+        tools:layout="@layout/fragment_complete">
+        <action
+            android:id="@+id/action_goalCreateCompleteActivity_to_navigation_home"
+            app:popUpTo="@id/navigation_home"
+        />
+        <action
+            android:id="@+id/action_goalCreateCompleteActivity_to_fragmentInviteUser"
+            app:destination="@id/inviteUserFragment"
+            app:popUpTo="@id/goalCreateCompleteActivity"
+            app:popUpToInclusive="true"
+        />
+    </fragment>
+
+    <fragment
+        android:id="@+id/goalDetailFragment"
+        android:name="kr.co.company.capstone.fragment.GoalDetailFragment"
+        android:label="fragment_goal_detail"
+        tools:layout="@layout/fragment_goal_detail">
+        <action
+            android:id="@+id/action_goalDetailFragment_to_inviteUserFragment"
+            app:destination="@id/inviteUserFragment" />
+        <action
+            android:id="@+id/action_goalDetailFragment_to_create_goal_info_fragment"
+            app:destination="@id/setNewGoalInfoFragment" />
+        <action
+            android:id="@+id/action_goalDetailFragment_to_doMyGoalFragment"
+            app:destination="@id/doMyGoalFragment"/>
+        <action
+            android:id="@+id/action_goalDetailFragment_to_timeLineFragment"
+            app:destination="@id/timeLineFragment" />
+        <action android:id="@+id/action_goalDetailActivity_to_navigation_home" app:destination="@id/navigation_home"
+                app:popUpTo="@id/goalDetailFragment" app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/inviteUserFragment"
+        android:name="kr.co.company.capstone.fragment.InviteUserFragment"
+        android:label="fragment_invite_user"
+        tools:layout="@layout/fragment_invite_user" >
+        <action android:id="@+id/action_inviteUserFragment_to_navigation_home"
+                app:destination="@id/navigation_home"
+                app:popUpTo="@id/navigation_home"
+                app:popUpToInclusive="true"
+        />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editNicknameFragment"
+        android:name="kr.co.company.capstone.fragment.EditNicknameFragment"
+    android:label="EditNickNameFragment"
+    tools:layout="@layout/fragment_edit_nickname">
+        <action android:id="@+id/action_editNicknameFragment_to_settingPageFragment"
+                app:destination="@id/settingPageFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/inviteResponseFragment"
+        android:name="kr.co.company.capstone.fragment.InviteResponseFragment"
+        android:label="FragmentInviteResponse"
+        tools:layout="@layout/invite_response">
+        <action
+            android:id="@+id/action_inviteResponseFragment_to_goalDetailFragment"
+            app:destination="@id/goalDetailFragment"
+        app:popUpTo="@+id/inviteResponseFragment"
+        app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_inviteResponseFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action android:id="@+id/action_inviteResponseFragment_to_navigation_alarm"
+                app:destination="@id/navigation_alarm"
+                app:popUpTo="@id/inviteResponseFragment"
+                app:popUpToInclusive="true"
+        />
+    </fragment>
+    <fragment
+        android:id="@+id/doMyGoalFragment"
+        android:name="kr.co.company.capstone.fragment.DoMyGoalFragment"
+        android:label="fragment_certification_detail"
+        tools:layout="@layout/fragment_certification_detail" >
+        <action
+            android:id="@+id/action_doMyGoalFragment_to_timeLineFragment"
+            app:destination="@id/timeLineFragment"
+        app:popUpTo="@+id/goalDetailFragment"
+        app:popUpToInclusive="false"/>
+    </fragment>
+    <fragment
+        android:id="@+id/timeLineFragment"
+        android:name="kr.co.company.capstone.fragment.TimeLineFragment"
+        android:label="fragment_timeline"
+        tools:layout="@layout/fragment_timeline" />
+</navigation>

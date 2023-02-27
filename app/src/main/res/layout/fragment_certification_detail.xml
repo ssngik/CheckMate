@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="10dp"
+    android:paddingBottom="?attr/actionBarSize"
+    tools:context=".fragment.DoMyGoalFragment">
+
+    <TextView
+        android:id="@+id/goal_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/main_font"
+        android:gravity="center"
+        android:paddingVertical="15dp"
+        android:text="@string/goal_name_text"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/certification_frame"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/certification_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="?attr/actionBarSize"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/goal_title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/today"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round"
+                android:backgroundTint="@color/clear"
+                android:fontFamily="@font/main_font"
+                android:gravity="center"
+                android:paddingVertical="15dp"
+                android:text="@string/date_info_ex"
+                android:textSize="20sp" />
+
+            <FrameLayout
+                android:id="@+id/Photo_certification"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/round">
+
+                <TextView
+                    android:id="@+id/Photo_certification_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/main_font"
+                    android:padding="10dp"
+                    android:text="@string/upload_image"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/image_field1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/first_image"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center_vertical"
+                        android:adjustViewBounds="true"
+                        android:background="@color/white"
+                        android:contentDescription="@string/image_warning"
+                        android:maxWidth="150dp"
+                        android:maxHeight="150dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/camera_icon" />
+
+                    <ImageView
+                        android:id="@+id/second_image"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center_vertical"
+                        android:adjustViewBounds="true"
+                        android:background="@color/white"
+                        android:contentDescription="@string/image_warning"
+                        android:maxWidth="150dp"
+                        android:maxHeight="150dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/three_photo_icon" />
+
+                    <ImageView
+                        android:id="@+id/third_image"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center_vertical"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/image_warning"
+                        android:maxWidth="150dp"
+                        android:maxHeight="150dp"
+                        android:scaleType="centerInside" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp">
+
+                <androidx.core.widget.ContentLoadingProgressBar
+                    android:id="@+id/do_my_goal_loading"
+                    style="@style/Widget.AppCompat.ProgressBar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/text_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="@string/do_my_goal_guide"
+                    android:inputType="textMultiLine"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:textColor="@color/black" />
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/Post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:fontFamily="@font/main_font"
+                android:text="@string/register" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

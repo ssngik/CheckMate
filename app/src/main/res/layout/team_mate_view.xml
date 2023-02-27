@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/clear"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/team_mate_status"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:background="@color/clear"
+        android:gravity="center"
+        android:text="@string/O"
+        android:textColor="@color/green_600" />
+
+    <TextView
+        android:id="@+id/team_mate_nickname"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="@color/clear"
+        android:fontFamily="@font/main_font"
+        android:gravity="center"
+        android:text="@string/nickname"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+</LinearLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.LoginActivity">
+
+    <TextView
+        android:id="@+id/joinText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:fontFamily="@font/main_font"
+        android:text="@string/nice_to_meet_you"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/naver_login_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+        android:id="@+id/naver_login_btn"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="250dp"
+        android:text="@string/login_to_naver"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/kakao_login_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/joinText" />
+
+    <ImageButton
+        android:id="@+id/kakao_login_btn"
+        android:layout_width="280dp"
+        android:layout_height="56dp"
+        android:background="@drawable/ic_clear"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/google_login_button"
+        app:layout_constraintLeft_toLeftOf="@id/naver_login_btn"
+        app:layout_constraintRight_toRightOf="@id/naver_login_btn"
+        app:layout_constraintTop_toBottomOf="@id/naver_login_btn"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:srcCompat="@drawable/kakao_login" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/google_login_button"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="@+id/kakao_login_btn"
+        app:layout_constraintRight_toRightOf="@+id/kakao_login_btn"
+        app:layout_constraintTop_toBottomOf="@+id/kakao_login_btn"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <!--    <androidx.appcompat.widget.AppCompatButton-->
+    <!--        android:id="@+id/Next"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="30dp"-->
+    <!--        android:text="로그인 없이 둘러보기"-->
+    <!--        android:textSize="10sp"-->
+    <!--        app:layout_constraintLeft_toLeftOf="@+id/google_login_button"-->
+    <!--        app:layout_constraintRight_toRightOf="@+id/google_login_button"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/google_login_button"-->
+    <!--        app:layout_constraintVertical_chainStyle="spread"-->
+    <!--        android:fontFamily="@font/main_font"/>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
