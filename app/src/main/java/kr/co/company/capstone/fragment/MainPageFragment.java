@@ -205,16 +205,6 @@ public class MainPageFragment extends Fragment {
             }
         }
     }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-
-    @Override
-    public void onDestroyView(){
-        super.onDestroyView();
-    }
 
 
 }

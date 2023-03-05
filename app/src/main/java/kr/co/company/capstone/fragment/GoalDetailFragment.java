@@ -171,11 +171,6 @@ public class GoalDetailFragment extends Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(LOG_TAG, "onResume");
-    }
 
     private void setPercentProgress(ImageView mImageView) {
         mWaveDrawable = new WaveDrawable(Objects.requireNonNull(getActivity()), R.drawable.check_icon);
@@ -312,12 +307,6 @@ public class GoalDetailFragment extends Fragment {
                 registerButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.button_round_gray));
             }
         }
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.i(LOG_TAG, "onPause");
     }
 
 
