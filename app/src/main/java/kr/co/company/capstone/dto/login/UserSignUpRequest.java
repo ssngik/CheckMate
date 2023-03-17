@@ -7,24 +7,35 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class UserSignUpRequest implements Serializable {
+
+// setter 지양하기
+// setter 지우고 생성자로 주입
+// mapper to request
+// NoArgs
+// getter/Allarg
+// Builder 사용
+
+public class UserSignUpRequest implements Serializable{
     private String providerId;
     private String username;
-    private String email;
+    private String emailAddress;
 
     private String nickname;
-
-    public UserSignUpRequest(String providerId, String username, String email) {
+    private String fcmToken;
+    // RequestFields -> 회원가입 API 문서
+    public UserSignUpRequest(String providerId, String username, String email, String nickname, String fcmToken) {
         this.providerId = providerId;
         this.username = username;
-        this.email = email;
+        this.emailAddress = email;
+        this.nickname=nickname;
+        this.fcmToken = fcmToken;
     }
 
     public static UserSignUpRequest of(LoginResponse loginResponse) {
         UserSignUpRequest request = new UserSignUpRequest();
         request.providerId = loginResponse.getProviderId();
         request.username = loginResponse.getUsername();
-        request.email = loginResponse.getEmail();
+        request.emailAddress = loginResponse.getEmail();
         return request;
     }
 }
