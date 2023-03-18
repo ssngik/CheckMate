@@ -9,13 +9,17 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface NotificationService {
-    @GET("/notification/{notificationId}")
+
+    // 알림 종류
+    @GET("/notifications/{notificationId}")
     Call<NotificationDetailResponse> findNotification(@Path("notificationId") long notificationId);
 
-    @GET("/notification")
+    // 유저별 알림 조회
+    @GET("/notifications")
     Call<NotificationInfoListResponse> notifications(@Query("cursorId") Long cursorId);
 
-    @GET("/notification/goal-complete")
+    // 목표 수행 완료 알림 조회
+    @GET("/notifications/goal-complete")
     Call<NotificationDetailListResponse> findGoalCompleteNotifications();
 
     static NotificationService getService(){
