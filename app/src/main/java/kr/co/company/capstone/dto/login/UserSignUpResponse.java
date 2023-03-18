@@ -6,4 +6,7 @@ import lombok.Data;
 public class UserSignUpResponse {
     private String accessToken;
     private String refreshToken;
+    private String providerId;
+    private String username;
+    private String email;
 }
