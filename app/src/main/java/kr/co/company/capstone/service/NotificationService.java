@@ -10,7 +10,7 @@ import retrofit2.http.Query;
 
 public interface NotificationService {
 
-    // 알림 종류
+    // 단건 알림 조회
     @GET("/notifications/{notificationId}")
     Call<NotificationDetailResponse> findNotification(@Path("notificationId") long notificationId);
 
