@@ -7,10 +7,12 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface LikeService {
-    @POST("/post/{postId}/like")
+    // 좋아요
+    @POST("/posts/{postId}/like")
     Call<Void> like(@Path("postId")long postId);
 
-    @DELETE("/post/{postId}/unlike")
+    // 좋아요 취소
+    @DELETE("/posts/{postId}/unlike")
     Call<Void> unlike(@Path("postId")long postId);
 
     static LikeService getService(){
