@@ -4,18 +4,23 @@ import kr.co.company.capstone.dto.UserNicknameUpdateRequest;
 import kr.co.company.capstone.dto.goal.GoalInfoListResponse;
 import kr.co.company.capstone.dto.goal.HistoryGoalInfoResponse;
 import kr.co.company.capstone.dto.login.UserSignUpRequest;
-import kr.co.company.capstone.dto.login.UserSignUpResponse;
 import retrofit2.Call;
 import retrofit2.http.*;
 
 public interface UserService {
-    @GET("/user/exists")
+    @GET("/users/exists")
     Call<Void> duplicatedNicknameCheck(@Query("nickname") String nickname);
 
-    @POST("/user")
-    Call<UserSignUpResponse> SignUp(@Body UserSignUpRequest request);
+    @POST("/users/kakao") // LoginResponse
+    Call<Void> KakaoSignUp(@Body UserSignUpRequest request);
 
-    @PATCH("/user/nickname")
+//    @POST("/users/naver")
+//    Call<LoginResponse> SignUp(@Body UserSignUpRequest request);
+//
+//    @POST("/users/google")
+//    Call<LoginResponse> SignUp(@Body UserSignUpRequest request);
+
+    @PATCH("/users/nickname")
     Call<Void> updateNickname(@Body UserNicknameUpdateRequest request);
 
     @GET("/goal/history")
