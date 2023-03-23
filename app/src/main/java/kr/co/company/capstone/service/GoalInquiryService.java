@@ -8,19 +8,25 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface GoalInquiryService {
-    @GET("/goal/today")
+
+    // 오늘 인증해야 할 목표 정보 조회
+    @GET("/goals/today")
     Call<GoalInfoListResponse<TodayGoalInfoResponse>> todayGoals();
 
-    @GET("/goal/ongoing")
+    // 진행 중인 목표 정보 조회
+    @GET("/goals/ongoing")
     Call<GoalInfoListResponse<SimpleGoalInfoResponse>> ongoingGoals();
 
-    @GET("/goal/{goalId}")
+    //목표 상세 정보 조회
+    @GET("/goals/{goalId}")
     Call<GoalDetailResponse> goalDetail(@Path("goalId") long goalId);
 
-    @GET("/goal/{goalId}/period")
+    // 목표 인증일 조회
+    @GET("/goals/{goalId}/period")
     Call<GoalPeriodResponse> goalGoalCalendar(@Path("goalId") long goalId);
 
-    @GET("/goal/view/{goalId}")
+    // 목표 상세 정보 조회
+    @GET("/goals/view/{goalId}")
     Call<GoalDetailViewResponse> goalDetailView(@Path("goalId") long goalId);
 
     static GoalInquiryService getService(){
