@@ -21,7 +21,7 @@
 ## 기존의 불필요한 SharedPreference 사용 변경
 
 ## 보안
-  - 기존 하드코드 되어있던 각종 키 값들 Android Jetpack 일부인 Security Library 사용
+  - 기존 하드코드 되어있던 각종 키 값들 Key Store 사용
 
   
   
