@@ -1,17 +1,19 @@
 package kr.co.company.capstone.activity;
 
+// Android Framework 제공 라이브러리 관련
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+// Android library
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+// Google API client imports
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -19,46 +21,50 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+
+// Kakao API client imports
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
+
+// Naver API client imports
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
-import com.nhn.android.naverlogin.data.OAuthLoginData;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
-import io.reactivex.Completable;
+// Kotlin import
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import kr.co.company.capstone.JwtTokenDecoder;
+
+// 프로젝트별
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.ErrorMessage;
 import kr.co.company.capstone.dto.login.*;
 import kr.co.company.capstone.service.UserService;
 import kr.co.company.capstone.util.SharedPreferenceUtil;
-import kr.co.company.capstone.service.LoginService;
 import kr.co.company.capstone.service.MyFirebaseMessagingService;
+
+// lombok
 import lombok.SneakyThrows;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+// 레트로핏 관련
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.nio.charset.StandardCharsets;
+// Java library imports
 import java.util.Objects;
 import java.util.UUID;
 
 public class LoginActivity extends AppCompatActivity {
 
-
+    // 로그 태그
     static final String LOG_TAG = "LoginActivity";
+
+    // 네이버 로그인 정보
     private static String OAUTH_CLIENT_ID;
     private static String OAUTH_CLIENT_SECRET;
     private static String OAUTH_CLIENT_NAME;
 
-
-    SharedPreferences pref;
-
+    // Redirect code
     private static final int REDIRECT_MAIN = 200;
     private static final int REDIRECT_SET_NICKNAME = 201;
 
@@ -71,14 +77,17 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
+        // FCM Token 서비스 실행
         Intent fcmToken = new Intent(getApplicationContext(), MyFirebaseMessagingService.class);
         startService(fcmToken);
 
+        // 네이버 로그인 정보 초기화
         OAUTH_CLIENT_ID = String.valueOf(getResources().getString(R.string.OAUTH_CLIENT_ID));
         OAUTH_CLIENT_SECRET = String.valueOf(getResources().getString(R.string.OAUTH_CLIENT_SECRET));
         OAUTH_CLIENT_NAME = String.valueOf(getResources().getString(R.string.OAUTH_CLIENT_NAME));
 
-        pref = SharedPreferenceUtil.getPreferences(this);
+
         mContext = this;
 
         super.onCreate(savedInstanceState);
