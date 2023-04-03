@@ -10,8 +10,6 @@
 login_app_key.xml
 network_security_config.xml
 
-# LoginActivity
-LoginActivity.java
 
 # naver_login_sdk
 naver_login_sdk.aar
