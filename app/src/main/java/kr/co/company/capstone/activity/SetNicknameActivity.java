@@ -1,5 +1,8 @@
+
 package kr.co.company.capstone.activity;
 
+// Android Framework 제공 라이브러리 관련
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,25 +15,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+// androidx 라이브러리 관련
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+// Java 라이브러리 관련
+import java.util.UUID;
 import java.util.regex.Pattern;
 
-import kr.co.company.capstone.JwtTokenDecoder;
-import kr.co.company.capstone.R;
-import kr.co.company.capstone.util.SharedPreferenceUtil;
-import kr.co.company.capstone.dto.ErrorMessage;
-import kr.co.company.capstone.dto.login.UserSignUpRequest;
-import kr.co.company.capstone.dto.login.UserSignUpResponse;
-import kr.co.company.capstone.service.UserService;
+// Retrofit 라이브러리 관련
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+// 프로젝트별 클래스 및 파일
+import kr.co.company.capstone.R; // R 파일
+import kr.co.company.capstone.dto.login.*; // 로그인에 관련된 DTO 클래스들
+import kr.co.company.capstone.dto.ErrorMessage; // 에러 메세지 DTO 클래스
+import kr.co.company.capstone.service.UserService; // 사용자 관련 API를 사용하기 위한 Service 클래스
+import kr.co.company.capstone.service.MyFirebaseMessagingService; // Firebase Messaging Service
+import kr.co.company.capstone.util.SharedPreferenceUtil; // SharedPreferences를 사용하기 위한 유틸 클래스
+
 
 public class SetNicknameActivity extends AppCompatActivity {
 
+    public static Context context;
     EditText nicknameEditText;
     TextView nicknameErrorText;
     TextView nicknameNotiText;
@@ -39,16 +48,10 @@ public class SetNicknameActivity extends AppCompatActivity {
     static final String LOG_TAG = "SetNicknameActivity";
     String nickname;
     boolean nicknameChecked = false;
-    UserSignUpRequest userSignUpRequest = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_nickname);
-
-        Intent intent = getIntent();
-        userSignUpRequest = (UserSignUpRequest) intent.getSerializableExtra("newUser");
-        Log.d(LOG_TAG, "userSignUpRequest : " + userSignUpRequest.toString());
 
         nicknameEditText = findViewById(R.id.putNickname);
         nicknameErrorText = findViewById(R.id.nick_error_text);
@@ -76,6 +79,7 @@ public class SetNicknameActivity extends AppCompatActivity {
                                     Log.i(LOG_TAG, "enable nickname");
                                 } else {
                                     showIncorrectDialog();
+                                    Log.d(LOG_TAG, "dupCheckError");
                                 }
                             }
 
@@ -87,48 +91,88 @@ public class SetNicknameActivity extends AppCompatActivity {
             }
         });
 
-        joinButton.setOnClickListener(new View.OnClickListener(){
+        // 회원가입
+        joinButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if(nicknameChecked) {
-                    userSignUpRequest.setNickname(nickname);
-                    UserService.getService().SignUp(userSignUpRequest)
-                            .enqueue(new Callback<UserSignUpResponse>() {
-                                @Override
-                                public void onResponse(Call<UserSignUpResponse> call, Response<UserSignUpResponse> response) {
-                                    if (response.isSuccessful()) {
-                                        UserSignUpResponse userSignUpResponse = response.body();
-                                        Log.d(LOG_TAG, "Sign Up Success - UserSignUpResponse : " + userSignUpResponse);
-                                        SharedPreferenceUtil.setString(getApplicationContext(), "jwtToken", userSignUpResponse.getAccessToken());
-                                        SharedPreferenceUtil.setString(getApplicationContext(), "refreshToken", userSignUpResponse.getRefreshToken());
+            public void onClick(View v) {
+                if(nicknameChecked){
+                    // 회원가입 시 필요 정보
+                    String providerId = SharedPreferenceUtil.getString(getApplicationContext(), "providerId");
+                    String username = SharedPreferenceUtil.getString(getApplicationContext(), "username");
+                    String emailAddress = SharedPreferenceUtil.getString(getApplicationContext(), "emailAddress");
+                    String fcmToken = MyFirebaseMessagingService.fcmToken;
 
-                                        JwtTokenDecoder jwtTokenDecoder = new JwtTokenDecoder(userSignUpResponse.getAccessToken());
-                                        SharedPreferenceUtil.setString(getApplicationContext(), "nickname", jwtTokenDecoder.getNicknameByToken());
-                                        SharedPreferenceUtil.setLong(getApplicationContext(), "userId", jwtTokenDecoder.getUserIdByToken());
+                    // 사용자 식별 정보
+                    String identifier = UUID.nameUUIDFromBytes(providerId.getBytes()).toString();
 
-                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        showIncorrectDialogAndRestart();
-                                        Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
-                                        Log.d(LOG_TAG, "SignUp Error");
+                    // 회원가입 Request
+                    UserSignUpRequest userSignUpRequest = new UserSignUpRequest(identifier, username, emailAddress, nickname);
+
+                    UserService.getService().signUp(userSignUpRequest)
+                            .enqueue(new Callback<Void>(){
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response){
+
+                            if(response.isSuccessful()){ // 회원가입 API 성공
+                                Log.d(LOG_TAG, response.toString());
+
+                                LoginRequest loginRequest = new LoginRequest(identifier, fcmToken);
+                                UserService.getService().login(loginRequest).enqueue(new Callback<LoginResponse>() {
+                                    @Override
+                                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                                        if(response.isSuccessful()){
+                                            LoginResponse loginResponse = response.body();
+                                            Log.d(LOG_TAG, loginResponse + "login Success!!");
+
+                                            SharedPreferenceUtil.setString(getApplicationContext(), "accessToken", loginResponse.getAccessToken());
+                                            SharedPreferenceUtil.setString(getApplicationContext(), "refreshToken", loginResponse.getRefreshToken());
+
+                                            // Main 화면으로 이동
+                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+
+                                        }else{
+                                            Log.d(LOG_TAG, "로그인이 실패");
+                                            Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).getMessage());
+                                            Log.d(LOG_TAG, loginRequest.toString());
+                                        }
                                     }
-                                }
+
+                                    @Override
+                                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                                        Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
+                                    }
+                                });
+
+
+
+                            }else{
+                                Log.d(LOG_TAG, "fail");
+                                Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
+                                Log.d(LOG_TAG, "error response : " + response);
+                            }
+
+                        }
 
                                 @Override
-                                public void onFailure(Call<UserSignUpResponse> call, Throwable t) {
-                                    Log.d(LOG_TAG, "API call error");
-                                    showIncorrectDialogAndRestart();
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    // 통신 실패 처리
+                                    Log.d(LOG_TAG, "fail");
+                                    Log.d(LOG_TAG, "error message : " + t.getMessage());
+
                                 }
+
+
                             });
-                }
-                else{
-                    Log.d(LOG_TAG, "required nickname check");
-                    showIncorrectDialogAndRestart();
+
+
+
+
                 }
             }
         });
+
     }
 
     private void showIncorrectDialogAndRestart(){
@@ -140,7 +184,7 @@ public class SetNicknameActivity extends AppCompatActivity {
                 finish();
                 startActivity(intent);
             }
-        });;
+        });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
