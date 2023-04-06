@@ -2,12 +2,12 @@
     <string name="app_name">Check mate</string>
     <string name="Category_spinner">카테고리</string>
     <string-array name="Category_Spinner">
-        <item>운동</item>
-        <item>생활습관</item>
-        <item>독서</item>
-        <item>학습</item>
-        <item>취미생활</item>
-        <item>기타</item>
+        <item>EXERCISE</item>
+        <item>LIFESTYLE</item>
+        <item>READING</item>
+        <item>LEARNING</item>
+        <item>HOBBIES</item>
+        <item>ETC</item>
     </string-array>
 
     <string name="default_notification_channel_id">Channel ID</string>
