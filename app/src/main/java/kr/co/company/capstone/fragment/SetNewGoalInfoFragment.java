@@ -380,20 +380,27 @@ public class SetNewGoalInfoFragment extends Fragment {
     public void callSaveGoalAPI(View view) {
         if (!minimumLike.getText().toString().isEmpty())
             minimumLikeInt = Integer.parseInt(minimumLike.getText().toString());
-        GoalCreateRequest request = new GoalCreateRequest(categoryText, titleText, goalMethod, startDate, endDate, appointmentTime, String.valueOf(dayOfWeek), minimumLikeInt);
+
+        GoalCreateRequest request = new GoalCreateRequest(categoryText, titleText, startDate, endDate, String.valueOf(dayOfWeek), appointmentTime);
+        // 새 목표 생성
         GoalCreateService.getService().saveGoal(request)
                 .enqueue(new Callback<GoalCreateResponse>() {
                     @Override
                     public void onResponse(Call<GoalCreateResponse> call, Response<GoalCreateResponse> response) {
                         if (response.isSuccessful()) {
                             GoalCreateResponse goalCreateResponse = response.body();
+
+                            // 목표 ID
+                            long goalId = goalCreateResponse.getGoalId();
+
                             GoalCreateCompleteFragment goalCreateCompleteFragment = new GoalCreateCompleteFragment();
                             Bundle resBundle = new Bundle();
-                            resBundle.putSerializable("goalCreateResponse", goalCreateResponse);
+                            resBundle.putLong("goalId", goalId);
+
                             goalCreateCompleteFragment.setArguments(resBundle);
                             Navigation.findNavController(view).navigate(R.id.action_setNewGoalInfoFragment_to_goalCreateCompleteActivity, resBundle);
                         } else {
-                            //Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
+                            Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
                             Log.d(LOG_TAG, "onResponse : fail");
                         }
                     }
