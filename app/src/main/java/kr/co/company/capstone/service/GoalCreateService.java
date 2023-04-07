@@ -10,10 +10,12 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface GoalCreateService {
-    @POST("/goal")
+    // 목표 생성
+    @POST("/goals")
     Call<GoalCreateResponse> saveGoal(@Body GoalCreateRequest goalCreateRequest);
 
-    @PATCH("/goal/{goalId}")
+    // 목표 수정
+    @PATCH("/goals/{goalId}")
     Call<Void> modifyGoal(@Path("goalId") long goalId, @Body GoalModifyRequest goalModifyRequest);
 
     static GoalCreateService getService(){
