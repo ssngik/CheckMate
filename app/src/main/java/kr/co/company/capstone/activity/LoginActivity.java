@@ -50,7 +50,13 @@ import lombok.SneakyThrows;
 import retrofit2.Call;
 import retrofit2.Response;
 
+// JSON 관련
+import org.json.JSONException;
+import org.json.JSONObject;
+
 // Java library imports
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -244,7 +250,6 @@ public class LoginActivity extends AppCompatActivity {
                     // 신규 회원 회원가입.
                     if (Objects.equals(em.getCode(), "USER-001")) {
                         redirectCode = REDIRECT_SET_NICKNAME;
-
                     } else {
                         // TODO: 2023/04/03 모두 문제 -> 예외 처리
                         System.out.println("else--------");
@@ -277,9 +282,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void naverInitData() {
+        // OAuthLogin 인스턴스 초기화
         mOAuthLoginInstance = OAuthLogin.getInstance();
         mOAuthLoginInstance.init(mContext, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_CLIENT_NAME);
 
+        // naver Login 버튼 설정
         // naverLoginButton 을 누르면 OAuthLoginHandler 실행
         OAuthLoginButton naverLoginButton = findViewById(R.id.naver_login_btn);
         naverLoginButton.setOAuthLoginHandler(mOAuthLoginHandler);
@@ -291,17 +298,53 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void run(boolean success) {
             if (success) {
-                Log.d(LOG_TAG, "naver ! ");
+                Log.d(LOG_TAG, "Naver Login succes ! ");
                 String accessToken = mOAuthLoginInstance.getAccessToken(mContext);
-                // TODO: 2023/04/03 Naver API 추가
-                // 네이버 서버 통신을 통해 사용자 정보 받아오기
-                // 네이버 아이디 API를 통해 UID 값 추출하기
-                //mOAuthLoginInstance.requestApi(mContext, accessToken, "https://openapi.naver.com/v1/nid/me", new OAuthLoginHandler() {
 
+                // 사용자 정보 호출 API 요청
+                new Thread(() -> {
+                    String result = mOAuthLoginInstance.requestApi(mContext, accessToken, "https://openapi.naver.com/v1/nid/me");
+                    try{
+                        JSONObject jsonResult = new JSONObject(result);
 
+                        // 네이버 프로필에서 얻은 고유 식별자.
+                        String id = jsonResult.getJSONObject("response").getString("id");
+                        // 사용자 이름 ( 디코딩한 결과 )
+                        String name = URLDecoder.decode(jsonResult.getJSONObject("response").getString("name"), "UTF-8");
+
+                        // 회원가입에 필요한 사용자 정보 저장
+                        SharedPreferenceUtil.setString(mContext, "providerId", id);
+                        SharedPreferenceUtil.setString(mContext, "emailAddress", jsonResult.getJSONObject("response").getString("email"));
+                        SharedPreferenceUtil.setString(mContext, "username", name);
+
+                        // Login Request
+                        LoginRequest loginRequest = LoginRequest.builder()
+                                .fcmToken(MyFirebaseMessagingService.fcmToken)
+                                .identifier(UUID.nameUUIDFromBytes(id.getBytes()).toString())
+                                .build();
+
+                        // 로그인 호출
+                        callLoginApi(UserService.getService().login(loginRequest));
+
+                    }catch (JSONException e ){
+                        e.printStackTrace();
+                        // TODO: 2023/04/08 JSON 파싱 오류 처리
+
+                    } catch (UnsupportedEncodingException e) {
+                        // URL 디코딩 오류 처리
+                        throw new RuntimeException("Failed to decode the user name.", e);
+                    }
+
+                }).start();
+
+                }
+                else{
+                    // TODO: 2023/04/08 인증 실패 처리
+                }
             }
-        }
+
     };
+
 
     Function2<OAuthToken, Throwable, Unit> callback = (oAuthToken, throwable) -> {
         if (oAuthToken != null) {
