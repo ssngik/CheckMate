@@ -1,5 +1,6 @@
 package kr.co.company.capstone.fragment;
 
+// Android SDK import 문
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,17 +12,17 @@ import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
 
+// androidx import 문
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
-import kr.co.company.capstone.activity.MainActivity;
+// 기타 라이브러리 import 문
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +33,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+// 프로젝트 내부 import 문
 import kr.co.company.capstone.GoalCreateDateValidator;
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.ErrorMessage;
@@ -45,19 +47,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SetNewGoalInfoFragment extends Fragment {
+
+    // LOG_TAG
+    static final String LOG_TAG = "SetNewGoalInfoActivity";
+
+    // UI components
     private EditText title;
     private Spinner category;
     private RadioButton instant, confirm;
-    private String goalMethod = "";
-    private int editFlag;
-    private String endDateInModify;
-    static final String LOG_TAG = "SetNewGoalInfoActivity";
-    public String appointmentTime, startDate, endDate, categoryText,titleText ;
-    public int minimumLikeInt;
-
-    private GoalDetailResponse goal;
-    private LinearLayout likeNumGroup;
-    private StringBuilder dayOfWeek = new StringBuilder();
     private CheckBox monday, tuesday, wednesday, thursday, friday, saturday, sunday;
     private CheckBox setTimeCheckBox;
     private ImageButton setTimeButton, setDate, setDateEdit;
@@ -65,6 +62,20 @@ public class SetNewGoalInfoFragment extends Fragment {
     private TextView completeModify, makeGoal, inVisibleTimeText, setCompleteButton;
     private EditText minimumLike;
     private RadioGroup check_mode;
+    private LinearLayout likeNumGroup;
+
+    // 목표 생성 관련
+    private String goalMethod = "";
+    private String categoryText, titleText, appointmentTime, startDate, endDate;
+    private int minimumLikeInt;
+    private StringBuilder dayOfWeek = new StringBuilder();
+
+    // 목표 수정 관련
+    private int editFlag;
+    private String endDateInModify;
+
+
+    private GoalDetailResponse goal;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -395,7 +406,12 @@ public class SetNewGoalInfoFragment extends Fragment {
 
                             GoalCreateCompleteFragment goalCreateCompleteFragment = new GoalCreateCompleteFragment();
                             Bundle resBundle = new Bundle();
+
+                            // 목표 ID
                             resBundle.putLong("goalId", goalId);
+
+                            // request 객체
+                            resBundle.putSerializable("request", request);
 
                             goalCreateCompleteFragment.setArguments(resBundle);
                             Navigation.findNavController(view).navigate(R.id.action_setNewGoalInfoFragment_to_goalCreateCompleteActivity, resBundle);
