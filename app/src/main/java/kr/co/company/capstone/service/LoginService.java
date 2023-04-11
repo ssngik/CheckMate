@@ -7,7 +7,6 @@ import retrofit2.http.DELETE;
 import retrofit2.http.POST;
 
 public interface LoginService {
-
     @POST("/login/reissue")
     Call<LoginResponse> reissue(@Body TokenReissueRequest tokenReissueRequest);
 
