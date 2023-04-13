@@ -181,9 +181,6 @@ public class LoginActivity extends AppCompatActivity {
         UserApiClient.getInstance().me((user, throwable) -> {
 
             if (user != null) {
-                // 카카오에서 사용자 정보
-                KakaoAuthModel kakaoAuthModel = new KakaoAuthModel(user);
-                kakaoAuthModel.setFcmToken(MyFirebaseMessagingService.fcmToken);
 
                 // 카카오에서 얻은 providerId
                 String providerId = String.valueOf(user.getId());
