@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // 디바이스에 카카오톡 설치 여부 확인
+                // 디바이스에 카카오톡 설치 여부 확인 / 카카오톡으로 로그인
                 if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this))
                     UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
 
@@ -179,7 +179,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateKakaoLogin() {
         UserApiClient.getInstance().me((user, throwable) -> {
-
             if (user != null) {
 
                 // 카카오에서 얻은 providerId
@@ -226,54 +225,44 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 response = snsLogin.execute();
-                Log.d(LOG_TAG, "sns Login : " + snsLogin);
-                Log.d(LOG_TAG, "responseCode : " + response.code());
-                System.out.println(response.message());
                 // http status : 200
                 if (response.isSuccessful()) {
                     // 메인 화면으로 가는 로직
                     LoginResponse loginResponse = response.body();
-                    Log.d(LOG_TAG, "loginResponse !!!!!!!!!!" + loginResponse);
 
+                    // 로그인 완료 -> 메인 화면으로 이동
                     if (loginResponse.getAccessToken() != null) {
-                        redirectCode = REDIRECT_MAIN;
                         SharedPreferenceUtil.setString(LoginActivity.this, "accessToken", loginResponse.getAccessToken());
                         SharedPreferenceUtil.setString(LoginActivity.this, "refreshToken", loginResponse.getRefreshToken());
-                        //JwtTokenDecoder decoder = new JwtTokenDecoder(loginResponse.getAccessToken());
+
+                        moveToMainScreen();
                     }
                 } else { // 200이 아닌 경우
                     ErrorMessage em = ErrorMessage.getErrorByResponse(response);
 
                     // 신규 회원 회원가입.
                     if (Objects.equals(em.getCode(), "USER-001")) {
-                        redirectCode = REDIRECT_SET_NICKNAME;
+
+                        moveToSignUpScreen();
                     } else {
-                        // TODO: 2023/04/03 모두 문제 -> 예외 처리
+                        // TODO: 모두 문제 -> 예외 처리
                         System.out.println("else--------");
                     }
                 }
-                redirectActivityByRedirectCode();
-
             }
         }).start();
     }
 
-    private void redirectActivityByRedirectCode() {
-        if (redirectCode == REDIRECT_SET_NICKNAME) {
-            redirectNickname();
-        } else if (redirectCode == REDIRECT_MAIN) redirectSignupActivity();
-    }
-
-    private void redirectSignupActivity() {
+    // 로그인 완료 -> 메인화면으로 이동
+    private void moveToMainScreen() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
     }
 
-    private void redirectNickname() {
-        Log.d(LOG_TAG, "redirectNickname=============");
+    // 신규 회원 -> 회원가입 화면으로 이동
+    private void moveToSignUpScreen() {
         Intent intent = new Intent(getApplicationContext(), SetNicknameActivity.class);
-        //intent.putExtra("newUser", userSignUpRequest);
         startActivity(intent);
         finish();
     }
