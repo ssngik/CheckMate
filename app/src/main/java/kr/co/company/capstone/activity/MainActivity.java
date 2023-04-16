@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         // 애러 다이얼로그 생성
         AlertDialog alertDialog = createOnErrorDialog();
 
-        // 초기 받아야 할 알림이 있다면 받아옴
+        // 사용자 목표 수행 완료 알림이 있다면 받아옴
         NotificationService.getService().findGoalCompleteNotifications()
                 .enqueue(new Callback<NotificationDetailListResponse>() {
                     @Override
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         if (response.isSuccessful()) {
             List<NotificationDetailResponse> notifications = response.body().getNotifications();
 
-            // 받아야 할 알림이 있다면
+            // 받아야 할 목표 수행 완료 알림이 있다면
             if (notifications.size() > 0) {
                 Intent intent = new Intent(getApplicationContext(), GoalCompleteNotificationActivity.class);
                 intent.putExtra("info", notifications.get(0));
