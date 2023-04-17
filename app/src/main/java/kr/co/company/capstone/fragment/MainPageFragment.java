@@ -29,6 +29,7 @@ import kr.co.company.capstone.R;
 import kr.co.company.capstone.activity.MainActivity;
 import kr.co.company.capstone.util.adapter.BackPressHandler;
 import kr.co.company.capstone.util.adapter.GoalRecyclerViewAdapter;
+import kr.co.company.capstone.util.adapter.OngoingGoalRecyclerViewAdapter;
 import kr.co.company.capstone.util.adapter.ViewPagerAdapter;
 import kr.co.company.capstone.dto.ErrorMessage;
 import kr.co.company.capstone.dto.goal.*;
@@ -44,7 +45,6 @@ public class MainPageFragment extends Fragment {
 
     private static final String LOG_TAG = "MainPageFragment";
     private LinearLayout layoutIndicator;
-    private GoalRecyclerViewAdapter adapter;
     private RecyclerView todayRecyclerView, ongoingRecyclerView;
     ViewPager2 viewPagerBanner;
     TypedArray mainBannerImages;
@@ -85,8 +85,9 @@ public class MainPageFragment extends Fragment {
 
         // 로딩 화면
         mainPageLoading.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.green_400), PorterDuff.Mode.SRC_IN);
-        callTodayGoalsApi();
+
         callOngoingGoalsApi();
+        callTodayGoalsApi();
         setBackPressHandler();
 
         ImageButton newGoalButton = view.findViewById(R.id.setNewGoalButton);
@@ -126,6 +127,8 @@ public class MainPageFragment extends Fragment {
         setupIndicators(images.length);
     }
 
+
+    // 진행중인 목표
     private void callOngoingGoalsApi() {
         GoalInquiryService.getService().ongoingGoals()
                 .enqueue(new Callback<GoalInfoListResponse<SimpleGoalInfoResponse>>() {
@@ -134,9 +137,11 @@ public class MainPageFragment extends Fragment {
                         if (response.isSuccessful()) {
                             GoalInfoListResponse<SimpleGoalInfoResponse> goalInfoListResponse = response.body();
                             if (goalInfoListResponse != null) {
-                                List<SimpleGoalInfoResponse> goals = goalInfoListResponse.getGoals();
-                                adapter = new GoalRecyclerViewAdapter(getContext(), goals);
-                                ongoingRecyclerView.setAdapter(adapter);
+                                List<SimpleGoalInfoResponse> ongGoingGoals = goalInfoListResponse.getGoals();
+                                OngoingGoalRecyclerViewAdapter onGoingAdapter = new OngoingGoalRecyclerViewAdapter(getContext(), ongGoingGoals);
+                                ongoingRecyclerView.setAdapter(onGoingAdapter);
+                                mainPageGroup.setVisibility(View.VISIBLE);
+                                mainPageLoading.setVisibility(View.INVISIBLE);
                             }
                         } else {
                             OnErrorFragment onErrorFragment = new OnErrorFragment();
@@ -150,6 +155,7 @@ public class MainPageFragment extends Fragment {
                 });
     }
 
+    // 오늘 해야할 목표
     private void callTodayGoalsApi() {
         GoalInquiryService.getService().todayGoals()
                 .enqueue(new Callback<GoalInfoListResponse<TodayGoalInfoResponse>>() {
@@ -159,13 +165,13 @@ public class MainPageFragment extends Fragment {
                             GoalInfoListResponse<TodayGoalInfoResponse> goalInfoListResponse = response.body();
                             if (goalInfoListResponse != null) {
                                 List<TodayGoalInfoResponse> goals = goalInfoListResponse.getGoals();
-                                adapter = new GoalRecyclerViewAdapter(getContext(), goals);
+                                GoalRecyclerViewAdapter adapter = new GoalRecyclerViewAdapter(getContext(), goals);
                                 todayRecyclerView.setAdapter(adapter);
                                 mainPageGroup.setVisibility(View.VISIBLE);
                                 mainPageLoading.setVisibility(View.INVISIBLE);
                             }
                         } else {
-                            Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
+                            Log.d(LOG_TAG,  "Error in callTodayGoalApi " + ErrorMessage.getErrorByResponse(response));
                         }
                     }
             @Override
@@ -174,8 +180,6 @@ public class MainPageFragment extends Fragment {
             }
         });
     }
-
-
 
     private void setupIndicators(int count) {
         ImageView[] indicators = new ImageView[count];
