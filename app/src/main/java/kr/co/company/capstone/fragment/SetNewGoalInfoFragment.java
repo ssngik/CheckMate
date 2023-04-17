@@ -201,12 +201,9 @@ public class SetNewGoalInfoFragment extends Fragment {
                 categoryText = category.getSelectedItem().toString();
                 titleText = title.getText().toString();
                 checkInstantOrConfirm();
-                if (goalMethod.isEmpty() || titleText.trim().length() == 0) {
+                //if (goalMethod.isEmpty() || titleText.trim().length() == 0) {
+                if (titleText.trim().length() == 0) {
                     alert(builder);
-                    if (goalMethod.isEmpty())
-                        Log.d(LOG_TAG, "method is empty");
-                    if (titleText.trim().length() == 0)
-                        Log.d(LOG_TAG, "titleTextIsEmpty");
                 } else {
                     getDayOfWeekByCheckBox();
                     callSaveGoalAPI(view);
