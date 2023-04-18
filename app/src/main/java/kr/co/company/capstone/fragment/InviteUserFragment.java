@@ -1,39 +1,56 @@
+
 package kr.co.company.capstone.fragment;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+
+// layout
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+// Animation
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+
+// Dialog
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
+import android.content.DialogInterface;
 
+// Toast
+import android.widget.Toast;
+// LOG
+import android.util.Log;
+
+// Navigation
 import androidx.navigation.Navigation;
+
+// DTO
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.ErrorMessage;
 import kr.co.company.capstone.dto.team_mate.TeamMateInviteRequest;
+// 서비스
 import kr.co.company.capstone.service.TeamMateService;
+
+// lombok
 import lombok.SneakyThrows;
+
+// Retrofit
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class InviteUserFragment extends Fragment {
 
-    TextView text;
-    Animation anim;
-    Button inviteButton;
-    EditText inputUserName;
-    long goalId;
-    private static final String LOG_TAG = "InviteUserFragment";
+    private static final String LOG_TAG = InviteUserFragment.class.getSimpleName();
+
+    private TextView mText;
+    private Animation mAnimation;
+    private EditText mInputUserName;
+    private long goalId;
 
 
     @Override
@@ -42,84 +59,108 @@ public class InviteUserFragment extends Fragment {
 
         if (getArguments() != null) {
             Bundle bundle = getArguments();
-            goalId = bundle.getLong("goalId", 0L);
-            Log.d(LOG_TAG, "goalId in onCreate : " + goalId);
+            goalId = bundle.getLong("goalId");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_invite_user, container, false);
+        Button mInviteButton = view.findViewById(R.id.do_invite_button);
 
-        Log.d(LOG_TAG, "goal id in InviteUserFragment : " + goalId);
+        mText = view.findViewById(R.id.search_member);
+        mInputUserName = view.findViewById(R.id.inputUserName);
+        mAnimation = new AlphaAnimation(0.0f, 1.0f);
 
-        text = view.findViewById(R.id.search_member);
-        inviteButton = view.findViewById(R.id.do_invite_button);
-        inputUserName = view.findViewById(R.id.inputUserName);
-        anim = new AlphaAnimation(0.0f,1.0f);
         textEffecting();
 
-        inviteButton.setOnClickListener(new View.OnClickListener() {
+        mInviteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TeamMateService.getService().invite(new TeamMateInviteRequest(goalId, inputUserName.getText().toString()))
-                        .enqueue(new Callback<Void>() {
-                            @SneakyThrows
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                Log.d(LOG_TAG, "INVITE CODE : " + response.code());
-                                String title = "전송 완료!", message = "초대 요청을 보냈어요! \n응답이 오면 알려드릴게요";
-                                int responseCode = response.code();
-                                if (responseCode != 200) {
-                                    ErrorMessage em = ErrorMessage.getErrorByResponse(response);
-                                    title = "띵";
-                                    message = em.getMessage();
-                                }
-                                showAlertDialog(title, message, view);
-                            }
+                // Input 사용자 이름
+                String userName = mInputUserName.getText().toString().trim();
 
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                OnErrorFragment onErrorFragment = new OnErrorFragment();
-                                onErrorFragment.show(getChildFragmentManager(), "error");
-                            }
-                        });
+                // 사용자 이름을 입력하지 않았을 때
+                if (userName.isEmpty()) {
+                    Toast.makeText(getActivity(), "이름을 알려주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // 팀원 초대
+                inviteUser(userName);
             }
         });
 
         return view;
     }
 
-    private void showAlertDialog(String title, String message, View view) {
+    // 팀원 초대
+    private void inviteUser(String userName) {
+        TeamMateInviteRequest teamMateInviteRequest = new TeamMateInviteRequest(userName);
+        TeamMateService.getService().invite(goalId, teamMateInviteRequest)
+                .enqueue(new Callback<Void>() {
+                    @SneakyThrows
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        String title, message;
+                        // API 요청 성공
+                        if (response.isSuccessful()) {
+                            // 완료 문구 설정
+                            title = String.valueOf(R.string.sent);
+                            message = String.valueOf(R.string.invite_complete);
+                        } else {
+                            ErrorMessage em = ErrorMessage.getErrorByResponse(response);
+                            title = "띵";
+                            message = em.getMessage();
+                        }
+                        // 상태 안내
+                        showAlertDialog(title, message);
+                    }
+
+                    // API 요청 실패
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        OnErrorFragment onErrorFragment = new OnErrorFragment();
+                        onErrorFragment.show(getChildFragmentManager(), "error");
+                    }
+                });
+    }
+
+
+    private void showAlertDialog(String title, String message) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(title).setMessage(message).setPositiveButton("계속 초대할래요", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                inputUserName.setText(null);
-            }
-        });
-        builder.setTitle(title).setMessage(message).setNeutralButton("메인화면으로 갈래요", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                inputUserName.setText(null);
-                Navigation.findNavController(view).navigate(R.id.action_inviteUserFragment_to_navigation_home);
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+
+        builder.setTitle(title)
+                .setMessage(message)
+                // positive
+                .setPositiveButton("계속 초대할래요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mInputUserName.setText(null);
+                    }
+                })
+                // neutral
+                .setNeutralButton("메인화면으로 갈래요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mInputUserName.setText(null);
+                        Navigation.findNavController(requireView()).navigate(R.id.action_inviteUserFragment_to_navigation_home);
+                    }
+                })
+                .create()
+                .show();
     }
 
     private void textEffecting() {
-        anim.setDuration(1000);
-        anim.setStartOffset(100);
-        anim.setRepeatMode(Animation.REVERSE);
-        anim.setRepeatCount(3);
+        mAnimation.setDuration(1000);
+        mAnimation.setStartOffset(100);
+        mAnimation.setRepeatMode(Animation.REVERSE);
+        mAnimation.setRepeatCount(3);
         //anim.setRepeatCount(Animation.INFINITE);
 
-        text.startAnimation(anim);
+        mText.startAnimation(mAnimation);
     }
 
 
