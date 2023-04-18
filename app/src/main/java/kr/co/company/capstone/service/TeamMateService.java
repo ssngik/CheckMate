@@ -8,16 +8,13 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 public interface TeamMateService {
-    @PATCH("mate")
-    Call<TeamMateInviteReplyResponse> inviteReply(@Body TeamMateInviteReplyRequest request);
 
-    @POST("/mate")
-    Call<Void> invite(@Body TeamMateInviteRequest request);
+    // 팀원 초대 요청
+    @POST("/goals/{goalId}/mates")
+    Call<Void> invite(@Path("goalId") Long goalId, @Body TeamMateInviteRequest request);
 
-    @GET("/mate/{teamMateId}/progress")
-    Call<Double> getProgressPercent(@Path("teamMateId") long teamMateId);
-
-    @GET("/mate/{teamMateId}/calendar")
+    // 팀원의 목표 캘린더 조회
+    @GET("/mates/{mateId}/calendar")
     Call<TeamMateCalendarResponse> getTeamMateGoalCalendar(@Path("teamMateId") long teamMateId);
 
     static TeamMateService getService(){
