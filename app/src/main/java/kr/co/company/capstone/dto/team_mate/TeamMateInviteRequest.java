@@ -8,6 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class TeamMateInviteRequest {
-    private long goalId;
     private String inviteeNickname;
 }
