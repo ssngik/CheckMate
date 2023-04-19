@@ -103,49 +103,70 @@ public class InviteUserFragment extends Fragment {
                     @SneakyThrows
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        String title, message;
                         // API 요청 성공
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful())
+                        {
                             // 완료 문구 설정
-                            title = String.valueOf(R.string.sent);
-                            message = String.valueOf(R.string.invite_complete);
-                        } else {
-                            ErrorMessage em = ErrorMessage.getErrorByResponse(response);
-                            title = "띵";
-                            message = em.getMessage();
+                            inviteSuccess();
                         }
-                        // 상태 안내
-                        showAlertDialog(title, message);
+                        else
+                        {
+                            inviteError(response);
+                        }
                     }
 
                     // API 요청 실패
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
-                        OnErrorFragment onErrorFragment = new OnErrorFragment();
-                        onErrorFragment.show(getChildFragmentManager(), "error");
+                        inviteError(t);
                     }
                 });
     }
 
+    // 초대 요청 성공
+    private void inviteSuccess() {
+        String title = getString(R.string.sent);
+        String message = getString(R.string.invite_complete);
+        showAlertDialog(title, message);
+    }
+
+    // 초대 요청 실패
+    private void inviteError(Throwable t) {
+        OnErrorFragment onErrorFragment = new OnErrorFragment();
+        onErrorFragment.show(getChildFragmentManager(), "error");
+        Log.d(LOG_TAG, t.getMessage());
+    }
+
+    // 초대 요청 에러
+    private void inviteError(Response<Void> response) {
+        ErrorMessage em = ErrorMessage.getErrorByResponse(response);
+        String title = "초대 실패";
+        String message = em.getMessage();
+        showAlertDialog(title, message);
+    }
 
     private void showAlertDialog(String title, String message) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(title)
                 .setMessage(message)
                 // positive
-                .setPositiveButton("계속 초대할래요", new DialogInterface.OnClickListener() {
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        // input 초기화
                         mInputUserName.setText(null);
                     }
                 })
                 // neutral
-                .setNeutralButton("메인화면으로 갈래요", new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.go_to_main_text, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        // input 초기화
                         mInputUserName.setText(null);
+
+                        // 메인 화면으로 이동
                         Navigation.findNavController(requireView()).navigate(R.id.action_inviteUserFragment_to_navigation_home);
                     }
                 })
@@ -159,7 +180,6 @@ public class InviteUserFragment extends Fragment {
         mAnimation.setRepeatMode(Animation.REVERSE);
         mAnimation.setRepeatCount(3);
         //anim.setRepeatCount(Animation.INFINITE);
-
         mText.startAnimation(mAnimation);
     }
 
