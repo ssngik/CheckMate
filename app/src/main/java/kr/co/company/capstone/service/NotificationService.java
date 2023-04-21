@@ -1,9 +1,9 @@
 package kr.co.company.capstone.service;
 
-import kr.co.company.capstone.dto.NotificationInfoListResponse;
-import kr.co.company.capstone.dto.NotificationDetailListResponse;
-import kr.co.company.capstone.dto.NotificationDetailResponse;
-import kr.co.company.capstone.dto.NotificationInfoResponse;
+import kr.co.company.capstone.dto.notification.NotificationInfoListResponse;
+import kr.co.company.capstone.dto.notification.NotificationDetailListResponse;
+import kr.co.company.capstone.dto.notification.NotificationDetailResponse;
+import kr.co.company.capstone.dto.notification.NotificationInfoResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
