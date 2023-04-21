@@ -1,4 +1,4 @@
-package kr.co.company.capstone.dto;
+package kr.co.company.capstone.dto.notification;
 
 import java.util.List;
 
