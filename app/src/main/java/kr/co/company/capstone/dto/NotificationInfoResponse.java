@@ -2,18 +2,14 @@ package kr.co.company.capstone.dto;
 
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-public class NotificationInfoResponse implements Serializable {
-    private Long notificationId;
-    private String title;
-    private String body;
-    private boolean checked;
-    private String sendAt;
-    private String type;
+public class NotificationInfoResponse  {
+    private Long notificationId; // 알림 ID
+    private String title; // 알림 타이틀
+    private String content; // 알림 내용
+    private boolean checked; // 알림 수신 여부
+    private String sendAt; // 알림 전송 날짜, 시간
+    private String type; // 알림 종류
 }
