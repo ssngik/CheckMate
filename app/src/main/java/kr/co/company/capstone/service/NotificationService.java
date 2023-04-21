@@ -3,6 +3,7 @@ package kr.co.company.capstone.service;
 import kr.co.company.capstone.dto.NotificationInfoListResponse;
 import kr.co.company.capstone.dto.NotificationDetailListResponse;
 import kr.co.company.capstone.dto.NotificationDetailResponse;
+import kr.co.company.capstone.dto.NotificationInfoResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -16,7 +17,7 @@ public interface NotificationService {
 
     // 유저별 알림 조회
     @GET("/notifications")
-    Call<NotificationInfoListResponse> notifications(@Query("cursorId") Long cursorId);
+    Call<NotificationInfoListResponse<NotificationInfoResponse>> notifications(@Query("cursorId") Long cursorId, @Query("size") int size);
 
     // 목표 수행 완료 알림 조회
     @GET("/notifications/goal-complete")
