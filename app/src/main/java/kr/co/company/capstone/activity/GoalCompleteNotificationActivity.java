@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 // 프로젝트 내부 패키지 import
 import kr.co.company.capstone.R;
-import kr.co.company.capstone.dto.NotificationDetailResponse;
+import kr.co.company.capstone.dto.notification.NotificationDetailResponse;
 
 /*
     앱 진입 후 사용자의 목표 수행 최종 완료한 내용이 있다면 실행되는 액티비티
