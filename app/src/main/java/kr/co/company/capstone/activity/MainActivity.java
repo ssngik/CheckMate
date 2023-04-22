@@ -23,8 +23,8 @@ import java.util.List;
 // kr.co.company.capstone 패키지 내 클래스 import
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.ErrorMessage;
-import kr.co.company.capstone.dto.NotificationDetailListResponse;
-import kr.co.company.capstone.dto.NotificationDetailResponse;
+import kr.co.company.capstone.dto.notification.NotificationDetailListResponse;
+import kr.co.company.capstone.dto.notification.NotificationDetailResponse;
 import kr.co.company.capstone.service.NotificationService;
 
 // org.jetbrains.annotations 라이브러리 import
