@@ -27,8 +27,8 @@ import kr.co.company.capstone.fragment.InviteResponseFragment;
 import kr.co.company.capstone.fragment.OnErrorFragment;
 import kr.co.company.capstone.fragment.TimeLineFragment;
 import kr.co.company.capstone.dto.ErrorMessage;
-import kr.co.company.capstone.dto.NotificationInfoResponse;
-import kr.co.company.capstone.dto.NotificationDetailResponse;
+import kr.co.company.capstone.dto.notification.NotificationInfoResponse;
+import kr.co.company.capstone.dto.notification.NotificationDetailResponse;
 import kr.co.company.capstone.service.NotificationService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -88,10 +88,10 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
                             Bundle bundle = new Bundle();
                             Intent nextPage = new Intent(context.getApplicationContext(), MainActivity.class);
 
-                            switch (notificationResponse.getNotificationType()) {
+                            switch (notificationResponse.getType()) {
                                 case "INVITE_GOAL":
                                     InviteResponseFragment inviteResponseFragment = new InviteResponseFragment();
-                                    bundle.putString("messageBody", info.getBody());
+                                    bundle.putString("messageBody", info.getContent());
                                     bundle.putLong("teamMateId", Long.parseLong(String.valueOf(attributes.get("teamMateId"))));
                                     bundle.putLong("notificationId", info.getNotificationId());
                                     inviteResponseFragment.setArguments(bundle);
@@ -182,7 +182,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
 
         void onBind(NotificationInfoResponse item) {
             title.setText(item.getTitle());
-            content.setText(item.getBody());
+            content.setText(item.getContent());
             alarmDate.setText(item.getSendAt().replace("-", "").split("[T.]")[1]);
         }
     }
