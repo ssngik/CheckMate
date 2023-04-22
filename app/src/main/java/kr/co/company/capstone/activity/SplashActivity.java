@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 //        SharedPreferenceUtil.removeKey(this, "jwtToken");
-        jwtToken = SharedPreferenceUtil.getString(this, "jwtToken");
+        jwtToken = SharedPreferenceUtil.getString(this, "accessToken");
 
         //로딩화면 시작.
         LoadingStart();
@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable(){
             public void run(){
                 if(jwtToken.isEmpty()) {
-                    SharedPreferenceUtil.removeKey(getApplicationContext(), "jwtToken");
+                    SharedPreferenceUtil.removeKey(getApplicationContext(), "accessToken");
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                     finish();
