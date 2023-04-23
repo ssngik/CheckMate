@@ -84,7 +84,7 @@ public class SettingPageFragment extends Fragment {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
-                            SharedPreferenceUtil.removeKey(getActivity(), "jwtToken");
+                            SharedPreferenceUtil.removeKey(getActivity(), "accessToken");
                             SharedPreferenceUtil.removeKey(getActivity(), "refreshToken");
                             Objects.requireNonNull(getActivity()).finish();
                         } else {
