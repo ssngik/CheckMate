@@ -55,6 +55,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
     @Override
     @SuppressLint({"RecyclerView", "CheckResult"})
     public void onBindViewHolder(@NonNull AlarmAdapter.ViewHolder holder, int position) {
+
         holder.onBind(alarmList.get(position));
         if(alarmList.get(position).isChecked()) holder.verticalView.setBackgroundColor(Color.LTGRAY);
 
@@ -154,8 +155,9 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
         notifyItemInserted(alarmList.size()-1);
     }
 
-    public void setAlarmList(ArrayList<NotificationInfoResponse> list){
-        this.alarmList = list;
+    // 새로운 알림
+    public void addAll(List<NotificationInfoResponse> newNotifications) {
+        alarmList.addAll(newNotifications);
         notifyDataSetChanged();
     }
 
