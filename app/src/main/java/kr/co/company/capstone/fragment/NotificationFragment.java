@@ -1,39 +1,44 @@
 package kr.co.company.capstone.fragment;
 
+// Library import
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+// AndroidX Library
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+// JAVA Library
 import java.util.Collections;
 import java.util.List;
 
 import kr.co.company.capstone.dto.ErrorMessage;
-import kr.co.company.capstone.dto.NotificationInfoResponse;
+import kr.co.company.capstone.dto.notification.NotificationInfoResponse;
 import kr.co.company.capstone.util.adapter.AlarmAdapter;
 import kr.co.company.capstone.R;
-import kr.co.company.capstone.dto.NotificationInfoListResponse;
+import kr.co.company.capstone.dto.notification.NotificationInfoListResponse;
 import kr.co.company.capstone.service.NotificationService;
-import org.jetbrains.annotations.NotNull;
+
+// Retrofit Library
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import org.jetbrains.annotations.NotNull;
+
 public class NotificationFragment extends Fragment {
 
-    private String LOG_TAG = "AlarmPage";
-    private NotificationInfoListResponse<NotificationInfoResponse> result;
-    private Long lastCursor = -1L;
+    private final String LOG_TAG = "AlarmPage";
+    private NotificationInfoListResponse<NotificationInfoResponse> notificationListResponse;
+    private Long lastCursor = null;
     private AlarmAdapter adapter = new AlarmAdapter(Collections.emptyList(), getContext());
     private RecyclerView notificationRecycler;
-    private Long cursorId=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,13 +54,20 @@ public class NotificationFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // 최초 알림 초기화
+        if(lastCursor==null){
+            getNotifications(notificationRecycler, lastCursor);
+        }
+
+        // 스크롤 리스너
         RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
+                //LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 int totalItemCount = layoutManager.getItemCount();
-                if (layoutManager.findLastCompletelyVisibleItemPosition() >= totalItemCount - 1 && result.isHasNext()) {
+                if (layoutManager.findLastCompletelyVisibleItemPosition() >= totalItemCount - 1 && notificationListResponse.isHasNext()) {
                     getNotifications(notificationRecycler, lastCursor);
                 }
             }
@@ -64,31 +76,39 @@ public class NotificationFragment extends Fragment {
         notificationRecycler.addOnScrollListener(onScrollListener);
         notificationRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        Log.d(LOG_TAG, "getInitialNotifications !");
-        getInitialNotifications(notificationRecycler, cursorId);
-
     }
 
     // 알림 초기화
-    private void getInitialNotifications(RecyclerView alarmRecycler, Long cursorId) {
+    private void getNotifications(RecyclerView alarmRecycler, Long cursorId) {
         NotificationService.getService().notifications(cursorId, 10)
                 .enqueue(new Callback<NotificationInfoListResponse<NotificationInfoResponse>>() {
                     @Override
                     public void onResponse(Call<NotificationInfoListResponse<NotificationInfoResponse>> call, Response<NotificationInfoListResponse<NotificationInfoResponse>> response) {
                         if (response.isSuccessful()) {
-                            NotificationInfoListResponse<NotificationInfoResponse> notificationListResponse = response.body();
 
-                            if(notificationListResponse!=null){
-                                List<NotificationInfoResponse> notifications = notificationListResponse.getNotifications();
-                                adapter = new AlarmAdapter(notifications, getContext());
+                            notificationListResponse = response.body();
+                            List<NotificationInfoResponse> notifications = notificationListResponse.getNotifications();
+
+                            // 최초 호출 시 lastCursor -> null
+                            // 추가로 받아올 정보가 있을 시 -> isUpdate -> true
+                            boolean isUpdate = lastCursor != null;
+
+                            // 추가로 받아올 정보가 있을 시
+                            if(isUpdate && notifications!=null)
+                            {
                                 alarmRecycler.getRecycledViewPool().clear(); // RecyclerView Pool 초기화
+                                adapter.addAll(notifications);
+                            }
+                            else // 최초 호출 시
+                            {
+                                adapter=new AlarmAdapter(notifications, getContext());
                                 alarmRecycler.setAdapter(adapter);
+                            }
 
-                                // lastCursor 설정
-                                if(notifications.size()>0){
-                                    int size = notifications.size(); // 알림 개수
-                                    lastCursor = notifications.get(size - 1).getNotificationId(); // 마지막 알림 위치
-                                }
+                            // Set lastCursor
+                            if(notifications.size()>0){
+                                int size = notifications.size(); // 알림 개수
+                                lastCursor = notifications.get(size - 1).getNotificationId(); // 마지막 알림 위치
                             }
 
                         } else {
@@ -107,32 +127,4 @@ public class NotificationFragment extends Fragment {
                 });
     }
 
-    private void getNotifications(RecyclerView alarmRecycler, Long cursorId) {
-        NotificationService.getService().notifications(cursorId, 10)
-                .enqueue(new Callback<NotificationInfoListResponse<NotificationInfoResponse>>() {
-                    @Override
-                    public void onResponse(Call<NotificationInfoListResponse<NotificationInfoResponse>> call, Response<NotificationInfoListResponse<NotificationInfoResponse>> response) {
-                        if (response.isSuccessful()) {
-                            Log.d(LOG_TAG, "onResponse: ConfigurationListener::" + call.request().url());
-                            result = response.body();
-                            Log.d(LOG_TAG, result + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!@!@!@!");
-                            alarmRecycler.getRecycledViewPool().clear();
-                            result.getNotifications().forEach(adapter::add);
-                            lastCursor = result.getNotifications().get(result.getNotifications().size() - 1).getNotificationId();
-                        } else {
-                            OnErrorFragment onErrorFragment = new OnErrorFragment();
-                            onErrorFragment.show(getChildFragmentManager(), "error");
-                            Log.d(LOG_TAG, "send error");
-                            Log.d(LOG_TAG, String.valueOf(response.code()));
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<NotificationInfoListResponse<NotificationInfoResponse>> call, Throwable t) {
-                        OnErrorFragment onErrorFragment = new OnErrorFragment();
-                        onErrorFragment.show(getChildFragmentManager(), "error");
-                        Log.d(LOG_TAG, "onFailure");
-                        Log.d(LOG_TAG, t.getMessage());
-                    }
-                });
-    }
 }
