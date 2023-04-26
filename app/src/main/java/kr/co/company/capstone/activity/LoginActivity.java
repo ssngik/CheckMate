@@ -239,12 +239,13 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } else { // 200이 아닌 경우
                     ErrorMessage em = ErrorMessage.getErrorByResponse(response);
-
                     // 신규 회원 회원가입.
-                    if (Objects.equals(em.getCode(), "USER-001")) {
-
+                    if (Objects.equals(em.getCode(), "USER-001"))
+                    {
                         moveToSignUpScreen();
-                    } else {
+                    }
+                    else
+                    {
                         // TODO: 모두 문제 -> 예외 처리
                         System.out.println("else--------");
                     }

@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_alarm"
-        android:name="kr.co.company.capstone.fragment.AlarmPageFragment"
+        android:name="kr.co.company.capstone.fragment.NotificationFragment"
         android:label="search"
         tools:layout="@layout/fragment_alarm_icon">
         <action
