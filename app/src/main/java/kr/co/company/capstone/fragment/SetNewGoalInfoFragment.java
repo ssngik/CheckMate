@@ -269,7 +269,7 @@ public class SetNewGoalInfoFragment extends Fragment {
 
     private void callSaveModifyInfo(int minimumLike) {
         GoalModifyRequest request = new GoalModifyRequest(endDateInfoText.getText().toString(), myTimePickerText.getText().toString(), minimumLike, !setTimeCheckBox.isChecked());
-        GoalCreateService.getService().modifyGoal(goal.getId(), request)
+        GoalCreateService.getService().modifyGoal(goal.getGoalId(), request)
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -365,7 +365,7 @@ public class SetNewGoalInfoFragment extends Fragment {
             View view = getView();
             GoalDetailFragment goalDetailFragment = new GoalDetailFragment();
             Bundle goalIdArg = new Bundle();
-            goalIdArg.putLong("goalId", goal.getId());
+            goalIdArg.putLong("goalId", goal.getGoalId());
             goalDetailFragment.setArguments(goalIdArg);
             assert view != null;
             Navigation.findNavController(view).navigate(R.id.action_setNewGoalInfoFragment_to_goalDetailFragment, goalIdArg);
