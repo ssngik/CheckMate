@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import kr.co.company.capstone.R;
-import kr.co.company.capstone.dto.team_mate.TeamMateResponse;
+import kr.co.company.capstone.dto.team_mate.TeamMatesResponse;
 
 
 public class TeamMateRecyclerViewAdapter extends RecyclerView.Adapter{
     private static final String LOG_TAG = "RecyclerViewAdapter";
 
-    List<TeamMateResponse> teamMates;
+    List<TeamMatesResponse> teamMates;
     Context context;
 
-    public TeamMateRecyclerViewAdapter(Context context, List<TeamMateResponse> teamMates) {
+    public TeamMateRecyclerViewAdapter(Context context, List<TeamMatesResponse> teamMates) {
         this.teamMates = teamMates;
         this.context = context;
     }
