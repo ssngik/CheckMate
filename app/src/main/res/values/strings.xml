@@ -31,7 +31,7 @@
     <string name="info_according_to_method_info_1">-- 시작 시간, 인증 시간, 좋아요 개수만 수정 가능해요</string>
     <string name="info_according_to_method_info_2">-- 내 목표를 클릭하면 수정 버튼이 보일 거예요</string>
     <string name="info_according_to_method_info_3">-- 한 번 변경하면 일주일 후 변경을 할 수 있어요</string>
-    <string name="go_to_main_text">메인 화면으로 이동</string>
+    <string name="go_to_main_text">메인 화면으로 갈래요</string>
     <string name="i_want_invite_text">초대할래요</string>
     <string name="the_end">끝 !</string>
     <string name="information_me_made">내가 만든 정보</string>
@@ -71,7 +71,8 @@
     <string name="sunday">일</string>
     <string name="complete">완료</string>
     <string name="modify_complete">수정 완료</string>
-    <string name="nice_to_meet_you">만나서 반가워요</string>
+    <string name="sent">전송 완료</string>
+    <string name="Hello">Hello</string>
     <string name="login_to_naver">NAVER</string>
     <string name="display_theme">화면 테마</string>
     <string name="goals_completed">History</string>
@@ -79,6 +80,7 @@
     <string name="there_is_no_method_info">method에 대한 정보가 없습니다.</string>
     <string name="goal_period_information">2021년 1월 1일부터 n일째</string>
     <string name="invite">더 초대할래요</string>
+    <string name="invite_complete">"초대 요청을 보냈어요! \n응답이 오면 알려드릴게요"</string>
     <string name="today_goals_guide">오늘 인증 할 목표들이에요.</string>
     <string name="ongoing_goals_guide">진행중인 목표들이에요.</string>
     <string name="wanna_new_goal_guide">나만의 새 목표를 만들어 볼까요?</string>

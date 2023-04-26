@@ -13,9 +13,16 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 
 public interface PostRegisterService {
-    @Multipart @POST("/post")
-    Call<PostRegisterResponse> register(@PartMap Map<String, RequestBody> map,
-                                        @Part ArrayList<MultipartBody.Part> multipartFiles);
+
+    // 목표 인증
+    @Multipart @POST("/posts")
+    Call<PostRegisterResponse> register(@Part("mateId") RequestBody mateId,
+                                        @Part("text") RequestBody text,
+                                        @Part MultipartBody.Part imageFile1,
+                                        @Part MultipartBody.Part imageFile2);
+
+//    Call<PostRegisterResponse> register(@PartMap Map<String, RequestBody> map,
+//                                        @Part ArrayList<MultipartBody.Part> multipartFiles);
 
     static PostRegisterService getService(){
         return RetrofitBuilder.getRetrofit().create(PostRegisterService.class);
