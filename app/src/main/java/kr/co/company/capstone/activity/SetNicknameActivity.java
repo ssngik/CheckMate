@@ -126,6 +126,7 @@ public class SetNicknameActivity extends AppCompatActivity {
 
                                             SharedPreferenceUtil.setString(getApplicationContext(), "accessToken", loginResponse.getAccessToken());
                                             SharedPreferenceUtil.setString(getApplicationContext(), "refreshToken", loginResponse.getRefreshToken());
+                                            SharedPreferenceUtil.setString(getApplicationContext(), "nickName", nickname);
 
                                             // Main 화면으로 이동
                                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
