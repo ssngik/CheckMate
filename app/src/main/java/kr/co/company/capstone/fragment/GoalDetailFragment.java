@@ -22,23 +22,25 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.race604.drawable.wave.WaveDrawable;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import kr.co.company.capstone.GlobalApplication;
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.goal.*;
 import kr.co.company.capstone.util.adapter.CalendarRecyclerViewAdapter;
 import kr.co.company.capstone.util.adapter.TeamMateRecyclerViewAdapter;
 import kr.co.company.capstone.util.SharedPreferenceUtil;
-import kr.co.company.capstone.dto.ErrorMessage;
-import kr.co.company.capstone.dto.team_mate.TeamMateResponse;
+import kr.co.company.capstone.dto.team_mate.TeamMatesResponse;
 import kr.co.company.capstone.service.GoalInquiryService;
 import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
@@ -70,10 +72,10 @@ public class GoalDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(LOG_TAG, "onCreate");
+
         if(getArguments()!=null){
             Bundle bundle = getArguments();
-            goalId = bundle.getLong("goalId", 0L);
+            goalId = bundle.getLong("goalId");
         }
     }
 
@@ -90,11 +92,10 @@ public class GoalDetailFragment extends Fragment {
         progressPercent = view.findViewById(R.id.progress_percent);
         ImageView mImageView = view.findViewById(R.id.check_image);
 
-
-
         setPercentProgress(mImageView);
-        goalDetailView(goalId, view);
-        Log.d(LOG_TAG, "goalDetailView");
+        //goalDetailView(goalId, view);
+        goalDetailView(goalId);
+
         // 수정 환경 변환 위한 Flag
         editFlag = 1;
 
@@ -170,8 +171,6 @@ public class GoalDetailFragment extends Fragment {
         return view;
 
     }
-
-
     private void setPercentProgress(ImageView mImageView) {
         mWaveDrawable = new WaveDrawable(Objects.requireNonNull(getActivity()), R.drawable.check_icon);
         mWaveDrawable.setWaveAmplitude(10);
@@ -180,36 +179,66 @@ public class GoalDetailFragment extends Fragment {
         mImageView.setImageDrawable(mWaveDrawable);
     }
 
-
-    private void goalDetailView(long goalId, View view) {
-        GoalInquiryService.getService().goalDetailView(goalId)
-                .enqueue(new Callback<GoalDetailViewResponse>() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void goalDetailView(long goalId){
+        GoalInquiryService.getService().goalDetail(goalId)
+                .enqueue(new Callback<GoalDetailResponse>() {
                     @Override
-                    public void onResponse(Call<GoalDetailViewResponse> call, Response<GoalDetailViewResponse> response) {
-                        if (response.isSuccessful()) {
-                            setGoalDetailData(response);
+                    public void onResponse(Call<GoalDetailResponse> call, Response<GoalDetailResponse> response) {
+                        if(response.isSuccessful()){
+                            goalDetailResponse = response.body();
+                            List<TeamMatesResponse> teamMatesResponse = goalDetailResponse.getMates();
+
+                            // TeamMatesResponse 리스트에서 본인의 JSON 데이터를 파싱하여 teamMateId 값을 가져옴
+                            getTeamMateId(teamMatesResponse);
+
                             goalDetailGroup.setVisibility(View.VISIBLE);
                             goalDetailLoading.setVisibility(View.INVISIBLE);
-                        } else {
-                            if(response.code() == 404) {
-                                Toast.makeText(GlobalApplication.getAppContext(), "해당 목표에 속한 팀원만 볼 수 있습니다", Toast.LENGTH_LONG).show();
-                                Navigation.findNavController(view).popBackStack();
-                            }
-                            OnErrorFragment onErrorFragment = new OnErrorFragment();
-                            onErrorFragment.show(getChildFragmentManager(), "error");
-                            //Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
                         }
                     }
                     @Override
-                    public void onFailure(Call<GoalDetailViewResponse> call, Throwable t) {
-                        OnErrorFragment onErrorFragment = new OnErrorFragment();
-                        onErrorFragment.show(getChildFragmentManager(), "error");
-                        //Log.d(LOG_TAG, t.getMessage());
+                    public void onFailure(Call<GoalDetailResponse> call, Throwable t) {
+                        Log.d(LOG_TAG, t.getMessage());
                     }
                 });
-
     }
+
+    // TeamMatesResponse 리스트에서 본인의 JSON 데이터를 파싱하여 teamMateId 값을 가져옴
+    private void getTeamMateId(List<TeamMatesResponse> teamMatesResponse) {
+        Gson gson = new Gson();
+        String json = gson.toJson(teamMatesResponse.get(0));
+        TeamMatesResponse teamMateResponse = gson.fromJson(json, TeamMatesResponse.class);
+        teamMateId = teamMateResponse.getMateId();
+    }
+
+//    private void goalDetailView(long goalId, View view) {
+//        GoalInquiryService.getService().goalDetailView(goalId)
+//                .enqueue(new Callback<GoalDetailViewResponse>() {
+//                    @RequiresApi(api = Build.VERSION_CODES.O)
+//                    @Override
+//                    public void onResponse(Call<GoalDetailViewResponse> call, Response<GoalDetailViewResponse> response) {
+//                        if (response.isSuccessful()) {
+//                            setGoalDetailData(response);
+//                            goalDetailGroup.setVisibility(View.VISIBLE);
+//                            goalDetailLoading.setVisibility(View.INVISIBLE);
+//                        } else {
+//                            if(response.code() == 404) {
+//                                Toast.makeText(GlobalApplication.getAppContext(), "해당 목표에 속한 팀원만 볼 수 있습니다", Toast.LENGTH_LONG).show();
+//                                Navigation.findNavController(view).popBackStack();
+//                            }
+//                            Log.d(LOG_TAG, "eeeeee");
+//                            OnErrorFragment onErrorFragment = new OnErrorFragment();
+//                            onErrorFragment.show(getChildFragmentManager(), "error");
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(Call<GoalDetailViewResponse> call, Throwable t) {
+//                        OnErrorFragment onErrorFragment = new OnErrorFragment();
+//                        onErrorFragment.show(getChildFragmentManager(), "error");
+//                        Log.d(LOG_TAG, t.getMessage());
+//                    }
+//                });
+//
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setGoalDetailData(Response<GoalDetailViewResponse> response) {
@@ -255,7 +284,7 @@ public class GoalDetailFragment extends Fragment {
         if (goalDetailResponse != null) {
             Log.d(LOG_TAG, "goalDetailResponse : " + goalDetailResponse);
             this.goalDetailResponse = goalDetailResponse;
-            teamMateId = setTeamMateId(goalDetailResponse);
+            //teamMateId = setTeamMateId(goalDetailResponse);
 
             setRegisterButtonStatus(goalDetailResponse.getUploadable());
             setInviteButtonStatus(goalDetailResponse.isInviteable());
@@ -266,7 +295,7 @@ public class GoalDetailFragment extends Fragment {
             InstantOrConfirmGuide(goalDetailResponse);
             goalName.setText(goalTitle);
 
-            TeamMateRecyclerViewAdapter adapter = new TeamMateRecyclerViewAdapter(getActivity(), goalDetailResponse.getTeamMates());
+            TeamMateRecyclerViewAdapter adapter = new TeamMateRecyclerViewAdapter(getActivity(), goalDetailResponse.getMates());
             teamMatesRecyclerView.setAdapter(adapter);
         }
     }
@@ -281,12 +310,9 @@ public class GoalDetailFragment extends Fragment {
         }
     }
 
-    private Long setTeamMateId(GoalDetailResponse goalDetailResponse) {
-        return goalDetailResponse.getTeamMates().stream()
-                .filter(tm -> tm.getUserId() == SharedPreferenceUtil.getLong(getActivity(), "userId")).findAny()
-                .map(TeamMateResponse::getId)
-                .orElseThrow(IllegalArgumentException::new);
-    }
+
+
+
 
     private void setInviteButtonStatus(boolean invitable) {
         if (!invitable) inviteButton.setVisibility(View.INVISIBLE);
