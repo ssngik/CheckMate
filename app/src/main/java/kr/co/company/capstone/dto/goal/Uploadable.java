@@ -6,8 +6,8 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Uploadable {
-    private boolean uploadable;
-    private boolean uploaded;
-    private boolean workingDay;
-    private boolean timeOver;
+    private boolean uploaded; // 이미 인증했는지
+    private boolean uploadable; // 목표를 조회한 유저가 목표를 인증할 수 있는지
+    private boolean workingDay; // 인증한 날이 맞는지
+    private boolean timeOver; // 인증 시간 초과 여부
 }
