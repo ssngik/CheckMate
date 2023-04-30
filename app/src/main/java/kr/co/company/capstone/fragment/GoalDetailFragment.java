@@ -1,7 +1,9 @@
 package kr.co.company.capstone.fragment;
 
+// FrameWork
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+// Android X
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -20,33 +24,38 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+// Google Gson
 import com.google.gson.Gson;
+
+// WaveDrawable
 import com.race604.drawable.wave.WaveDrawable;
 
-import java.util.*;
 
+// project
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.goal.*;
 import kr.co.company.capstone.util.adapter.TeamMateRecyclerViewAdapter;
 import kr.co.company.capstone.dto.team_mate.TeamMatesResponse;
 import kr.co.company.capstone.service.GoalInquiryService;
 import org.jetbrains.annotations.NotNull;
+
+// Retrofit
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.*;
 
 public class GoalDetailFragment extends Fragment {
     private static final String LOG_TAG = "GoalDetailFragment";
     private TextView startDate, goalName, progressPercent, goalMethodInformation, methodInformationOnTop;
     private RecyclerView teamMatesRecyclerView, calendarRecyclerView;
-    private Long goalId;
+    private Long goalId, userTeamMateId;
     private int editFlag;
     private TextView inviteButton;
     private Button registerButton;
     private String goalTitle = null;
     private WaveDrawable mWaveDrawable;
-    private GoalDetailResponse goalDetailResponse;
     ProgressBar goalDetailLoading;
     Group goalDetailGroup;
 
@@ -54,7 +63,6 @@ public class GoalDetailFragment extends Fragment {
     @Override
     public void onAttach(@NonNull @NotNull Context context) {
         super.onAttach(context);
-        getActivity();
         Log.d(LOG_TAG, "onAttach");
     }
 
@@ -73,32 +81,30 @@ public class GoalDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_goal_detail, container, false);
 
-        Log.i(LOG_TAG, "onCreateView");
-
-        goalDetailGroup = view.findViewById(R.id.goal_detail_group);
-        goalDetailLoading = view.findViewById(R.id.goal_detail_loading);
-        goalDetailLoading.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.green_400), PorterDuff.Mode.SRC_IN);
-        progressPercent = view.findViewById(R.id.progress_percent);
-        ImageView mImageView = view.findViewById(R.id.check_image);
-
-
         // 수정 환경 변환 위한 Flag
         editFlag = 1;
 
-        startDate = view.findViewById(R.id.start_date);
-        goalName = view.findViewById(R.id.todo_name);
-        goalMethodInformation = view.findViewById(R.id.goal_method_information);
-        calendarRecyclerView = view.findViewById(R.id.calendar);
+        goalDetailGroup = view.findViewById (R.id.goal_detail_group);
+        goalDetailLoading = view.findViewById (R.id.goal_detail_loading);
+        goalDetailLoading.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.green_400), PorterDuff.Mode.SRC_IN);
+        progressPercent = view.findViewById (R.id.progress_percent);
+        ImageView mImageView = view.findViewById (R.id.check_image);
+
+        startDate = view.findViewById (R.id.start_date);
+        goalName = view.findViewById (R.id.todo_name);
+        goalMethodInformation = view.findViewById (R.id.goal_method_information);
+
+        calendarRecyclerView = view.findViewById (R.id.calendar);
         calendarRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-        teamMatesRecyclerView = view.findViewById(R.id.team_mates);
+
+        teamMatesRecyclerView = view.findViewById (R.id.team_mates);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         teamMatesRecyclerView.setLayoutManager(gridLayoutManager);
 
         // 목표 수행률 체크 이미지 설정
         setPercentProgress(mImageView);
-        //goalDetailView(goalId, view);
 
-        // 데이터 UI 표시
+        // 데이터 호출해 UI에 표시
         goalDetailView(goalId);
 
         // OnBackPressedCallback 설정
@@ -107,7 +113,7 @@ public class GoalDetailFragment extends Fragment {
         // 초대 버튼 눌렀을 때
         setClickInviteButton(view);
 
-        // 타임라인 버튼 눌렀을 때
+        // 타임라인 더보기 버튼 눌렀을 때
         setClickTimelineButton(view);
 
         // 목표 인증하기 버튼 눌렀을 때
@@ -117,6 +123,7 @@ public class GoalDetailFragment extends Fragment {
 
     }
 
+    // OnBackPressedCallback 설정
     private void setOnBackPressedCallback(View view) {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -127,6 +134,7 @@ public class GoalDetailFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
+    // 목표 인증하기 버튼 눌렀을 때
     private void setClickRegisterButton(View view) {
         registerButton = view.findViewById(R.id.certification);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +143,7 @@ public class GoalDetailFragment extends Fragment {
                 DoMyGoalFragment doMyGoal = new DoMyGoalFragment();
                 Bundle toCertification = new Bundle();
                 toCertification.putLong("goalId", goalId);
-                //toCertification.putLong("teamMateId", teamMateId);
+                toCertification.putLong("teamMateId", userTeamMateId);
                 toCertification.putString("goalTitle", goalTitle);
                 doMyGoal.setArguments(toCertification);
                 Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_doMyGoalFragment, toCertification);
@@ -143,6 +151,7 @@ public class GoalDetailFragment extends Fragment {
         });
     }
 
+    // 타임라인 더보기 버튼 눌렀을 때
     private void setClickTimelineButton(View view) {
         ImageButton timelineMoreButton = view.findViewById(R.id.timeline_more);
         timelineMoreButton.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +168,7 @@ public class GoalDetailFragment extends Fragment {
         });
     }
 
+    // 초대하기 버튼 눌렀을 때
     private void setClickInviteButton(View view) {
         inviteButton = view.findViewById(R.id.todo_invite);
         inviteButton.setOnClickListener(new View.OnClickListener() {
@@ -184,21 +194,25 @@ public class GoalDetailFragment extends Fragment {
         mImageView.setImageDrawable(mWaveDrawable);
     }
 
+    // 데이터 호출해 UI 표시
     private void goalDetailView(long goalId){
         GoalInquiryService.getService().goalDetail(goalId)
                 .enqueue(new Callback<GoalDetailResponse>() {
                     @Override
                     public void onResponse(Call<GoalDetailResponse> call, Response<GoalDetailResponse> response) {
                         if(response.isSuccessful()){
-                            goalDetailResponse = response.body();
-                            List<TeamMatesResponse> teamMatesResponse = goalDetailResponse.getMates();
-                            Log.d(LOG_TAG, goalDetailResponse.toString());
+
+                            // 목표 상세 response
+                            GoalDetailResponse goalDetailResponse = response.body();
 
                             // TeamMatesResponse 리스트에서 JSON 데이터를 파싱하여 mates 데이터 값을 가져옴
-                            parseTeamMateResponse(teamMatesResponse);
+                            parseTeamMateResponse(goalDetailResponse.getMates());
 
-                            // goalDetailResponse의 필드 값으로 UI에 표시
-                            setGoalDetailData(goalDetailResponse.getTitle(), goalDetailResponse.getProgress());
+                            // goalDetailResponse 의 필드 값으로 UI에 표시
+                            setGoalDetailData(goalDetailResponse);
+
+                            // 초대 가능 여부에 따라 초대 버튼 활성 / 비활성 설정
+                            setInviteButtonStatus(goalDetailResponse.isInviteable());
 
                             // 로딩 화면 제거
                             goalDetailGroup.setVisibility(View.VISIBLE);
@@ -208,58 +222,52 @@ public class GoalDetailFragment extends Fragment {
                     @Override
                     public void onFailure(Call<GoalDetailResponse> call, Throwable t) {
                         Log.d(LOG_TAG, t.getMessage());
+                        OnErrorFragment onErrorFragment = new OnErrorFragment();
+                        onErrorFragment.show(getChildFragmentManager(), "error");
                     }
                 });
     }
 
     // TeamMatesResponse 리스트에서 JSON 데이터를 파싱하여 mates 데이터 값을 가져옴
     private void parseTeamMateResponse(List<TeamMatesResponse> teamMatesResponse) {
-        Gson gson = new Gson();
-        String json = gson.toJson(teamMatesResponse.get(0));
-        TeamMatesResponse teamMateResponse = gson.fromJson(json, TeamMatesResponse.class);
+        
+        // 팀원 수
+        int members = teamMatesResponse.size();
 
-        long teamMateId = teamMateResponse.getMateId();
-        String nickName = teamMateResponse.getNickname();
-        boolean uploaded = teamMateResponse.isUploaded();
+        // 전체 팀원을 담을 List
+        List<TeamMatesResponse> teamMates = new ArrayList<>();
+        
+        for(int i=0; i<members; i++) 
+        {
+            // 파싱
+            Gson gson = new Gson();
+            String json = gson.toJson(teamMatesResponse.get(i));
+            TeamMatesResponse teamMateResponse = gson.fromJson(json, TeamMatesResponse.class);
 
-        Log.d(LOG_TAG, " team mate information " + teamMateId + nickName);
+            // 사용자 정보
+            if(i==0) userTeamMateId = teamMateResponse.getMateId();
+
+            // 전체 팀원 List 에 추가
+            teamMates.add(teamMateResponse);
+        }
+        
+        // set Adapter
+        TeamMateRecyclerViewAdapter adapter = new TeamMateRecyclerViewAdapter(getActivity(), teamMates);
+        teamMatesRecyclerView.setAdapter(adapter);
     }
 
-    private void setGoalDetailData(String title, long progress) {
-        startDate.setText(goalDetailResponse.getStartDate());
-        goalName.setText(title);
-        progressPercent.setText(String.valueOf(progress));
-    }
+    // goalDetailResponse 의 필드 값으로 UI에 표시
+    private void setGoalDetailData(GoalDetailResponse response) {
 
-//    private void goalDetailView(long goalId, View view) {
-//        GoalInquiryService.getService().goalDetailView(goalId)
-//                .enqueue(new Callback<GoalDetailViewResponse>() {
-//                    @RequiresApi(api = Build.VERSION_CODES.O)
-//                    @Override
-//                    public void onResponse(Call<GoalDetailViewResponse> call, Response<GoalDetailViewResponse> response) {
-//                        if (response.isSuccessful()) {
-//                            setGoalDetailData(response);
-//                            goalDetailGroup.setVisibility(View.VISIBLE);
-//                            goalDetailLoading.setVisibility(View.INVISIBLE);
-//                        } else {
-//                            if(response.code() == 404) {
-//                                Toast.makeText(GlobalApplication.getAppContext(), "해당 목표에 속한 팀원만 볼 수 있습니다", Toast.LENGTH_LONG).show();
-//                                Navigation.findNavController(view).popBackStack();
-//                            }
-//                            Log.d(LOG_TAG, "eeeeee");
-//                            OnErrorFragment onErrorFragment = new OnErrorFragment();
-//                            onErrorFragment.show(getChildFragmentManager(), "error");
-//                        }
-//                    }
-//                    @Override
-//                    public void onFailure(Call<GoalDetailViewResponse> call, Throwable t) {
-//                        OnErrorFragment onErrorFragment = new OnErrorFragment();
-//                        onErrorFragment.show(getChildFragmentManager(), "error");
-//                        Log.d(LOG_TAG, t.getMessage());
-//                    }
-//                });
-//
-//    }
+        // UI 에 사용자 목표 정보 표시
+        startDate.setText(response.getStartDate());
+        goalName.setText(response.getTitle());
+
+        // 퍼센트 표시
+        long percent = response.getProgress();
+        progressPercent.setText(String.valueOf(percent));
+        mWaveDrawable.setLevel((int) (percent * 100));
+    }
 
 //    @RequiresApi(api = Build.VERSION_CODES.O)
 //    private void setGoalDetailData(Response<GoalDetailResponse> response) {
@@ -301,40 +309,12 @@ public class GoalDetailFragment extends Fragment {
 //                .collect(Collectors.toList());
 //    }
 
-    private void setGoalInfo(GoalDetailResponse goalDetailResponse) {
-        if (goalDetailResponse != null) {
-            Log.d(LOG_TAG, "goalDetailResponse : " + goalDetailResponse);
-            this.goalDetailResponse = goalDetailResponse;
-            //teamMateId = setTeamMateId(goalDetailResponse);
-
-            setRegisterButtonStatus(goalDetailResponse.getUploadable());
-            setInviteButtonStatus(goalDetailResponse.isInviteable());
-
-            startDate.setText(goalDetailResponse.getStartDate() + " 부터 진행 중 !");
-            goalTitle = goalDetailResponse.getTitle();
-
-            //InstantOrConfirmGuide(goalDetailResponse);
-            goalName.setText(goalTitle);
-
-            TeamMateRecyclerViewAdapter adapter = new TeamMateRecyclerViewAdapter(getActivity(), goalDetailResponse.getMates());
-            teamMatesRecyclerView.setAdapter(adapter);
-        }
-    }
-
-//    private void InstantOrConfirmGuide(GoalDetailResponse goalDetailResponse) {
-//        if(goalDetailResponse.getGoalMethod().equals("CONFIRM")){
-//            goalMethodInformation.setText(goalTitle + " 목표는 \n팀원들의 확인을 받아야하는 목표에요.\n"+ goalDetailResponse.getMinimumLike()+ "개 이상의 좋아요를 받으면 성공입니다!");
-//        }else if(goalDetailResponse.getGoalMethod().equals("CONFIRM")&&goalDetailResponse.getGoalStatus().equals("ONGOING")){
-//            goalMethodInformation.setText(goalTitle+" 목표는\n즉시 인증할 수 있는 목표입니다. 지금 바로 인증해봅시다!");
-//        }else{
-//            goalMethodInformation.setText(goalTitle+" 목표는\n즉시 인증할 수 있는 목표입니다.\n목표를 수행하는 날이 온다면 잊지말고 인증해봐요!");
-//        }
-//    }
-
+    // 초대버튼 활성, 비활성
     private void setInviteButtonStatus(boolean invitable) {
         if (!invitable) inviteButton.setVisibility(View.INVISIBLE);
     }
 
+    // TODO: 2023/05/01 uploadable 서버측 요청 응답시 작성할 예정
     private void setRegisterButtonStatus(Uploadable uploadable) {
         if (!uploadable.isUploadable()) {
             registerButton.setEnabled(false);
@@ -351,7 +331,6 @@ public class GoalDetailFragment extends Fragment {
             }
         }
     }
-
 
 
 }
