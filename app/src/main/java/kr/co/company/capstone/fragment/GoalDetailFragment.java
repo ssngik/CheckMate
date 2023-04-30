@@ -2,7 +2,6 @@ package kr.co.company.capstone.fragment;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.*;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -23,23 +21,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.race604.drawable.wave.WaveDrawable;
 
-import java.lang.reflect.Type;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.goal.*;
-import kr.co.company.capstone.util.adapter.CalendarRecyclerViewAdapter;
 import kr.co.company.capstone.util.adapter.TeamMateRecyclerViewAdapter;
-import kr.co.company.capstone.util.SharedPreferenceUtil;
 import kr.co.company.capstone.dto.team_mate.TeamMatesResponse;
 import kr.co.company.capstone.service.GoalInquiryService;
 import org.jetbrains.annotations.NotNull;
@@ -93,9 +81,6 @@ public class GoalDetailFragment extends Fragment {
         progressPercent = view.findViewById(R.id.progress_percent);
         ImageView mImageView = view.findViewById(R.id.check_image);
 
-        setPercentProgress(mImageView);
-        //goalDetailView(goalId, view);
-        goalDetailView(goalId);
 
         // 수정 환경 변환 위한 Flag
         editFlag = 1;
@@ -109,6 +94,30 @@ public class GoalDetailFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         teamMatesRecyclerView.setLayoutManager(gridLayoutManager);
 
+        // 목표 수행률 체크 이미지 설정
+        setPercentProgress(mImageView);
+        //goalDetailView(goalId, view);
+
+        // 데이터 UI 표시
+        goalDetailView(goalId);
+
+        // OnBackPressedCallback 설정
+        setOnBackPressedCallback(view);
+
+        // 초대 버튼 눌렀을 때
+        setClickInviteButton(view);
+
+        // 타임라인 버튼 눌렀을 때
+        setClickTimelineButton(view);
+
+        // 목표 인증하기 버튼 눌렀을 때
+        setClickRegisterButton(view);
+
+        return view;
+
+    }
+
+    private void setOnBackPressedCallback(View view) {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -116,31 +125,9 @@ public class GoalDetailFragment extends Fragment {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
 
-        inviteButton = view.findViewById(R.id.todo_invite);
-        inviteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                InviteUserFragment inviteUserFragment = new InviteUserFragment();
-                Bundle idBundle = new Bundle();
-                idBundle.putLong("goalId", goalId);
-                inviteUserFragment.setArguments(idBundle);
-                Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_inviteUserFragment, idBundle);
-            }
-        });
-
-        ImageButton timelineMoreButton = view.findViewById(R.id.timeline_more);
-        timelineMoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TimeLineFragment timeLineFragment = new TimeLineFragment();
-                Bundle toTimeLine = new Bundle();
-                toTimeLine.putLong("goalId", goalId);
-                timeLineFragment.setArguments(toTimeLine);
-                Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_timeLineFragment, toTimeLine);
-            }
-        });
-
+    private void setClickRegisterButton(View view) {
         registerButton = view.findViewById(R.id.certification);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,24 +141,41 @@ public class GoalDetailFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_doMyGoalFragment, toCertification);
             }
         });
-//
-//        ImageButton goalUpdateButton = view.findViewById(R.id.goal_update);
-//        goalUpdateButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                SetNewGoalInfoFragment frag = new SetNewGoalInfoFragment();
-//                Bundle bundle = new Bundle();
-//
-//                bundle.putSerializable("goalDetailResponse", goalDetailResponse);
-//                bundle.putInt("editFlag", editFlag);
-//                frag.setArguments(bundle);
-//                Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_create_goal_info_fragment, bundle);
-//                }
-//            }
-//        );
-        return view;
-
     }
+
+    private void setClickTimelineButton(View view) {
+        ImageButton timelineMoreButton = view.findViewById(R.id.timeline_more);
+        timelineMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimeLineFragment timeLineFragment = new TimeLineFragment();
+
+                Bundle toTimeLine = new Bundle();
+                toTimeLine.putLong("goalId", goalId);
+                timeLineFragment.setArguments(toTimeLine);
+
+                Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_timeLineFragment, toTimeLine);
+            }
+        });
+    }
+
+    private void setClickInviteButton(View view) {
+        inviteButton = view.findViewById(R.id.todo_invite);
+        inviteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InviteUserFragment inviteUserFragment = new InviteUserFragment();
+
+                Bundle idBundle = new Bundle();
+                idBundle.putLong("goalId", goalId);
+                inviteUserFragment.setArguments(idBundle);
+
+                Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_inviteUserFragment, idBundle);
+            }
+        });
+    }
+
+    // 목표 수행률 체크 이미지 설정
     private void setPercentProgress(ImageView mImageView) {
         mWaveDrawable = new WaveDrawable(Objects.requireNonNull(getActivity()), R.drawable.check_icon);
         mWaveDrawable.setWaveAmplitude(10);
