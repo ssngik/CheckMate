@@ -52,7 +52,7 @@ public class GoalDetailFragment extends Fragment {
     private static final String LOG_TAG = "GoalDetailFragment";
     private TextView startDate, goalName, progressPercent, goalMethodInformation, methodInformationOnTop;
     private RecyclerView teamMatesRecyclerView, calendarRecyclerView;
-    private Long teamMateId, goalId;
+    private Long goalId;
     private int editFlag;
     private TextView inviteButton;
     private Button registerButton;
@@ -61,6 +61,7 @@ public class GoalDetailFragment extends Fragment {
     private GoalDetailResponse goalDetailResponse;
     ProgressBar goalDetailLoading;
     Group goalDetailGroup;
+
 
     @Override
     public void onAttach(@NonNull @NotNull Context context) {
@@ -147,7 +148,7 @@ public class GoalDetailFragment extends Fragment {
                 DoMyGoalFragment doMyGoal = new DoMyGoalFragment();
                 Bundle toCertification = new Bundle();
                 toCertification.putLong("goalId", goalId);
-                toCertification.putLong("teamMateId", teamMateId);
+                //toCertification.putLong("teamMateId", teamMateId);
                 toCertification.putString("goalTitle", goalTitle);
                 doMyGoal.setArguments(toCertification);
                 Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_doMyGoalFragment, toCertification);
@@ -187,10 +188,15 @@ public class GoalDetailFragment extends Fragment {
                         if(response.isSuccessful()){
                             goalDetailResponse = response.body();
                             List<TeamMatesResponse> teamMatesResponse = goalDetailResponse.getMates();
+                            Log.d(LOG_TAG, goalDetailResponse.toString());
 
-                            // TeamMatesResponse 리스트에서 본인의 JSON 데이터를 파싱하여 teamMateId 값을 가져옴
-                            getTeamMateId(teamMatesResponse);
+                            // TeamMatesResponse 리스트에서 JSON 데이터를 파싱하여 mates 데이터 값을 가져옴
+                            parseTeamMateResponse(teamMatesResponse);
 
+                            // goalDetailResponse의 필드 값으로 UI에 표시
+                            setGoalDetailData(goalDetailResponse.getTitle(), goalDetailResponse.getProgress());
+
+                            // 로딩 화면 제거
                             goalDetailGroup.setVisibility(View.VISIBLE);
                             goalDetailLoading.setVisibility(View.INVISIBLE);
                         }
@@ -202,12 +208,23 @@ public class GoalDetailFragment extends Fragment {
                 });
     }
 
-    // TeamMatesResponse 리스트에서 본인의 JSON 데이터를 파싱하여 teamMateId 값을 가져옴
-    private void getTeamMateId(List<TeamMatesResponse> teamMatesResponse) {
+    // TeamMatesResponse 리스트에서 JSON 데이터를 파싱하여 mates 데이터 값을 가져옴
+    private void parseTeamMateResponse(List<TeamMatesResponse> teamMatesResponse) {
         Gson gson = new Gson();
         String json = gson.toJson(teamMatesResponse.get(0));
         TeamMatesResponse teamMateResponse = gson.fromJson(json, TeamMatesResponse.class);
-        teamMateId = teamMateResponse.getMateId();
+
+        long teamMateId = teamMateResponse.getMateId();
+        String nickName = teamMateResponse.getNickname();
+        boolean uploaded = teamMateResponse.isUploaded();
+
+        Log.d(LOG_TAG, " team mate information " + teamMateId + nickName);
+    }
+
+    private void setGoalDetailData(String title, long progress) {
+        startDate.setText(goalDetailResponse.getStartDate());
+        goalName.setText(title);
+        progressPercent.setText(String.valueOf(progress));
     }
 
 //    private void goalDetailView(long goalId, View view) {
@@ -240,45 +257,45 @@ public class GoalDetailFragment extends Fragment {
 //
 //    }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setGoalDetailData(Response<GoalDetailViewResponse> response) {
-        GoalDetailViewResponse goalDetailViewResponse = response.body();
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    private void setGoalDetailData(Response<GoalDetailResponse> response) {
+//        GoalDetailResponse goalDetailResponse = response.body();
+//
+//        setGoalInfo(goalDetailResponse.getGoal());
+//        setGoalCalendar(goalDetailResponse.getTeamMateCalendarResponse());
+//        double percent = goalDetailResponse.getProgress();
+//        progressPercent.setText(String.format("%.2f", percent) + "%");
+//        mWaveDrawable.setLevel((int) (percent * 100));
+//    }
 
-        setGoalInfo(goalDetailViewResponse.getGoalDetailResponse());
-        setGoalCalendar(goalDetailViewResponse.getTeamMateCalendarResponse());
-        double percent = goalDetailViewResponse.getProgress();
-        progressPercent.setText(String.format("%.2f", percent) + "%");
-        mWaveDrawable.setLevel((int) (percent * 100));
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    private void setGoalCalendar(TeamMateCalendarResponse teamMateCalendarResponse) {
+//        List<GoalDate> goalDateList = getGoalCalendarDateList(teamMateCalendarResponse);
+//        CalendarRecyclerViewAdapter calendarRecyclerViewAdapter = new CalendarRecyclerViewAdapter(getActivity(), goalDateList);
+//        calendarRecyclerView.setAdapter(calendarRecyclerViewAdapter);
+//
+//        int position = goalDateList.indexOf(getCalendarOffset(goalDateList)) - 3;
+//        calendarRecyclerView.scrollToPosition(position);
+//    }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setGoalCalendar(TeamMateCalendarResponse teamMateCalendarResponse) {
-        List<GoalDate> goalDateList = getGoalCalendarDateList(teamMateCalendarResponse);
-        CalendarRecyclerViewAdapter calendarRecyclerViewAdapter = new CalendarRecyclerViewAdapter(getActivity(), goalDateList);
-        calendarRecyclerView.setAdapter(calendarRecyclerViewAdapter);
+//    private GoalDate getCalendarOffset(List<GoalDate> goalDateList) {
+//        return goalDateList.stream()
+//                .filter(date -> Objects.equals(date.getLocalDate(), LocalDate.now().toString()))
+//                .findAny()
+//                .orElse(null);
+//    }
 
-        int position = goalDateList.indexOf(getCalendarOffset(goalDateList)) - 3;
-        calendarRecyclerView.scrollToPosition(position);
-    }
-
-    private GoalDate getCalendarOffset(List<GoalDate> goalDateList) {
-        return goalDateList.stream()
-                .filter(date -> Objects.equals(date.getLocalDate(), LocalDate.now().toString()))
-                .findAny()
-                .orElse(null);
-    }
-
-    private List<GoalDate> getGoalCalendarDateList(TeamMateCalendarResponse teamMateCalendarResponse) {
-        LocalDate startDate = LocalDate.parse(teamMateCalendarResponse.getStartDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String goalPeriod = teamMateCalendarResponse.getGoalPeriod();
-        String teamMatePeriod = teamMateCalendarResponse.getTeamMatePeriod();
-
-        return IntStream.range(0, goalPeriod.length())
-                .mapToObj(i -> new GoalDate(startDate.plusDays(i).toString(),
-                        goalPeriod.charAt(i) == '1',
-                        teamMatePeriod.charAt(i) == '1'))
-                .collect(Collectors.toList());
-    }
+//    private List<GoalDate> getGoalCalendarDateList(TeamMateCalendarResponse teamMateCalendarResponse) {
+//        LocalDate startDate = LocalDate.parse(teamMateCalendarResponse.getStartDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        String goalPeriod = teamMateCalendarResponse.getGoalPeriod();
+//        String teamMatePeriod = teamMateCalendarResponse.getTeamMatePeriod();
+//
+//        return IntStream.range(0, goalPeriod.length())
+//                .mapToObj(i -> new GoalDate(startDate.plusDays(i).toString(),
+//                        goalPeriod.charAt(i) == '1',
+//                        teamMatePeriod.charAt(i) == '1'))
+//                .collect(Collectors.toList());
+//    }
 
     private void setGoalInfo(GoalDetailResponse goalDetailResponse) {
         if (goalDetailResponse != null) {
@@ -292,7 +309,7 @@ public class GoalDetailFragment extends Fragment {
             startDate.setText(goalDetailResponse.getStartDate() + " 부터 진행 중 !");
             goalTitle = goalDetailResponse.getTitle();
 
-            InstantOrConfirmGuide(goalDetailResponse);
+            //InstantOrConfirmGuide(goalDetailResponse);
             goalName.setText(goalTitle);
 
             TeamMateRecyclerViewAdapter adapter = new TeamMateRecyclerViewAdapter(getActivity(), goalDetailResponse.getMates());
@@ -300,19 +317,15 @@ public class GoalDetailFragment extends Fragment {
         }
     }
 
-    private void InstantOrConfirmGuide(GoalDetailResponse goalDetailResponse) {
-        if(goalDetailResponse.getGoalMethod().equals("CONFIRM")){
-            goalMethodInformation.setText(goalTitle + " 목표는 \n팀원들의 확인을 받아야하는 목표에요.\n"+ goalDetailResponse.getMinimumLike()+ "개 이상의 좋아요를 받으면 성공입니다!");
-        }else if(goalDetailResponse.getGoalMethod().equals("CONFIRM")&&goalDetailResponse.getGoalStatus().equals("ONGOING")){
-            goalMethodInformation.setText(goalTitle+" 목표는\n즉시 인증할 수 있는 목표입니다. 지금 바로 인증해봅시다!");
-        }else{
-            goalMethodInformation.setText(goalTitle+" 목표는\n즉시 인증할 수 있는 목표입니다.\n목표를 수행하는 날이 온다면 잊지말고 인증해봐요!");
-        }
-    }
-
-
-
-
+//    private void InstantOrConfirmGuide(GoalDetailResponse goalDetailResponse) {
+//        if(goalDetailResponse.getGoalMethod().equals("CONFIRM")){
+//            goalMethodInformation.setText(goalTitle + " 목표는 \n팀원들의 확인을 받아야하는 목표에요.\n"+ goalDetailResponse.getMinimumLike()+ "개 이상의 좋아요를 받으면 성공입니다!");
+//        }else if(goalDetailResponse.getGoalMethod().equals("CONFIRM")&&goalDetailResponse.getGoalStatus().equals("ONGOING")){
+//            goalMethodInformation.setText(goalTitle+" 목표는\n즉시 인증할 수 있는 목표입니다. 지금 바로 인증해봅시다!");
+//        }else{
+//            goalMethodInformation.setText(goalTitle+" 목표는\n즉시 인증할 수 있는 목표입니다.\n목표를 수행하는 날이 온다면 잊지말고 인증해봐요!");
+//        }
+//    }
 
     private void setInviteButtonStatus(boolean invitable) {
         if (!invitable) inviteButton.setVisibility(View.INVISIBLE);
