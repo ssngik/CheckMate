@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,8 @@ public class GoalDetailFragment extends Fragment {
     private WaveDrawable mWaveDrawable;
     ProgressBar goalDetailLoading;
     Group goalDetailGroup;
-
+    private ImageButton editMyGoalButton;
+    GoalDetailResponse goalDetailResponse;
 
     @Override
     public void onAttach(@NonNull @NotNull Context context) {
@@ -119,8 +121,26 @@ public class GoalDetailFragment extends Fragment {
         // 목표 인증하기 버튼 눌렀을 때
         setClickRegisterButton(view);
 
+        // 목표 수정 버튼 눌렀을 때
+        setClickEditMyGoalButton(view);
+
         return view;
 
+    }
+
+    private void setClickEditMyGoalButton(View view) {
+        editMyGoalButton = view.findViewById(R.id.goal_update);
+        editMyGoalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditMyGoalFragment editMyGoalFragment = new EditMyGoalFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("goalDetailResponse", goalDetailResponse);
+                editMyGoalFragment.setArguments(bundle);
+                Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_editMyGoalFragment, bundle );
+            }
+        });
     }
 
     // OnBackPressedCallback 설정
@@ -203,7 +223,7 @@ public class GoalDetailFragment extends Fragment {
                         if(response.isSuccessful()){
 
                             // 목표 상세 response
-                            GoalDetailResponse goalDetailResponse = response.body();
+                            goalDetailResponse = response.body();
 
                             // TeamMatesResponse 리스트에서 JSON 데이터를 파싱하여 mates 데이터 값을 가져옴
                             parseTeamMateResponse(goalDetailResponse.getMates());

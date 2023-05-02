@@ -96,6 +96,7 @@
         />
     </fragment>
 
+
     <fragment
         android:id="@+id/goalDetailFragment"
         android:name="kr.co.company.capstone.fragment.GoalDetailFragment"
@@ -115,6 +116,8 @@
             app:destination="@id/timeLineFragment" />
         <action android:id="@+id/action_goalDetailActivity_to_navigation_home" app:destination="@id/navigation_home"
                 app:popUpTo="@id/goalDetailFragment" app:popUpToInclusive="true"/>
+        <action android:id="@+id/action_goalDetailFragment_to_editMyGoalFragment"
+                app:destination="@id/editMyGoalFragment"/>
     </fragment>
     <fragment
         android:id="@+id/inviteUserFragment"
@@ -171,4 +174,6 @@
         android:name="kr.co.company.capstone.fragment.TimeLineFragment"
         android:label="fragment_timeline"
         tools:layout="@layout/fragment_timeline" />
+    <fragment android:id="@+id/editMyGoalFragment" android:name="kr.co.company.capstone.fragment.EditMyGoalFragment"
+              android:label="fragment_edit_my_goal" tools:layout="@layout/fragment_edit_my_goal"/>
 </navigation>
