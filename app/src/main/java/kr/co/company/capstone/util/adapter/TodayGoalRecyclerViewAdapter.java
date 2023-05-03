@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +19,20 @@ import java.util.List;
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.goal.GoalInfo;
 import kr.co.company.capstone.fragment.GoalDetailFragment;
-import kr.co.company.capstone.fragment.MainPageFragment;
 
 
-public class GoalRecyclerViewAdapter extends RecyclerView.Adapter{
+public class TodayGoalRecyclerViewAdapter extends RecyclerView.Adapter{
     private static final String LOG_TAG = "RecyclerViewAdapter";
     GoalDetailFragment goalDetailFragment;
     List<? extends GoalInfo> goals;
+
     Context context;
 
-    public GoalRecyclerViewAdapter(Context context, List<? extends GoalInfo> goals) {
+    public TodayGoalRecyclerViewAdapter(Context context, List<? extends GoalInfo> goals) {
         this.goals = goals;
         this.context = context;
     }
+
 
     @Override
     public int getItemCount() {
@@ -43,13 +43,12 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.itemview,parent,false);
+                .inflate(R.layout.today_goal_itemview,parent,false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
         final MyViewHolder myViewHolder = (MyViewHolder)holder;
         myViewHolder.todayTodo.setText(goals.get(position).getTitle());
         if(goals.get(position).isChecked()){
@@ -67,8 +66,6 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter{
                 goalIdRc.putLong("goalId",goalId);
 
                 goalDetailFragment.setArguments(goalIdRc);
-
-
                 Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_goalDetailFragment, goalIdRc);
 
             }
@@ -79,10 +76,10 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter{
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView todayTodo;
         ImageView imageView;
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            todayTodo =  itemView.findViewById(R.id.today_todo_textview);
-            imageView = itemView.findViewById(R.id.imageview);
+        public MyViewHolder(@NonNull View todayGoalItemView) {
+            super(todayGoalItemView);
+            todayTodo =  todayGoalItemView.findViewById(R.id.today_todo_textview);
+            imageView = todayGoalItemView.findViewById(R.id.imageview);
         }
     }
 
