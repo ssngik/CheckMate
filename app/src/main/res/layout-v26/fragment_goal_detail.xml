@@ -85,15 +85,15 @@
                     android:text="@string/loading"
                     android:textSize="15sp" />
 
-<!--                <ImageButton-->
-<!--                    android:id="@+id/goal_update"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="end|top"-->
-<!--                    android:layout_marginEnd="10dp"-->
-<!--                    android:background="@color/clear"-->
-<!--                    android:contentDescription="@string/image_warning"-->
-<!--                    app:srcCompat="@drawable/ic_round_edit_24" />-->
+                <ImageButton
+                    android:id="@+id/goal_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|top"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/clear"
+                    android:contentDescription="@string/image_warning"
+                    app:srcCompat="@drawable/ic_round_edit_24" />
             </FrameLayout>
 
             <Button
