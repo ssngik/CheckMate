@@ -20,22 +20,18 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
-        // 현재 시간 -> Time Picker의 초기값으로 사용.
-        // null 값은 이걸로 받을 예정
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
-
-        //context , listener, hour, minute, 24시간표기여부
         TimePickerDialog tpd = new TimePickerDialog(getActivity(),
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar, this,
                 hour, minute, DateFormat.is24HourFormat(getActivity()));
 
-        //뒤 배경 삭제
+        // 뒤 배경 삭제
         tpd.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        //타임 피커의 타이틀 설정
+        // 타임 피커의 타이틀 설정
         TextView tvTitle = new TextView(getActivity());
         tvTitle.setText("TimepickerDialog 타이틀");
         tvTitle.setPadding(5, 3, 5, 3);
@@ -59,7 +55,6 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         else
             stringHour = "0" + hourOfDay;
 
-//        timeSetCheck.setText("설정한 시간\n" + (stringHour)+":"+(stringMin));
         timeSetCheck.setText((stringHour)+":"+(stringMin));
     }
 }
