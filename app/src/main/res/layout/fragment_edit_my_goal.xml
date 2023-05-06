@@ -123,7 +123,6 @@
         android:background="@color/clear"
         android:contentDescription="@string/image_warning"
         android:src="@drawable/ic_baseline_calendar_today_24"
-        android:visibility="invisible"
         app:layout_constraintLeft_toRightOf="@+id/set_date_text"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
