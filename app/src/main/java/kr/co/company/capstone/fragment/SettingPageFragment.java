@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +22,6 @@ import java.util.Objects;
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.Theme;
 import kr.co.company.capstone.activity.LoginActivity;
-import kr.co.company.capstone.dto.ErrorMessage;
 import kr.co.company.capstone.service.LoginService;
 import kr.co.company.capstone.util.SharedPreferenceUtil;
 import retrofit2.Call;
@@ -33,10 +30,8 @@ import retrofit2.Response;
 
 public class SettingPageFragment extends Fragment {
 
-    final String[] words = new String[]{"라이트 모드", "다크 모드"};
 
     private String LOG_TAG = "SettingPageFragment";
-    RelativeLayout settingSupportArea;
     public SettingPageFragment() {
         // Required empty public constructor
     }
@@ -50,33 +45,48 @@ public class SettingPageFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_setting_icon, container, false);
+        View view = inflater.inflate(R.layout.fragment_setting_icon, container, false);
 
-        TextView logout = rootView.findViewById(R.id.Logout);
-        TextView edit_name = rootView.findViewById(R.id.edit_nickname);
-        TextView email = rootView.findViewById(R.id.Support_email);
-        TextView mode = rootView.findViewById(R.id.Screen_mode);
-        TextView nickname = rootView.findViewById(R.id.Nickname);
-        TextView privacy = rootView.findViewById(R.id.Privacy_policy);
-        settingSupportArea = rootView.findViewById(R.id.setting_support_area);
-        settingSupportArea.setClickable(true);
-        nickname.setText(SharedPreferenceUtil.getString(getContext(), "nickname"));
-        logout.setText(SharedPreferenceUtil.getString(getContext(), "nickname") + " 로그아웃");
+        /*
+         * UI 설정 부분
+         */
 
-        logOut(logout);
-        editNickName(edit_name);
-        setWhiteOrDarkMode(mode);
-        clickEmail(email);
-        privacyInfo(privacy);
+        // 사용자 닉네임 UI 설정
+        TextView myNickName = view.findViewById (R.id.Nickname);
+        myNickName.setText(SharedPreferenceUtil.getString(getContext(), "nickName"));
 
-        return rootView;
+        /*
+        * 기능 부분
+        * */
+
+        // 로그아웃 버튼 리스너 설정
+        setClickLogOutButton(view);
+
+        // 닉네임 변경으로 이동
+        editNickName(view);
+
+        // 화면 모드 설정
+        setWhiteOrDarkMode(view);
+
+        // 이메일 보내기
+        clickEmail(view);
+
+        // 개인정보 처리방침
+        privacyInfo(view);
+
+        return view;
     }
 
-    private void editNickName(TextView edit_name) {
-        edit_name.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.editNicknameFragment));
+    // 닉네임 변경
+    private void editNickName(View view) {
+        TextView editNickNameTextButton = view.findViewById (R.id.edit_nickname);
+        editNickNameTextButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.editNicknameFragment));
     }
 
-    private void logOut(TextView logout) {
+    private void setClickLogOutButton(View view) {
+        TextView logout = view.findViewById(R.id.Logout);
+
+        logout.setText(SharedPreferenceUtil.getString(getContext(), "nickName") + " 로그아웃");
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,16 +97,21 @@ public class SettingPageFragment extends Fragment {
                             SharedPreferenceUtil.removeKey(getActivity(), "accessToken");
                             SharedPreferenceUtil.removeKey(getActivity(), "refreshToken");
                             Objects.requireNonNull(getActivity()).finish();
+
+                            Log.d(LOG_TAG, "succes!");
+
+                            // 초기 로그인 화면으로 이동
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+
                         } else {
                             OnErrorFragment onErrorFragment = new OnErrorFragment();
                             onErrorFragment.show(getChildFragmentManager(), "error");
-//                            Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
+                            Log.d(LOG_TAG, response.toString());
                         }
 
-                        Intent intent = new Intent(getContext(), LoginActivity.class);
-                        startActivity(intent);
-                    }
 
+                    }
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
                         OnErrorFragment onErrorFragment = new OnErrorFragment();
@@ -104,28 +119,49 @@ public class SettingPageFragment extends Fragment {
                     }
                 });
             }
+
         });
     }
 
-    private void setWhiteOrDarkMode(TextView mode) {
-        mode.setOnClickListener(new View.OnClickListener() {
+    // 화면 모드 변경
+    private void setWhiteOrDarkMode(View view) {
+
+        // 사용자 지원 안내 정보 구역
+        RelativeLayout settingSupportArea = view.findViewById (R.id.setting_support_area);
+        settingSupportArea.setClickable(true);
+
+        // 화면 테마 Text Button
+        TextView displayThemeTextButton = view.findViewById (R.id.Screen_mode);
+
+        // 다크 | 라이트 모드 설정 버튼 클릭 리스너
+        displayThemeTextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                final String[] words = new String[]{"라이트 모드", "다크 모드"};
+
                 new AlertDialog.Builder(getActivity()).setTitle("화면 스타일 선택").setSingleChoiceItems(words,  -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        // 사용자 지원 안내 부분 터치 불가 상태
                         settingSupportArea.setClickable(false);
-                        Toast.makeText(getActivity(), words[which] + "로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+
                         switch (which) {
-                            case 0:
+                            case 0: // Light Mode
                                 Theme.applyTheme(Theme.LIGHT_MODE);
                                 SharedPreferenceUtil.setString(getActivity(), "scnMode", Theme.LIGHT_MODE);
                                 break;
-                            case 1:
+                            case 1: // Dark Mode
                                 Theme.applyTheme(Theme.DARK_MODE);
                                 SharedPreferenceUtil.setString(getActivity(), "scnMode", Theme.DARK_MODE);
                                 break;
                         }
+
+                        // 변경 완료 알림
+                        Toast.makeText(getActivity(), words[which] + "로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+
+                        // 사용자 지원 안내 부분 터치 가능 상태
                         settingSupportArea.setClickable(true);
                     }
                 }).show();
@@ -133,25 +169,31 @@ public class SettingPageFragment extends Fragment {
         });
     }
 
-    private void clickEmail(TextView email) {
-        email.setOnClickListener(new TextView.OnClickListener() {
-            public void onClick(View view) {
-                Intent email = new Intent(Intent.ACTION_SEND);
-                email.setType("plain/text");
-                String[] address = {"teamcheckus@gmail.com"};
-                email.putExtra(Intent.EXTRA_EMAIL, address);
-                email.putExtra(Intent.EXTRA_SUBJECT, "help");
-                startActivity(email);
-            }
+    // 이메일 눌렀을 때
+    private void clickEmail(View view) {
+        TextView emailTextButton = view.findViewById (R.id.Support_email);
+
+        emailTextButton.setOnClickListener(view1 -> {
+            Intent email = new Intent(Intent.ACTION_SEND);
+            email.setType("plain/text");
+            String[] address = {"teamcheckus@gmail.com"};
+
+            email.putExtra(Intent.EXTRA_EMAIL, address);
+            email.putExtra(Intent.EXTRA_SUBJECT, "help");
+
+            startActivity(email);
         });
+
     }
 
-    private void privacyInfo(TextView privacy) {
-        privacy.setOnClickListener(new TextView.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://checkus.notion.site/0b59fd1da54e44aa9cc5fa10b36868de"));
-                startActivity(intent);
-            }
+    // 정책 관련 안내
+    private void privacyInfo(View view) {
+        TextView privacy = view.findViewById(R.id.Privacy_policy);
+
+        privacy.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://checkus.notion.site/0b59fd1da54e44aa9cc5fa10b36868de"));
+            startActivity(intent);
         });
     }
 }

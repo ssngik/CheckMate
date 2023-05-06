@@ -153,15 +153,15 @@
                     android:textSize="15sp"/>
 
             <TextView
-                android:id="@+id/Privacy_policy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/Service_terms"
-                android:layout_marginTop="10dp"
-                android:autoLink="web"
-                android:fontFamily="@font/main_font"
-                android:text="@string/privacy_policy"
-                android:textSize="15sp" />
+                    android:id="@+id/Privacy_policy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Service_terms"
+                    android:layout_marginTop="10dp"
+                    android:autoLink="web"
+                    android:fontFamily="@font/main_font"
+                    android:text="@string/privacy_policy"
+                    android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/Open_source"

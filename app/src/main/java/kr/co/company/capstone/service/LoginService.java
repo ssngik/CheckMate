@@ -10,7 +10,7 @@ public interface LoginService {
     @POST("/login/reissue")
     Call<LoginResponse> reissue(@Body TokenReissueRequest tokenReissueRequest);
 
-    @DELETE("/login/logout")
+    @DELETE("/users/logout")
     Call<Void> logout();
 
     static LoginService getService(){
