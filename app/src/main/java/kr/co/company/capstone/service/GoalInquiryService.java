@@ -29,6 +29,10 @@ public interface GoalInquiryService {
     @GET("/goals/view/{goalId}")
     Call<GoalDetailViewResponse> goalDetailView(@Path("goalId") long goalId);
 
+    // 성공한 목표 상세 정보 조회
+    @GET("/goals/history")
+    Call<GoalInfoListResponse<HistoryGoalInfoResponse>> userHistory();
+
     static GoalInquiryService getService(){
         return RetrofitBuilder.getRetrofit().create(GoalInquiryService.class);
     }

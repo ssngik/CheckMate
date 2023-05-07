@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import kr.co.company.capstone.service.GoalInquiryService;
 import kr.co.company.capstone.util.adapter.HistoryAdapter;
 import kr.co.company.capstone.util.model.HistoryItem;
 import kr.co.company.capstone.util.model.HistorySubItem;
@@ -46,7 +47,7 @@ public class HistoryPageFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         HistoryRecyclerView.setLayoutManager(layoutManager);
 
-        UserService.getService().userHistory()
+        GoalInquiryService.getService().userHistory()
                 .enqueue(new Callback<GoalInfoListResponse<HistoryGoalInfoResponse>>() {
                     @Override
                     public void onResponse(Call<GoalInfoListResponse<HistoryGoalInfoResponse>> call, Response<GoalInfoListResponse<HistoryGoalInfoResponse>> response) {
