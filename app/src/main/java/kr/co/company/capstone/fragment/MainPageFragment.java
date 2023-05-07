@@ -26,9 +26,8 @@ import java.util.List;
 import java.util.Objects;
 
 import kr.co.company.capstone.R;
-import kr.co.company.capstone.activity.MainActivity;
 import kr.co.company.capstone.util.adapter.BackPressHandler;
-import kr.co.company.capstone.util.adapter.GoalRecyclerViewAdapter;
+import kr.co.company.capstone.util.adapter.TodayGoalRecyclerViewAdapter;
 import kr.co.company.capstone.util.adapter.OngoingGoalRecyclerViewAdapter;
 import kr.co.company.capstone.util.adapter.ViewPagerAdapter;
 import kr.co.company.capstone.dto.ErrorMessage;
@@ -139,6 +138,7 @@ public class MainPageFragment extends Fragment {
                             if (goalInfoListResponse != null) {
                                 List<SimpleGoalInfoResponse> ongGoingGoals = goalInfoListResponse.getGoals();
                                 OngoingGoalRecyclerViewAdapter onGoingAdapter = new OngoingGoalRecyclerViewAdapter(getContext(), ongGoingGoals);
+
                                 ongoingRecyclerView.setAdapter(onGoingAdapter);
                                 mainPageGroup.setVisibility(View.VISIBLE);
                                 mainPageLoading.setVisibility(View.INVISIBLE);
@@ -165,7 +165,8 @@ public class MainPageFragment extends Fragment {
                             GoalInfoListResponse<TodayGoalInfoResponse> goalInfoListResponse = response.body();
                             if (goalInfoListResponse != null) {
                                 List<TodayGoalInfoResponse> goals = goalInfoListResponse.getGoals();
-                                GoalRecyclerViewAdapter adapter = new GoalRecyclerViewAdapter(getContext(), goals);
+                                TodayGoalRecyclerViewAdapter adapter = new TodayGoalRecyclerViewAdapter(getContext(), goals);
+
                                 todayRecyclerView.setAdapter(adapter);
                                 mainPageGroup.setVisibility(View.VISIBLE);
                                 mainPageLoading.setVisibility(View.INVISIBLE);
