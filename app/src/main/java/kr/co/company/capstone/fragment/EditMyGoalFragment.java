@@ -27,7 +27,7 @@ public class EditMyGoalFragment extends Fragment {
     private ImageButton setTimeButton;
     private String myAppointmentTime;
     private static GoalDetailResponse goalDetailResponse;
-    final boolean[] timeReset = {false};
+    final boolean[] timeReset = new boolean[2]; // 0 번째 : 초기 인증시간 선택 여부 , 1 번째 : 최종 인증시간 선택 여부
     public EditMyGoalFragment() {
         // Required empty public constructor
     }
@@ -57,17 +57,14 @@ public class EditMyGoalFragment extends Fragment {
         // 목표 인증시간 CheckBox
         final CheckBox myTimeCheckBox;
 
-        // 요일 설정
-        final CheckBox monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-
         //  --------------------------- 요일 선택 ---------------------------
-        monday = view.findViewById (R.id.monday);
-        tuesday = view.findViewById (R.id.tuesday);
-        wednesday = view.findViewById (R.id.wednesday);
-        thursday = view.findViewById (R.id.thursday);
-        friday = view.findViewById (R.id.friday);
-        saturday = view.findViewById (R.id.saturday);
-        sunday = view.findViewById (R.id.sunday);
+        final CheckBox monday = view.findViewById (R.id.monday);
+        final CheckBox tuesday = view.findViewById (R.id.tuesday);
+        final CheckBox wednesday = view.findViewById (R.id.wednesday);
+        final CheckBox thursday = view.findViewById (R.id.thursday);
+        final CheckBox friday = view.findViewById (R.id.friday);
+        final CheckBox saturday = view.findViewById (R.id.saturday);
+        final CheckBox sunday = view.findViewById (R.id.sunday);
         //  --------------------------- 요일 선택 ---------------------------
 
         // 사용자 인증 시간 입력 Text
@@ -78,6 +75,9 @@ public class EditMyGoalFragment extends Fragment {
         // 사용자 목표 정보 데이터 초기화 ( 수정 안 되는 부분 )
         initializeViews(view);
 
+        // 인증시간 체크박스 초기화, timeReset 초기 설정
+        initializeTimeCheckBox(myTimeCheckBox);
+
         // 목표 종료 날짜 수정 버튼 클릭 리스너 초기화
         setDateEditButtonClickListener(view, endDateInfoText);
 
@@ -85,13 +85,13 @@ public class EditMyGoalFragment extends Fragment {
         setUpTimePickerListener(view, myTimePickerText);
 
         // 인증시간 삭제 여부 / 시간 설정 여부에 따른 체크 박스 리스너 설정
-        setUpTimeCheckBoxListener(myTimePickerText, myTimeCheckBox, timeReset);
+        setUpTimeCheckBoxListener(myTimePickerText, myTimeCheckBox);
 
         // 내 목표 정보에서 받아온 요일 정보 CheckBox 설정
         setCheckWeekDays(monday, tuesday, wednesday, thursday, friday, saturday, sunday);
 
         // 수정 완료시
-        setDoneButton(view, myTimePickerText, endDateInfoText);
+        setDoneButton(view, myTimePickerText, endDateInfoText, myTimeCheckBox);
 
         return view;
     }
@@ -123,14 +123,20 @@ public class EditMyGoalFragment extends Fragment {
     }
 
     // 수정 완료시
-    private void setDoneButton(View view, TextView myTimePickerText, TextView endDateInfoText) {
+    private void setDoneButton(View view, TextView myTimePickerText, TextView endDateInfoText, CheckBox myTimeCheckBox) {
         TextView doneButton = view.findViewById(R.id.set_complete_button);
         // API 호출
-        doneButton.setOnClickListener(v -> callApi(endDateInfoText, myTimePickerText, view));
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timeCheckBoxValidity(myTimeCheckBox);
+                callApi(endDateInfoText, myTimePickerText, view);
+            }
+        });
     }
 
     private void callApi(TextView endDateInfoText, TextView myTimePickerText, View view) {
-        GoalModifyRequest goalModifyRequest = new GoalModifyRequest(endDateInfoText.getText().toString(), myTimePickerText.getText().toString(), timeReset[0] );
+        GoalModifyRequest goalModifyRequest = new GoalModifyRequest(endDateInfoText.getText().toString(), timeReset[1], myTimePickerText.getText().toString() );
         GoalCreateService.getService().modifyGoal(goalDetailResponse.getGoalId(), goalModifyRequest)
                 .enqueue(new Callback<Void>() {
                     @Override
@@ -148,7 +154,6 @@ public class EditMyGoalFragment extends Fragment {
                             if(Objects.equals(errorCode, "C-003"))
                                 setAlertDialogAndReplaceView(view, "띵", "변경할 수 없는 기간이에요.");
                         }
-
                     }
 
                     @Override
@@ -156,6 +161,7 @@ public class EditMyGoalFragment extends Fragment {
                         // onFailure
                         setAlertDialogAndReplaceView(view, "띵", "문제가 발생했어요.");
                     }
+
                 });
     }
 
@@ -178,29 +184,36 @@ public class EditMyGoalFragment extends Fragment {
         alertDialog.show();
     }
 
+    // setTimePicker
+    private void showTimePicker() {
+        new TimePickerFragment().show(getParentFragmentManager(), "TimePicker");
+    }
+
 
     // 인증시간 삭제 여부 / 시간 설정 여부에 따른 체크 박스 리스너 설정
-    private void setUpTimeCheckBoxListener(TextView myTimePickerText, CheckBox myTimeCheckBox, boolean[] timeReset) {
+    private void setUpTimeCheckBoxListener(TextView myTimePickerText, CheckBox myTimeCheckBox) {
         myTimeCheckBox.setOnClickListener(v -> {
             // 인증 시간 체크 박스 선택 시
             if (myTimeCheckBox.isChecked())
             {
                 myTimePickerText.setVisibility(View.VISIBLE); // 사용자 설정 인증 시간 표시
                 setTimeButton.setEnabled(true); // 시간 변경 이미지 버튼 활성화
-                timeReset[0] = false; // 인증시간 삭제 여부
             }else // 인증 시간 체크 박스 미선택 시
             {
                 myTimePickerText.setVisibility(View.INVISIBLE); // 사용자 설정 인증 시간 미표시
                 setTimeButton.setEnabled(false); // 시간 변경 이미지 버튼 비활성화
-                timeReset[0] = true; // 인증시간 삭제 여부
             }
         });
     }
 
-
-    // setTimePicker
-    private void showTimePicker() {
-        new TimePickerFragment().show(getParentFragmentManager(), "TimePicker");
+    private void timeCheckBoxValidity(CheckBox myTimeCheckBox){
+        if ( !myTimeCheckBox.isChecked()){ // 체크되어 있지 않은 경우
+            if (timeReset[0]){ // 초기 사용자의 인증 시간이 있는 경우{
+                timeReset[1] = true;
+            }else{
+                timeReset[1] = false;
+            }
+        }
     }
 
     /*
@@ -208,14 +221,22 @@ public class EditMyGoalFragment extends Fragment {
 
      */
 
+    // 인증시간 체크박스 초기화
+    private void initializeTimeCheckBox(CheckBox timeCheckBox){
+        if (goalDetailResponse.getAppointmentTime() != null){
+            timeReset[0] = true;
+            timeCheckBox.setChecked(true);
+        }else{
+            timeReset[0] = false;
+        }
+    }
+
+
     // TimePicker 초기화
     private void setUpTimePickerListener(View view, TextView myTimePickerText) {
 
         // TimePickerButton 초기화
         setTimeButton = view.findViewById (R.id.set_time_button);
-
-        // TimePickerButton ClickListener
-        setTimeButton.setOnClickListener(v -> showTimePicker());
 
         // 인증 시간 존재 여부에 따른 초기화
         if(goalDetailResponse.getAppointmentTime() != null){
@@ -226,6 +247,10 @@ public class EditMyGoalFragment extends Fragment {
             myAppointmentTime = "null";
             setTimeButton.setEnabled(false);
         }
+
+        // TimePickerButton ClickListener
+        setTimeButton.setOnClickListener(v -> showTimePicker());
+
     }
 
     // 사용자 목표 정보 초기화
@@ -248,6 +273,8 @@ public class EditMyGoalFragment extends Fragment {
         myStartDateInfo.setText(goalDetailResponse.getStartDate());
         endDateInfoText = view.findViewById (R.id.end_date_info_text);
         endDateInfoText.setText(goalDetailResponse.getEndDate());
+
+
     }
 
 
