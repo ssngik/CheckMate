@@ -44,20 +44,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom);
 
+        // Set Up Navigation
         setUpNavigation();
 
-        // 애러 다이얼로그 생성
-        AlertDialog alertDialog = createOnErrorDialog();
-
         // 사용자 목표 수행 완료 알림이 있다면 받아옴
+        checkUserNotification();
+    }
+
+    // 사용자 목표 수행 완료 알림이 있다면 받아옴
+    private void checkUserNotification() {
+
         NotificationService.getService().findGoalCompleteNotifications()
                 .enqueue(new Callback<NotificationDetailListResponse>() {
                     @Override
                     public void onResponse(Call<NotificationDetailListResponse> call, Response<NotificationDetailListResponse> response) {
+
+                        // 목표 수행 완료 알림이 있다면 GoalCompleteNotificationActivity 로 이동
                         notificationExistOrNot(response);
                     }
                     @Override
                     public void onFailure(Call<NotificationDetailListResponse> call, Throwable t) {
+                        AlertDialog alertDialog = createOnErrorDialog();
                         showOnErrorDialog(alertDialog);
                     }
                 });
@@ -83,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    // 목표 수행 완료 알림이 있다면 GoalCompleteNotificationActivity 로 이동
     private void notificationExistOrNot(Response<NotificationDetailListResponse> response) {
         if (response.isSuccessful()) {
             List<NotificationDetailResponse> notifications = response.body().getNotifications();
@@ -94,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         } else {
+            AlertDialog alertDialog = createOnErrorDialog();
+            showOnErrorDialog(alertDialog);
             Log.d(LOG_TAG, "in notification , error code : " + response.code());
             Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
         }
