@@ -10,6 +10,7 @@
   - MVP 패턴 적용 예정
   - 생명주기를 신경쓰며 개발하기
   
-
+## API 명세
+<img width="1440" alt="API명세이미지" src="https://github.com/ssngik/CheckMate/assets/95467739/eeb95d8e-45e1-4f9e-a66d-02993c4f8e60">
   
   
