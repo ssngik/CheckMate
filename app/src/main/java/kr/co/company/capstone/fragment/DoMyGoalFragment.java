@@ -43,6 +43,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.PartMap;
 
 
 public class DoMyGoalFragment extends Fragment {
@@ -58,12 +59,14 @@ public class DoMyGoalFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments()!=null){
+        if(getArguments()!=null)
+        {
             Bundle bundle = getArguments();
             goalId = bundle.getLong("goalId", 0L);
-            teamMateId = bundle.getLong("teamMateId", 0L);
+            teamMateId = bundle.getLong("teamMateId");
             title = bundle.getString("goalTitle");
-        }else{
+        }else
+        {
             Log.d(LOG_TAG, "arguments is null");
         }
 
@@ -86,8 +89,6 @@ public class DoMyGoalFragment extends Fragment {
 
         TextView goalTitle = view.findViewById(R.id.goal_title);
         TextView today = view.findViewById(R.id.today);
-
-
 
         imageViewList.add(firstIv);
         imageViewList.add(secondIv);
@@ -141,10 +142,11 @@ public class DoMyGoalFragment extends Fragment {
                 }
                 Map<String, RequestBody> map = new HashMap<>();
 
-                RequestBody teamMateIdField = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(teamMateId));
+                RequestBody mateIdFiled = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(teamMateId));
+
                 RequestBody textDataField = RequestBody.create(MediaType.parse("text/plain"), text);
-                map.put("teamMateId", teamMateIdField);
-                map.put("text", textDataField);
+                map.put("mateId", mateIdFiled);
+                map.put("content", textDataField);
 
                 PostRegisterService.getService().register(map, imageList)
                         .enqueue(new Callback<PostRegisterResponse>() {
@@ -153,7 +155,6 @@ public class DoMyGoalFragment extends Fragment {
                             public void onResponse(Call<PostRegisterResponse> call, Response<PostRegisterResponse> response) {
                                 if (response.isSuccessful()) {
                                     PostRegisterResponse body = response.body();
-                                    Log.d(LOG_TAG, body.toString());
                                     TimeLineFragment timeLineFragment = new TimeLineFragment();
                                     Bundle next = new Bundle();
                                     next.putLong("goalId", goalId);
@@ -161,7 +162,6 @@ public class DoMyGoalFragment extends Fragment {
                                     Navigation.findNavController(view).navigate(R.id.action_doMyGoalFragment_to_timeLineFragment, next);
                                 } else {
                                     ErrorMessage errorMessage = ErrorMessage.getErrorByResponse(response);
-                                    Log.d(LOG_TAG, errorMessage.toString());
                                     Toast.makeText(getActivity(),
                                             errorMessage.getMessage(), Toast.LENGTH_LONG).show();
                                 }
@@ -177,6 +177,20 @@ public class DoMyGoalFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private List<MultipartBody.Part> getImages(List<Uri> imageUriList) throws IOException {
+        List<MultipartBody.Part> imageParts = new ArrayList<>();
+        for (Uri imageUri : imageUriList) {
+            File imageFile = new File(imageUri.getPath());
+            File compressedImageFile = new Compressor(getActivity().getApplicationContext()).compressToFile(imageFile);
+
+            RequestBody imageBody = RequestBody.create(MediaType.parse("image/jpeg"), compressedImageFile);
+            MultipartBody.Part imagePart = MultipartBody.Part.createFormData("imageFile", compressedImageFile.getName(), imageBody);
+
+            imageParts.add(imagePart);
+        }
+        return imageParts;
     }
 
     private File getCompressedImage(String path) throws IOException {
