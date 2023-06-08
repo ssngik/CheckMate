@@ -1,7 +1,6 @@
 package kr.co.company.capstone.fragment;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
@@ -43,7 +42,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.PartMap;
 
 
 public class DoMyGoalFragment extends Fragment {
@@ -51,7 +49,7 @@ public class DoMyGoalFragment extends Fragment {
     List<ImageView> imageViewList = new ArrayList<>();
 
     private List<Uri> imageUriList = new ArrayList<>();
-    private EditText editText;
+    private EditText userTextField;
     private long goalId,teamMateId;
     private String title;
     private final String LOG_TAG = "DoMyGoalFragment";
@@ -85,20 +83,23 @@ public class DoMyGoalFragment extends Fragment {
         ImageView firstIv = view.findViewById(R.id.first_image);
         ImageView secondIv = view.findViewById(R.id.second_image);
         ImageView thirdIv = view.findViewById(R.id.third_image);
-        editText = view.findViewById(R.id.text_field);
+        userTextField = view.findViewById(R.id.text_field);
 
         TextView goalTitle = view.findViewById(R.id.goal_title);
-        TextView today = view.findViewById(R.id.today);
+        TextView todayDate = view.findViewById(R.id.today);
 
         imageViewList.add(firstIv);
         imageViewList.add(secondIv);
         imageViewList.add(thirdIv);
 
         goalTitle.setText(title);
+
+        // 현재 날짜 표시
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            today.setText(LocalDate.now().toString());
+            todayDate.setText(LocalDate.now().toString());
         }
 
+        // 권한 요청
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
@@ -120,47 +121,59 @@ public class DoMyGoalFragment extends Fragment {
                         Manifest.permission.READ_EXTERNAL_STORAGE)
                 .check();
 
+        // 이미지 리스너 등록
         View.OnClickListener imageSelectListener = getImageSelectListener();
         imageViewList.forEach(iv -> iv.setOnClickListener(imageSelectListener));
 
-
         Button registerButton = view.findViewById(R.id.Post);
 
+        // 등록 버튼 리스너
         registerButton.setOnClickListener(new View.OnClickListener() {
             @SneakyThrows
             @Override
             public void onClick(View view) {
+                // 로딩 표시
                 loading.setVisibility(View.VISIBLE);
-                String text = editText.getText().toString();
+
+                // 사용자 입력 Text 가져오기
+                String userInputText = userTextField.getText().toString();
+
+                // MultipartBody.Part 생성 ( 이미지 파일 업로드 )
                 ArrayList<MultipartBody.Part> imageList = new ArrayList<>();
                 for(Uri uri : imageUriList) {
                     String path = getImageFilePath(uri);
+
+                    // 이미지 압축
                     RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), getCompressedImage(path));
                     MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("images",
                             getOriginalImageFilename(path), requestFile);
                     imageList.add(uploadFile);
                 }
+
+                // 필드값 삽입
                 Map<String, RequestBody> map = new HashMap<>();
 
                 RequestBody mateIdFiled = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(teamMateId));
 
-                RequestBody textDataField = RequestBody.create(MediaType.parse("text/plain"), text);
+                RequestBody textDataField = RequestBody.create(MediaType.parse("text/plain"), userInputText);
                 map.put("mateId", mateIdFiled);
                 map.put("content", textDataField);
 
+                // 포스트 API 호출
                 PostRegisterService.getService().register(map, imageList)
                         .enqueue(new Callback<PostRegisterResponse>() {
                             @SneakyThrows
                             @Override
                             public void onResponse(Call<PostRegisterResponse> call, Response<PostRegisterResponse> response) {
                                 if (response.isSuccessful()) {
-                                    PostRegisterResponse body = response.body();
+                                    // 등록 성공시 타임라면 화면으로 이동
                                     TimeLineFragment timeLineFragment = new TimeLineFragment();
                                     Bundle next = new Bundle();
                                     next.putLong("goalId", goalId);
                                     timeLineFragment.setArguments(next);
                                     Navigation.findNavController(view).navigate(R.id.action_doMyGoalFragment_to_timeLineFragment, next);
                                 } else {
+                                    // 등록 실패시
                                     ErrorMessage errorMessage = ErrorMessage.getErrorByResponse(response);
                                     Toast.makeText(getActivity(),
                                             errorMessage.getMessage(), Toast.LENGTH_LONG).show();
@@ -193,16 +206,19 @@ public class DoMyGoalFragment extends Fragment {
         return imageParts;
     }
 
+    // 이미지 파일 경로 받아와, 해당 이미지 압축
     private File getCompressedImage(String path) throws IOException {
         return new Compressor(getActivity().getApplicationContext()).compressToFile(new File(path));
     }
 
+    // 기존 파일명 추출
     private String getOriginalImageFilename(String path) {
         String[] split = path.split("[/]");
         String filename = split[split.length - 1];
         return filename;
     }
 
+    // Image URI -> 파일 경로 추출
     @Nullable
     private String getImageFilePath(Uri uri) {
         return FileTransferUtil.getPath(uri, getActivity());
@@ -213,10 +229,11 @@ public class DoMyGoalFragment extends Fragment {
         View.OnClickListener imageSelectListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 다이얼로그 생성
                 TedBottomPicker.with(getActivity())
                         .setPeekHeight(1600)
-                        .showCameraTile(false) //카메라 보이기
-                        .showGalleryTile(false)
+                        .showCameraTile(false) // 카메라 아이코 숨김
+                        .showGalleryTile(false) // 갤러리 아이콘 숨긴
                         .setPreviewMaxCount(1000)
                         .setSelectMaxCount(3)
                         .setSelectMaxCountErrorText("3장 이하로 선택해주세요.")
