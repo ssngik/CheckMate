@@ -53,11 +53,12 @@ public class HistoryPageFragment extends Fragment {
                     public void onResponse(Call<GoalInfoListResponse<HistoryGoalInfoResponse>> call, Response<GoalInfoListResponse<HistoryGoalInfoResponse>> response) {
                         if (response.isSuccessful()) {
                             GoalInfoListResponse<HistoryGoalInfoResponse> result = response.body();
+                            Log.d(LOG_TAG, result.toString());
                             List<HistoryItem> historyItems = result.getGoals()
                                     .stream()
                                     .map(g -> {
-                                        List<HistorySubItem> historySubItems = g.getTeamMateNames().stream().map(tm -> new HistorySubItem(tm, "null")).collect(Collectors.toList());
-                                        return new HistoryItem(g.getId(), g.getTitle(), g.getStartDate(), g.getEndDate(), g.getAchievementRate(), historySubItems);
+                                        List<HistorySubItem> historySubItems = g.getMateNicknames().stream().map(tm -> new HistorySubItem(tm, "null")).collect(Collectors.toList());
+                                        return new HistoryItem(g.getGoalId(), g.getTitle(), g.getStartDate(), g.getEndDate(), g.getAchievementRate(), historySubItems);
                                     })
                                     .collect(Collectors.toList());
 

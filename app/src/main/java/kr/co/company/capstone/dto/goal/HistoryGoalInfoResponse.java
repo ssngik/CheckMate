@@ -5,15 +5,13 @@ import java.util.List;
 
 @Data
 public class HistoryGoalInfoResponse {
-    private List<String> teamMateNames;
-    private long id;
-    private String category;
-    private String title;
-    private String  goalMethod;
-    private double achievementRate;
-    private String startDate;
-    private String endDate;
-    private String appointmentTime;
-    private String weekDays;
-    private Integer minimumLike;
+    private long goalId;            // 목표 ID
+    private String category;        // 목표 카테고리
+    private String title;           // 목표 이름
+    private String startDate;       // 목표 시작일
+    private String endDate;         // 목표 종료일
+    private String checkDays;       // 목표 인증 요일
+    private String appointmentTime; // 목표 인증 시간
+    private double achievementRate; // 유저의 최종 성취율
+    private List<String> mateNicknames; // 팀원들의 닉네임
 }
