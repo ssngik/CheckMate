@@ -6,5 +6,5 @@ import lombok.Data;
 public class GoalPeriodResponse {
     private String startDate;
     private String endDate;
-    private String goalPeriod;
+    private String schedule;
 }
