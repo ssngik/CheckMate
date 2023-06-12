@@ -30,13 +30,11 @@ public class PostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private ArrayList<PostItem> posts;
     private Context context;
-    private Integer minimumLike;
     private static final String LOG_TAG = "PostsAdapter";
 
-    public PostsAdapter(ArrayList<PostItem> posts, Context context, Integer minimumLike) {
+    public PostsAdapter(ArrayList<PostItem> posts, Context context) {
         this.posts = posts;
         this.context = context;
-        this.minimumLike = minimumLike;
     }
 
     @NonNull
