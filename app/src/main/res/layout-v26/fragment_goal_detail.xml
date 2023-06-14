@@ -40,8 +40,9 @@
         android:lines="1"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
+        android:paddingBottom="10dp"
         android:prompt="@string/title_name"
-        android:text=""
+        android:text="loading.."
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@id/goal_detail_frame"
         tools:ignore="MissingConstraints" />
