@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,6 +54,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+// TODO: 2023/06/12 코드 정리 - 리팩토링
 public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView recyclerView;
     private TextView goalTitle, dateTime;
@@ -72,42 +72,72 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
         if (getArguments() != null) {
             Bundle bundle = getArguments();
             goalId = bundle.getLong("goalId", 0L);
-            if(bundle.getString("date")!=null)date = bundle.getString("date").replaceAll("-","");
+
+            if(bundle.getString("date")!=null) {
+                date = bundle.getString("date").replaceAll("-", "");
+            }
         } else {
+            OnErrorFragment onErrorFragment = new OnErrorFragment();
+            onErrorFragment.show(getChildFragmentManager(), "error");
             Log.d(LOG_TAG, "there is no getArguments");
         }
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        recyclerView = view.findViewById(R.id.timeline_recyclerView);
         ImageButton datePicker = view.findViewById(R.id.search_with_date_picker);
         goalTitle = view.findViewById(R.id.time_line_goal_title);
         dateTime = view.findViewById(R.id.date_text);
         timeLineLoading = view.findViewById(R.id.time_line_loading);
         timeLineGroup = view.findViewById(R.id.time_line_group);
         timeLineLoading.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.green_400), PorterDuff.Mode.SRC_IN);
-        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-        day = date == null ? today : date;
-        nowDate = day;
-        dateTime.setText(getProcessedDate(day));
+        // 오늘 날짜 초기화 및 Calendar OpenAt 날짜
+        initializeDate();
 
+        // RecyclerView, RefreshView 초기화
+        setRecyclerView(view);
+        setSwipeRefreshLayout(view);
+
+        // Date Picker 세팅
         setDatePicker(datePicker);
-        callTimeLineApi(day);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 
-        swipeRefreshLayout = view.findViewById(R.id.swipe_layout);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        // getPosts Method 호출
+        callGetPostsMethod(day);
+
         return view;
     }
 
+    private void initializeDate() {
+        String today = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        }
+
+        day = date == null ? today : date; // date 가 없을 경우 오늘 날짜로 설정
+        nowDate = day;
+        dateTime.setText(getProcessedDate(day));
+    }
+
+    // RecyclerView 설정
+    private void setRecyclerView(View view){
+        recyclerView = view.findViewById(R.id.timeline_recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+    }
+
+    // SwipeRefreshLayout 설정
+    private void setSwipeRefreshLayout(View view) {
+        swipeRefreshLayout = view.findViewById(R.id.swipe_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+    }
+
+    // swipe refresh 설정
     @Override
     public void onRefresh() {
-        Log.i(LOG_TAG, "onRefresh called from SwipeRefreshLayout");
-        callTimeLineApi(day);
+        // getPosts 메소드 호출
+        callGetPostsMethod(day);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
         dateTime.setText(getProcessedDate(day));
         swipeRefreshLayout.setRefreshing(false);
@@ -122,7 +152,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
                     public void onResponse(Call<GoalPeriodResponse> call, Response<GoalPeriodResponse> response) {
                         if (response.isSuccessful()) {
                             GoalPeriodResponse goalPeriodResponse = response.body();
-                            String totalBinaryDate = goalPeriodResponse.getGoalPeriod();
+                            String totalBinaryDate = goalPeriodResponse.getSchedule(); // 목표 수행일
                             LocalDate startDate = LocalDate.parse(goalPeriodResponse.getStartDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                             List<String> pickDate = IntStream.range(0, totalBinaryDate.length())
@@ -159,18 +189,18 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
                                         String selectedDate = simpleDateFormat.format(date);
                                         nowDate = selectedDate;
                                         dateTime.setText(getProcessedDate(selectedDate));
-                                        callTimeLineApi(selectedDate);
+
+                                        //
+                                        callGetPostsMethod(selectedDate);
 
                                     }
                                 });
                             }
                         });
                     }
-
                     @Override
                     public void onFailure(Call<GoalPeriodResponse> call, Throwable t) {
-                        OnErrorFragment onErrorFragment = new OnErrorFragment();
-                        onErrorFragment.show(getChildFragmentManager(), "error");
+                        showErrorFragment();
                     }
                 });
     }
@@ -182,50 +212,65 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
                 .toEpochMilli();
     }
 
+    // 날짜 파싱
     @NotNull
     private String getProcessedDate(String day) {
         String year = day.substring(0, 4);
         String month = day.substring(4, 6);
+
         if (month.charAt(0) == '0') month = month.substring(1);
-        String date = day.substring(6, day.length());
+
+        String date = day.substring(6);
+
         if (date.charAt(0) == '0') date = date.substring(1);
-        return year + "년 " + month + "월 " + date + "일의";
+        return year + "년 " + month + "월 " + date + "일의 기록";
     }
 
-    ArrayList<PostItem> posts = new ArrayList<>();
 
-    private void callTimeLineApi(String date) {
+    // getPosts 호출
+    private void callGetPostsMethod(String date) {
         PostInquiryService.getService().getPosts(goalId, date)
                 .enqueue(new Callback<PostListInquiryResponse>() {
                     @Override
                     public void onResponse(Call<PostListInquiryResponse> call, Response<PostListInquiryResponse> response) {
                         if (response.isSuccessful()) {
-                            Log.d(LOG_TAG, goalTitle.toString());
                             goalTitle.setText(response.body().getGoalTitle());
-                            List<PostInquiryResponse> postList = response.body().getPosts();
-                            posts.clear();
-                            postList.forEach(post -> posts.add(new PostItem(post.getPostId(), post.getUploaderNickname(), post.getText(),
-                                            post.getLikedUsers().size(),
-                                            post.getLikedUsers().contains(SharedPreferenceUtil.getLong(getActivity(), "userId")),
+
+                            ArrayList<PostItem> posts = new ArrayList<>();
+
+                            PostListInquiryResponse postListInquiryResponse = response.body();
+                            List<PostInquiryResponse> postList = postListInquiryResponse.getPosts();
+
+                            postList.forEach(post -> posts.add(new PostItem(post.getPostId(), post.getUploaderNickname(), post.getContent(),
+                                            post.getLikedUserIds().size(),
+                                            post.getLikedUserIds().contains(SharedPreferenceUtil.getLong(getActivity(), "userId")),
                                             post.getUploadAt(),
                                             new ArrayList<>(post.getImageUrls().stream().map(PostSubItem::new).collect(Collectors.toList()))
                                     ))
                             );
-                            PostsAdapter postsAdapter = new PostsAdapter(posts, getActivity(), response.body().getMinimumLike());
+                            PostsAdapter postsAdapter = new PostsAdapter(posts, getActivity());
+
                             recyclerView.setAdapter(postsAdapter);
                             timeLineGroup.setVisibility(View.VISIBLE);
                             timeLineLoading.setVisibility(View.INVISIBLE);
                         } else {
-                            OnErrorFragment onErrorFragment = new OnErrorFragment();
-                            onErrorFragment.show(getChildFragmentManager(), "error");
+                            showErrorFragment();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<PostListInquiryResponse> call, Throwable t) {
-                        OnErrorFragment onErrorFragment = new OnErrorFragment();
-                        onErrorFragment.show(getChildFragmentManager(), "error");
+                        showErrorFragment();
+
+                        Log.d(LOG_TAG, "error on call timeline APi");
+                        Log.d(LOG_TAG, t.getMessage());
+
                     }
                 });
+    }
+
+    private void showErrorFragment() {
+        OnErrorFragment onErrorFragment = new OnErrorFragment();
+        onErrorFragment.show(getChildFragmentManager(), "error");
     }
 }
