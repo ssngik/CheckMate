@@ -289,46 +289,6 @@ public class GoalDetailFragment extends Fragment {
         mWaveDrawable.setLevel((int) (percent * 100));
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    private void setGoalDetailData(Response<GoalDetailResponse> response) {
-//        GoalDetailResponse goalDetailResponse = response.body();
-//
-//        setGoalInfo(goalDetailResponse.getGoal());
-//        setGoalCalendar(goalDetailResponse.getTeamMateCalendarResponse());
-//        double percent = goalDetailResponse.getProgress();
-//        progressPercent.setText(String.format("%.2f", percent) + "%");
-//        mWaveDrawable.setLevel((int) (percent * 100));
-//    }
-
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    private void setGoalCalendar(TeamMateCalendarResponse teamMateCalendarResponse) {
-//        List<GoalDate> goalDateList = getGoalCalendarDateList(teamMateCalendarResponse);
-//        CalendarRecyclerViewAdapter calendarRecyclerViewAdapter = new CalendarRecyclerViewAdapter(getActivity(), goalDateList);
-//        calendarRecyclerView.setAdapter(calendarRecyclerViewAdapter);
-//
-//        int position = goalDateList.indexOf(getCalendarOffset(goalDateList)) - 3;
-//        calendarRecyclerView.scrollToPosition(position);
-//    }
-
-//    private GoalDate getCalendarOffset(List<GoalDate> goalDateList) {
-//        return goalDateList.stream()
-//                .filter(date -> Objects.equals(date.getLocalDate(), LocalDate.now().toString()))
-//                .findAny()
-//                .orElse(null);
-//    }
-
-//    private List<GoalDate> getGoalCalendarDateList(TeamMateCalendarResponse teamMateCalendarResponse) {
-//        LocalDate startDate = LocalDate.parse(teamMateCalendarResponse.getStartDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-//        String goalPeriod = teamMateCalendarResponse.getGoalPeriod();
-//        String teamMatePeriod = teamMateCalendarResponse.getTeamMatePeriod();
-//
-//        return IntStream.range(0, goalPeriod.length())
-//                .mapToObj(i -> new GoalDate(startDate.plusDays(i).toString(),
-//                        goalPeriod.charAt(i) == '1',
-//                        teamMatePeriod.charAt(i) == '1'))
-//                .collect(Collectors.toList());
-//    }
-
     // 초대버튼 활성, 비활성
     private void setInviteButtonStatus(boolean invitable) {
         if (!invitable) inviteButton.setVisibility(View.INVISIBLE);
