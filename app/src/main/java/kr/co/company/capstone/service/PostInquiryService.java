@@ -1,5 +1,6 @@
 package kr.co.company.capstone.service;
 
+import kr.co.company.capstone.dto.post.PostInquiryResponse;
 import kr.co.company.capstone.dto.post.PostListInquiryResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -9,7 +10,7 @@ public interface PostInquiryService {
 
     // 목표의 해 날짜 게시글 조회
     @GET("/goals/{goalId}/posts/{date}")
-    Call<PostListInquiryResponse> getPosts(@Path("goalId") long goalId, @Path("date") String date);
+    Call<PostListInquiryResponse<PostInquiryResponse>> getPosts(@Path("goalId") long goalId, @Path("date") String date);
 
     static PostInquiryService getService(){
         return RetrofitBuilder.getRetrofit().create(PostInquiryService.class);

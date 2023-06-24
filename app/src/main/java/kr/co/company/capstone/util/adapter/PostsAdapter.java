@@ -29,11 +29,13 @@ import retrofit2.Response;
 public class PostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private ArrayList<PostItem> posts;
+    private long goalId;
     private Context context;
     private static final String LOG_TAG = "PostsAdapter";
 
-    public PostsAdapter(ArrayList<PostItem> posts, Context context) {
+    public PostsAdapter(ArrayList<PostItem> posts, long goalId, Context context) {
         this.posts = posts;
+        this.goalId = goalId;
         this.context = context;
     }
 
@@ -66,6 +68,9 @@ public class PostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         viewHolder.uploadAt.setText(posts.get(position).getUploadAt().split("[T.]")[1]);
         viewHolder.like.setText(getLikeCount(posts.get(position).getLikeCount()));
         if(LocalDate.now().minusDays(1L).isAfter(getUplodAtLocalDate(position))) viewHolder.likeButton.setEnabled(false);
+        //Log.d(LOG_TAG, posts.get(position).getLikeCount()==posts.get(position).get);
+        Log.d(LOG_TAG, "post!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         viewHolder.likeButton.setImageResource(posts.get(position).isLiked() ? R.drawable.like : R.drawable.before_like);
         viewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,8 +121,9 @@ public class PostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return LocalDate.parse(uploadedDate, DateTimeFormatter.ofPattern("yyyyMMdd"));
     }
 
+    // 좋아요
     private void like(int position) {
-        LikeService.getService().like(posts.get(position).getPostId())
+        LikeService.getService().like(goalId, posts.get(position).getPostId())
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -134,8 +140,9 @@ public class PostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 });
     }
 
+    // 좋아요 취소
     private void unlike(int position) {
-        LikeService.getService().unlike(posts.get(position).getPostId())
+        LikeService.getService().unlike(goalId, posts.get(position).getPostId())
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
