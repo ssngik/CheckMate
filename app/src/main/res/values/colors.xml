@@ -29,7 +29,7 @@
 
 <!--    new -->
     <color name="gray_back">#ffffff</color>
-    <color name="background">#ebebeb</color>
+    <color name="background">#ffffff</color>
     <color name="scroll_bar">#d4d4d4</color>
     <color name="gray_box">#8C8B8B</color>
 <!--    <color name="green_box">#68CF68</color>-->
