@@ -52,8 +52,8 @@ public class MainPageFragment extends Fragment {
     ProgressBar mainPageLoading;
 
     private final int[] images = new int[] {
-            R.drawable.check_mate_banner,
-            R.drawable.check_mate_banner_two,
+            R.drawable.looking_for_designer,
+            R.drawable.looking_for_designer,
     };
 
     @Override
@@ -85,15 +85,28 @@ public class MainPageFragment extends Fragment {
         // 로딩 화면
         mainPageLoading.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.green_400), PorterDuff.Mode.SRC_IN);
 
+        // 현재 진행중인 목표 불러오기
         callOngoingGoalsApi();
+
+        // 오늘 해야할 목표 불러오기
         callTodayGoalsApi();
+
+        // Back Press 설정
         setBackPressHandler();
 
-        ImageButton newGoalButton = view.findViewById(R.id.setNewGoalButton);
-        newGoalButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.setNewGoalInfoFragment));
+        // 새 목표 만들기
+        clickNewGoalButton(view);
+
         return view;
     }
 
+    // 새 목표 만들기
+    private void clickNewGoalButton(View view) {
+        ImageButton newGoalButton = view.findViewById(R.id.setNewGoalButton);
+        newGoalButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.setNewGoalInfoFragment));
+    }
+
+    // 뒤로가기 버튼 설정
     private void setBackPressHandler() {
         BackPressHandler backPressHandler = new BackPressHandler(getActivity());
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
