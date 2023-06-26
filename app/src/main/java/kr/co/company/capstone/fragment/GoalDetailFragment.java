@@ -51,7 +51,7 @@ public class GoalDetailFragment extends Fragment {
     private static final String LOG_TAG = "GoalDetailFragment";
     private TextView startDate, goalName, progressPercent, goalMethodInformation, methodInformationOnTop;
     private RecyclerView teamMatesRecyclerView, calendarRecyclerView;
-    private Long goalId, userTeamMateId;
+    private Long goalId, userTeamMateId, userId;
     private int editFlag;
     private TextView inviteButton;
     private Button registerButton;
@@ -181,6 +181,7 @@ public class GoalDetailFragment extends Fragment {
 
                 Bundle toTimeLine = new Bundle();
                 toTimeLine.putLong("goalId", goalId);
+                toTimeLine.putLong("userId", userId);
                 timeLineFragment.setArguments(toTimeLine);
 
                 Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_timeLineFragment, toTimeLine);
@@ -264,9 +265,11 @@ public class GoalDetailFragment extends Fragment {
             String json = gson.toJson(teamMatesResponse.get(i));
             TeamMatesResponse teamMateResponse = gson.fromJson(json, TeamMatesResponse.class);
 
+            // 사용자 userId ( 여기에선 타임라인 좋아요 본인 식별을 위한 값)
+            userId = teamMateResponse.getUserId();
+
             // 사용자 정보
             if(i==0) userTeamMateId = teamMateResponse.getMateId();
-
             // 전체 팀원 List 에 추가
             teamMates.add(teamMateResponse);
         }

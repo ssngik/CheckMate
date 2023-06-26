@@ -104,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             AlertDialog alertDialog = createOnErrorDialog();
             showOnErrorDialog(alertDialog);
-            Log.d(LOG_TAG, "in notification , error code : " + response.code());
-            Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
         }
     }
 

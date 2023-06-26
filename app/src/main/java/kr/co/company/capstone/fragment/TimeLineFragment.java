@@ -24,6 +24,7 @@ import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
+import io.reactivex.Completable;
 import kr.co.company.capstone.dto.goal.GoalPeriodResponse;
 
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +43,6 @@ import java.util.stream.IntStream;
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.util.SharedPreferenceUtil;
 import kr.co.company.capstone.TimeLineDateValidator;
-import kr.co.company.capstone.dto.ErrorMessage;
 import kr.co.company.capstone.dto.post.PostInquiryResponse;
 import kr.co.company.capstone.dto.post.PostItem;
 import kr.co.company.capstone.dto.post.PostListInquiryResponse;
@@ -59,7 +59,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
     private RecyclerView recyclerView;
     private TextView goalTitle, dateTime;
     private final String LOG_TAG = "TimeLineFragment";
-    private long goalId;
+    private long goalId, userId;
     private String nowDate, date, day;
     SwipeRefreshLayout swipeRefreshLayout;
     Group timeLineGroup;
@@ -72,10 +72,11 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
         if (getArguments() != null) {
             Bundle bundle = getArguments();
             goalId = bundle.getLong("goalId", 0L);
-
+            userId = bundle.getLong("userId", 0L);
             if(bundle.getString("date")!=null) {
                 date = bundle.getString("date").replaceAll("-", "");
             }
+            Log.d(LOG_TAG, goalId + date);
         } else {
             OnErrorFragment onErrorFragment = new OnErrorFragment();
             onErrorFragment.show(getChildFragmentManager(), "error");
@@ -230,42 +231,54 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
     // getPosts 호출
     private void callGetPostsMethod(String date) {
         PostInquiryService.getService().getPosts(goalId, date)
-                .enqueue(new Callback<PostListInquiryResponse>() {
+                .enqueue(new Callback<PostListInquiryResponse<PostInquiryResponse>>() {
                     @Override
-                    public void onResponse(Call<PostListInquiryResponse> call, Response<PostListInquiryResponse> response) {
+                    public void onResponse(Call<PostListInquiryResponse<PostInquiryResponse>> call, Response<PostListInquiryResponse<PostInquiryResponse>> response) {
                         if (response.isSuccessful()) {
                             goalTitle.setText(response.body().getGoalTitle());
 
                             ArrayList<PostItem> posts = new ArrayList<>();
 
-                            PostListInquiryResponse postListInquiryResponse = response.body();
+                            PostListInquiryResponse<PostInquiryResponse> postListInquiryResponse = response.body();
                             List<PostInquiryResponse> postList = postListInquiryResponse.getPosts();
+
+                            Log.d(LOG_TAG, postListInquiryResponse.toString());
+                            Log.d(LOG_TAG, "postListInquiryResponse!");
+
+                            //Log.d(LOG_TAG, postList.get(0).toString());
+                            Log.d(LOG_TAG, postList.toString());
 
                             postList.forEach(post -> posts.add(new PostItem(post.getPostId(), post.getUploaderNickname(), post.getContent(),
                                             post.getLikedUserIds().size(),
-                                            post.getLikedUserIds().contains(SharedPreferenceUtil.getLong(getActivity(), "userId")),
+                                            post.getLikedUserIds().contains(userId),
                                             post.getUploadAt(),
                                             new ArrayList<>(post.getImageUrls().stream().map(PostSubItem::new).collect(Collectors.toList()))
                                     ))
                             );
-                            PostsAdapter postsAdapter = new PostsAdapter(posts, getActivity());
 
+                            Log.d(LOG_TAG, Long.valueOf(userId).toString());
+                            Log.d(LOG_TAG, "userid!!!!!!!!");
+                            PostsAdapter postsAdapter = new PostsAdapter(posts, goalId, getActivity());
                             recyclerView.setAdapter(postsAdapter);
-                            timeLineGroup.setVisibility(View.VISIBLE);
-                            timeLineLoading.setVisibility(View.INVISIBLE);
+
+                            // 로딩 끝, 타임라인 View Group 보이기
+                            TimeLineViewVisible();
+
                         } else {
                             showErrorFragment();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<PostListInquiryResponse> call, Throwable t) {
-                        showErrorFragment();
-
-                        Log.d(LOG_TAG, "error on call timeline APi");
-                        Log.d(LOG_TAG, t.getMessage());
+                    public void onFailure(Call<PostListInquiryResponse<PostInquiryResponse>> call, Throwable t) {
 
                     }
+
+                    private void TimeLineViewVisible() {
+                        timeLineGroup.setVisibility(View.VISIBLE);
+                        timeLineLoading.setVisibility(View.INVISIBLE);
+                    }
+
                 });
     }
 
