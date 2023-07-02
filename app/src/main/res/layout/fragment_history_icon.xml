@@ -8,21 +8,9 @@
     android:paddingBottom="?attr/actionBarSize"
     tools:context=".fragment.HistoryPageFragment">
 
-    <TextView
-        android:id="@+id/history_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/main_font"
-        android:text="@string/goals_completed"
-        android:textColor="@color/light_text"
-        android:textStyle="bold"
-        android:textSize="25sp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/history_information"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -32,7 +20,7 @@
         android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/history_title" />
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/history_recycler"
@@ -42,6 +30,6 @@
         android:layout_marginBottom="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/history_title" />
+        app:layout_constraintTop_toBottomOf="@+id/history_information" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
