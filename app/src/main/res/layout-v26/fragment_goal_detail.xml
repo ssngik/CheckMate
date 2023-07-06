@@ -115,6 +115,7 @@
                 android:layout_marginVertical="15dp"
                 android:background="@drawable/button_round_white"
                 android:padding="10dp"
+                android:scrollbarFadeDuration="0"
                 android:text="@string/there_is_no_method_info"
                 android:textColor="@color/gray_800"
                 android:textSize="15sp" />
@@ -136,6 +137,8 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/round"
                 android:clipToPadding="false"
+                android:elevation="1dp"
+                android:scrollbarFadeDuration="0"
                 android:fontFamily="@font/main_font"
                 android:nestedScrollingEnabled="false"
                 android:paddingTop="7dp" />
@@ -150,14 +153,8 @@
                     android:text="@string/invite"
                     android:layout_marginTop="30dp"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
-            <FrameLayout
-                android:id="@+id/team_mates_frame"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="20dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/team_mates"
@@ -165,12 +162,11 @@
                     android:layout_height="100dp"
                     android:background="@drawable/round"
                     android:clipToPadding="false"
+                    android:elevation="1dp"
+                    android:scrollbarFadeDuration="0"
                     android:fontFamily="@font/main_font"
                     android:nestedScrollingEnabled="false"
                     android:paddingTop="7dp" />
-
-            </FrameLayout>
-
 
             <FrameLayout
                 android:id="@+id/timeline_section"
@@ -183,7 +179,7 @@
                     android:layout_width="240dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
-                    android:elevation="10dp"
+                    android:elevation="1dp"
                     android:paddingTop="10dp"
                     app:cardCornerRadius="8dp"
                     tools:ignore="MissingConstraints">
@@ -192,10 +188,10 @@
                         android:id="@+id/timeline_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_round_gray"
+                        android:background="@drawable/round"
                         android:contentDescription="@string/image_warning"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/to_time_line" />
+                        android:src="@drawable/to_timeline_001" />
                 </androidx.cardview.widget.CardView>
             </FrameLayout>
         </LinearLayout>
