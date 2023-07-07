@@ -17,17 +17,14 @@ public interface GoalInquiryService {
     @GET("/goals/ongoing")
     Call<GoalInfoListResponse<SimpleGoalInfoResponse>> ongoingGoals();
 
-    //목표 상세 정보 조회
-    @GET("/goals/{goalId}")
+    // 조회를 요청한 유저 특화 목표 상세 정보 조회
+    @GET("/goals/{goalId}/detail")
     Call<GoalDetailResponse> goalDetail(@Path("goalId") long goalId);
 
     // 목표 인증일 조회
     @GET("/goals/{goalId}/period")
     Call<GoalPeriodResponse> goalGoalCalendar(@Path("goalId") long goalId);
 
-    // 목표 상세 정보 조회
-    @GET("/goals/view/{goalId}")
-    Call<GoalDetailViewResponse> goalDetailView(@Path("goalId") long goalId);
 
     // 성공한 목표 상세 정보 조회
     @GET("/goals/history")
