@@ -32,6 +32,7 @@ import com.race604.drawable.wave.WaveDrawable;
 // project
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.goal.*;
+import kr.co.company.capstone.util.SharedPreferenceUtil;
 import kr.co.company.capstone.util.adapter.TeamMateRecyclerViewAdapter;
 import kr.co.company.capstone.dto.team_mate.TeamMatesResponse;
 import kr.co.company.capstone.service.GoalInquiryService;
@@ -220,6 +221,7 @@ public class GoalDetailFragment extends Fragment {
 
                             // 목표 상세 response
                             goalDetailResponse = response.body();
+
                             // TeamMatesResponse 리스트에서 JSON 데이터를 파싱하여 mates 데이터 값을 가져옴
                             parseTeamMateResponse(goalDetailResponse.getMates());
 
@@ -262,11 +264,15 @@ public class GoalDetailFragment extends Fragment {
             String json = gson.toJson(teamMatesResponse.get(i));
             TeamMatesResponse teamMateResponse = gson.fromJson(json, TeamMatesResponse.class);
 
-            // 사용자 userId ( 여기에선 타임라인 좋아요 본인 식별을 위한 값)
-            userId = teamMateResponse.getUserId();
+            String myNickName = SharedPreferenceUtil.getString(getActivity(), "nickName");
 
-            // 사용자 정보
-            if(i==0) userTeamMateId = teamMateResponse.getMateId();
+            // 본인의 정보 식별
+            if (Objects.equals(myNickName, teamMateResponse.getNickname())){
+                // 사용자 userId ( 여기에선 타임라인 좋아요 본인 식별을 위한 값 )
+                userId = teamMateResponse.getUserId();
+                userTeamMateId = teamMateResponse.getMateId();
+            }
+
             // 전체 팀원 List 에 추가
             teamMates.add(teamMateResponse);
         }
@@ -284,7 +290,7 @@ public class GoalDetailFragment extends Fragment {
         goalName.setText(response.getTitle());
 
         // 퍼센트 표시
-        long percent = response.getProgress();
+        double percent = response.getProgress();
         progressPercent.setText(String.valueOf(percent));
         mWaveDrawable.setLevel((int) (percent * 100));
     }
