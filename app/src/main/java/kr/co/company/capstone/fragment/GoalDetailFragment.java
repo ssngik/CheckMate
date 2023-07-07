@@ -3,9 +3,7 @@ package kr.co.company.capstone.fragment;
 // FrameWork
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import android.widget.*;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -49,10 +46,9 @@ import java.util.*;
 
 public class GoalDetailFragment extends Fragment {
     private static final String LOG_TAG = "GoalDetailFragment";
-    private TextView startDate, goalName, progressPercent, goalMethodInformation, methodInformationOnTop;
+    private TextView startDate, goalName, progressPercent, goalMethodInformation;
     private RecyclerView teamMatesRecyclerView, calendarRecyclerView;
     private Long goalId, userTeamMateId, userId;
-    private int editFlag;
     private TextView inviteButton;
     private Button registerButton;
     private String goalTitle = null;
@@ -82,9 +78,6 @@ public class GoalDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_goal_detail, container, false);
-
-        // 수정 환경 변환 위한 Flag
-        editFlag = 1;
 
         goalDetailGroup = view.findViewById (R.id.goal_detail_group);
         goalDetailLoading = view.findViewById (R.id.goal_detail_loading);
@@ -162,9 +155,11 @@ public class GoalDetailFragment extends Fragment {
             public void onClick(View view) {
                 DoMyGoalFragment doMyGoal = new DoMyGoalFragment();
                 Bundle toCertification = new Bundle();
+
                 toCertification.putLong("goalId", goalId);
                 toCertification.putLong("teamMateId", userTeamMateId);
                 toCertification.putString("goalTitle", goalTitle);
+
                 doMyGoal.setArguments(toCertification);
                 Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_doMyGoalFragment, toCertification);
             }
@@ -225,7 +220,6 @@ public class GoalDetailFragment extends Fragment {
 
                             // 목표 상세 response
                             goalDetailResponse = response.body();
-
                             // TeamMatesResponse 리스트에서 JSON 데이터를 파싱하여 mates 데이터 값을 가져옴
                             parseTeamMateResponse(goalDetailResponse.getMates());
 
@@ -234,6 +228,9 @@ public class GoalDetailFragment extends Fragment {
 
                             // 초대 가능 여부에 따라 초대 버튼 활성 / 비활성 설정
                             setInviteButtonStatus(goalDetailResponse.isInviteable());
+
+                            // 사용자 목표 수행 상황에 따른 목표 수행하기 버튼 활성 제어
+                            setRegisterButtonStatus(goalDetailResponse.getUploadable());
 
                             // 로딩 화면 제거
                             goalDetailGroup.setVisibility(View.VISIBLE);
@@ -297,7 +294,7 @@ public class GoalDetailFragment extends Fragment {
         if (!invitable) inviteButton.setVisibility(View.INVISIBLE);
     }
 
-    // TODO: 2023/05/01 uploadable 서버측 요청 응답시 작성할 예정
+    // 사용자 목표 수행 상황에 따른 목표 수행하기 버튼 제어
     private void setRegisterButtonStatus(Uploadable uploadable) {
         if (!uploadable.isUploadable()) {
             registerButton.setEnabled(false);
@@ -305,10 +302,12 @@ public class GoalDetailFragment extends Fragment {
             if (uploadable.isUploaded()) {
                 registerButton.setText("오늘 이미 성공했어요 " + new String(Character.toChars(0x1F60A)));
                 registerButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.button_round_green));
-            } else if (!uploadable.isWorkingDay()) {
+            }
+            else if (!uploadable.isWorkingDay()) {
                 registerButton.setText("인증요일이 아닙니다!");
                 registerButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.button_round_gray));
-            } else if (uploadable.isTimeOver()) {
+            }
+            else if (uploadable.isTimeOver()) {
                 registerButton.setText("인증 시간이 지났어요 " + new String(Character.toChars(0x1F630)));
                 registerButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.button_round_gray));
             }
