@@ -12,7 +12,7 @@
         android:id="@+id/goal_detail_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="goal_detail_frame" />
 
     <androidx.core.widget.ContentLoadingProgressBar
