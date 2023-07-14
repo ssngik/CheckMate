@@ -60,7 +60,7 @@ public class CalendarRecyclerViewAdapter extends RecyclerView.Adapter{
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String weekDay = DayConverter.convertEngToKor(LocalDate.parse(date, format).getDayOfWeek().toString());
 
-        myViewHolder.goalDate.setText("  "+weekDay + "\n  " + split[2] +"일");
+        myViewHolder.goalDate.setText("  " + weekDay + "\n" + split[2] +"일");
         myViewHolder.goalDate.setTextColor(dates.get(position).isWorkingDay()? dates.get(position).isChecked()?
                 Color.parseColor("#1B5E20") : LocalDate.parse(date, format).isBefore(LocalDate.now())? Color.parseColor("#D32F2F") : Color.parseColor("#4CAF50") : Color.GRAY);
 

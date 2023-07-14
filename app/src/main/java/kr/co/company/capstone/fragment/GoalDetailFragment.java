@@ -3,6 +3,7 @@ package kr.co.company.capstone.fragment;
 // FrameWork
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ import com.race604.drawable.wave.WaveDrawable;
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.goal.*;
 import kr.co.company.capstone.util.SharedPreferenceUtil;
+import kr.co.company.capstone.util.adapter.CalendarRecyclerViewAdapter;
 import kr.co.company.capstone.util.adapter.TeamMateRecyclerViewAdapter;
 import kr.co.company.capstone.dto.team_mate.TeamMatesResponse;
 import kr.co.company.capstone.service.GoalInquiryService;
@@ -43,11 +45,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class GoalDetailFragment extends Fragment {
     private static final String LOG_TAG = "GoalDetailFragment";
-    private TextView startDate, goalName, progressPercent, goalMethodInformation;
+    private TextView startDate, goalName, progressPercent;
     private RecyclerView teamMatesRecyclerView, calendarRecyclerView;
     private Long goalId, userTeamMateId, userId;
     private TextView inviteButton;
@@ -88,7 +92,6 @@ public class GoalDetailFragment extends Fragment {
 
         startDate = view.findViewById (R.id.start_date);
         goalName = view.findViewById (R.id.todo_name);
-        goalMethodInformation = view.findViewById (R.id.goal_method_information);
 
         calendarRecyclerView = view.findViewById (R.id.calendar);
         calendarRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
@@ -146,6 +149,53 @@ public class GoalDetailFragment extends Fragment {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+
+    private void setGoalCalendar(GoalDetailResponse goalDetailResponse) {
+
+        LocalDate startDate =null;
+
+        // 오레오 버전 이상
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startDate = LocalDate.parse(goalDetailResponse.getStartDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
+
+        String goalSchedule = goalDetailResponse.getGoalSchedule(); // 목표 수행 일정  ( 목표 수행일 해당 여부 )
+        String mateSchedule = goalDetailResponse.getMateSchedule(); // 팀원의 목표 수행 일정  ( 목표를 수행했는지에 대한 여부 )
+
+        List<GoalDate> goalDateList = new ArrayList<>();
+
+        // 오레오 버전 이상
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LocalDate finalStartDate = startDate;
+            for (int i = 0; i < goalSchedule.length(); i++) {
+                String date = finalStartDate.plusDays(i).toString();
+
+                boolean isGoalPeriod = (goalSchedule.charAt(i) == '1');
+                boolean isMatePeriod = (mateSchedule.charAt(i) == '1');
+
+                goalDateList.add(new GoalDate(date, isGoalPeriod, isMatePeriod));
+            }
+        }
+
+        CalendarRecyclerViewAdapter calendarRecyclerViewAdapter = new CalendarRecyclerViewAdapter(getActivity(), goalDateList);
+        calendarRecyclerView.setAdapter(calendarRecyclerViewAdapter);
+
+        int position = goalDateList.indexOf(getCalendarOffset(goalDateList)) - 3;
+        calendarRecyclerView.scrollToPosition(position);
+    }
+
+    // 현재 날짜에 해당하는 GoalDate 객체를 찾아 반환
+    private GoalDate getCalendarOffset(List<GoalDate> goalDateList) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return goalDateList.stream()
+                    .filter(date -> Objects.equals(date.getLocalDate(), LocalDate.now().toString()))
+                    .findAny()
+                    .orElse(null);
+        }else{
+            return null;
+        }
     }
 
     // 목표 인증하기 버튼 눌렀을 때
@@ -234,6 +284,9 @@ public class GoalDetailFragment extends Fragment {
                             // 사용자 목표 수행 상황에 따른 목표 수행하기 버튼 활성 제어
                             setRegisterButtonStatus(goalDetailResponse.getUploadable());
 
+                            // 사용자 목표 일정 설정
+                            setGoalCalendar(goalDetailResponse);
+
                             // 로딩 화면 제거
                             goalDetailGroup.setVisibility(View.VISIBLE);
                             goalDetailLoading.setVisibility(View.INVISIBLE);
@@ -263,7 +316,7 @@ public class GoalDetailFragment extends Fragment {
             Gson gson = new Gson();
             String json = gson.toJson(teamMatesResponse.get(i));
             TeamMatesResponse teamMateResponse = gson.fromJson(json, TeamMatesResponse.class);
-
+            Log.d(LOG_TAG, teamMateResponse.toString());
             String myNickName = SharedPreferenceUtil.getString(getActivity(), "nickName");
 
             // 본인의 정보 식별
@@ -275,6 +328,7 @@ public class GoalDetailFragment extends Fragment {
 
             // 전체 팀원 List 에 추가
             teamMates.add(teamMateResponse);
+
         }
         
         // set Adapter
@@ -288,7 +342,7 @@ public class GoalDetailFragment extends Fragment {
         // UI 에 사용자 목표 정보 표시
         startDate.setText(response.getStartDate());
         goalName.setText(response.getTitle());
-
+        Log.d(LOG_TAG, response.toString());
         // 퍼센트 표시
         double percent = response.getProgress();
         progressPercent.setText(String.valueOf(percent));
