@@ -70,11 +70,6 @@ public class LoginActivity extends AppCompatActivity {
     private static String OAUTH_CLIENT_SECRET;
     private static String OAUTH_CLIENT_NAME;
 
-    // Redirect code
-    private static final int REDIRECT_MAIN = 200;
-    private static final int REDIRECT_SET_NICKNAME = 201;
-
-    int redirectCode;
     private static OAuthLogin mOAuthLoginInstance;
     private static Context mContext;
     private GoogleSignInClient mGoogleSignInClient;
@@ -84,35 +79,56 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-        // FCM Token 서비스 실행
-        Intent fcmToken = new Intent(getApplicationContext(), MyFirebaseMessagingService.class);
-        startService(fcmToken);
+        super.onCreate(savedInstanceState);
 
-        // 네이버 로그인 정보 초기화
-        OAUTH_CLIENT_ID = String.valueOf(getResources().getString(R.string.OAUTH_CLIENT_ID));
-        OAUTH_CLIENT_SECRET = String.valueOf(getResources().getString(R.string.OAUTH_CLIENT_SECRET));
-        OAUTH_CLIENT_NAME = String.valueOf(getResources().getString(R.string.OAUTH_CLIENT_NAME));
-
+        setContentView(R.layout.social_login);
 
         mContext = this;
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.social_login);
+        // FCM Token 서비스 실행
+        startFcmTokenService();
+
+        // 네이버 로그인 정보 초기화
+        initNaverLoginInfo();
 
         // 네이버 로그인 초기화
         naverInitData();
 
-        googleSignInButtonSetText();
+        // google 로그인 기능 초기화, 버튼 텍스트 설정
+        initializeGoogleSignInButton();
 
-        // 구글 로그인
+        // 구글 로그인 버튼 클릭 리스너
+        setGoogleButton();
+
+        // 카카오 로그인
+        setKakaoButton();
+    }
+
+    // FCM Token 서비스 실행
+    private void startFcmTokenService() {
+        Intent fcmToken = new Intent(getApplicationContext(), MyFirebaseMessagingService.class);
+        startService(fcmToken);
+    }
+
+    // 네이버 로그인 정보 초기화
+    private void initNaverLoginInfo() {
+        OAUTH_CLIENT_ID = String.valueOf(getResources().getString(R.string.OAUTH_CLIENT_ID));
+        OAUTH_CLIENT_SECRET = String.valueOf(getResources().getString(R.string.OAUTH_CLIENT_SECRET));
+        OAUTH_CLIENT_NAME = String.valueOf(getResources().getString(R.string.OAUTH_CLIENT_NAME));
+    }
+
+    // 구글 로그인 버튼 클릭 리스너
+    private void setGoogleButton() {
         googleLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
+                googleSignIn();
             }
         });
+    }
 
-        // 카카오 로그인
+    // 카카오 로그인
+    private void setKakaoButton() {
         ImageButton kakao_login_btn = findViewById(R.id.kakao_login_btn);
         kakao_login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +144,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void googleSignInButtonSetText() {
+    // google 로그인 기능 초기화, 버튼 텍스트 설정
+    private void initializeGoogleSignInButton() {
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -137,8 +154,8 @@ public class LoginActivity extends AppCompatActivity {
         googleLoginButton = findViewById(R.id.google_login_button);
         setGooglePlusButtonText(googleLoginButton, "Google 계정으로 로그인");
     }
-
-    private void signIn() {
+    
+    private void googleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
