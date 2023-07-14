@@ -38,7 +38,7 @@
     <View
         android:id="@+id/vertical_view"
         android:layout_width="5dp"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:background="@color/green_600" />
 
 </RelativeLayout>
