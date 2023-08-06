@@ -20,6 +20,7 @@ import com.gun0912.tedpermission.TedPermission;
 
 import id.zelory.compressor.Compressor;
 import kr.co.company.capstone.dto.ErrorMessage;
+import kr.co.company.capstone.util.FileTransferUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -83,11 +84,9 @@ public class DoMyGoalFragment extends Fragment {
         // textView 설정 (목표 이름, 오늘 날짜)
         setTextViews(view);
 
-
         //카메라 권한을 요청 및 처리
         //요청 허용, 거부에 따른 Toast 메시지
         requestCameraPermission();
-
 
         // 이미지 리스너 등록
         setImageSelectListener();
@@ -120,7 +119,6 @@ public class DoMyGoalFragment extends Fragment {
 
                 // 등록 (API 호출)
                 registerUserData(view, map);
-
             }
 
 
@@ -135,15 +133,17 @@ public class DoMyGoalFragment extends Fragment {
                                     TimeLineFragment timeLineFragment = new TimeLineFragment();
 
                                     Bundle next = new Bundle();
-                                    next.putLong("goalId", goalId);
 
+                                    next.putLong("goalId", goalId);
                                     timeLineFragment.setArguments(next);
+
                                     Navigation.findNavController(view).navigate(R.id.action_doMyGoalFragment_to_timeLineFragment, next);
                                 } else {
                                     // 등록 실패시
                                     ErrorMessage errorMessage = ErrorMessage.getErrorByResponse(response);
                                     Toast.makeText(getActivity(),
                                             errorMessage.getMessage(), Toast.LENGTH_LONG).show();
+                                    Log.d(LOG_TAG, response.body().toString());
                                 }
                             }
 
@@ -243,19 +243,38 @@ public class DoMyGoalFragment extends Fragment {
         imageViewList.add(thirdIv);
     }
 
-    // Image URI 목록을 받아와 압축 후, MultipartBody.Part 형태로 변환
+    /**
+     * @param imageUriList 이미지 URI 목록
+     * @return 이미지 파일들을 MultipartBody.Part 형태로 담은 ArrayList
+     */
+
+    // Image URI 목록을 받아와 압축 후, MultipartBody.Part 형태로 변환하여 이미지 목록 반환
     private ArrayList<MultipartBody.Part> getImages(List<Uri> imageUriList) throws IOException {
-        ArrayList<MultipartBody.Part> imageParts = new ArrayList<>();
+        ArrayList<MultipartBody.Part> imageList = new ArrayList<>();
         for (Uri imageUri : imageUriList) {
-            File imageFile = new File(imageUri.getPath());
-            File compressedImageFile = new Compressor(getActivity().getApplicationContext()).compressToFile(imageFile);
-
-            RequestBody imageBody = RequestBody.create(MediaType.parse("image/jpeg"), compressedImageFile);
-            MultipartBody.Part imagePart = MultipartBody.Part.createFormData("imageFile", compressedImageFile.getName(), imageBody);
-
-            imageParts.add(imagePart);
+            String path = getImageFilePath(imageUri);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), getCompressedImage(path));
+            MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("images",
+                    getOriginalImageFilename(path), requestFile);
+            imageList.add(uploadFile);
         }
-        return imageParts;
+        return imageList;
+    }
+    // Image 파일 이름
+    private String getOriginalImageFilename(String path) {
+        String[] split = path.split("[/]");
+        String filename = split[split.length - 1];
+        return filename;
+    }
+
+    // Image 파일 경로 가져오기
+    private String getImageFilePath(Uri uri){
+        return FileTransferUtil.getPath(uri, getActivity());
+    }
+
+    // Image 압축
+    private File getCompressedImage(String path) throws IOException {
+        return new Compressor(getActivity().getApplicationContext()).compressToFile(new File(path));
     }
 
     @NotNull
@@ -267,7 +286,7 @@ public class DoMyGoalFragment extends Fragment {
                 TedBottomPicker.with(getActivity())
                         .setPeekHeight(1600)
                         .showCameraTile(false) // 카메라 아이코 숨김
-                        .showGalleryTile(false) // 갤러리 아이콘 숨긴
+                        .showGalleryTile(false) // 갤러리 아이콘 숨김
                         .setPreviewMaxCount(1000)
                         .setSelectMaxCount(3)
                         .setSelectMaxCountErrorText("3장 이하로 선택해주세요.")
@@ -278,7 +297,7 @@ public class DoMyGoalFragment extends Fragment {
                             @Override
                             public void onImagesSelected(List<Uri> uriList) {
                                 // 이미지 선택 시 콜백 메소드
-                                imageUriList = new ArrayList<>();
+                                imageUriList.clear();
                                 imageViewList.forEach(iv -> iv.setImageResource(0));
                                 IntStream.range(0, uriList.size()).forEach(
                                         i -> {
