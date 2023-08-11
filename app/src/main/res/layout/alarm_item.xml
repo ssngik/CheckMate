@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/alarm_body"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="15dp"
-    android:padding="10dp">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/alarm_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:padding="10dp">
 
     <TextView
-        android:id="@+id/alarm_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:text="@string/alarm_title"
-        android:textSize="18sp" />
+            android:id="@+id/alarm_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:textStyle="bold"
+            android:text="@string/alarm_title"
+            android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/alarm_content"
@@ -21,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/alarm_title"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/alarm_content"
         android:textSize="15sp" />
 
@@ -36,10 +38,11 @@
         android:textSize="15sp" />
 
     <View
-        android:id="@+id/vertical_view"
-        android:layout_width="5dp"
-        android:layout_height="70dp"
-        android:background="@color/green_600" />
+            android:id="@+id/vertical_view"
+            android:layout_width="5dp"
+            android:layout_height="12dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/green_600"/>
 
 </RelativeLayout>
 

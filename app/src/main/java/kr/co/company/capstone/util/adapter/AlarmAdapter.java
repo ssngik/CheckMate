@@ -85,47 +85,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
                         if (response.isSuccessful()) {
                             NotificationDetailResponse notificationResponse = response.body();
                             Map<String, String> attributes = objectMapper.readValue(notificationResponse.getAttributes(), Map.class);
-                            Log.d(LOG_TAG, "attributes : " + notificationResponse.getAttributes());
+
                             Bundle bundle = new Bundle();
                             Intent nextPage = new Intent(context.getApplicationContext(), MainActivity.class);
 
-                            switch (notificationResponse.getType()) {
-                                case "INVITE_GOAL":
-                                    InviteResponseFragment inviteResponseFragment = new InviteResponseFragment();
-                                    bundle.putString("messageBody", info.getContent());
-                                    bundle.putLong("teamMateId", Long.parseLong(String.valueOf(attributes.get("teamMateId"))));
-                                    bundle.putLong("notificationId", info.getNotificationId());
-                                    inviteResponseFragment.setArguments(bundle);
-                                    Log.d(LOG_TAG, "invite_goal");
-                                    Navigation.findNavController(view).navigate(R.id.action_navigation_alarm_to_inviteResponseFragment, bundle);
-                                    break;
-                                case "POST_UPLOAD": // 목표 수행 인증
-                                    TimeLineFragment timeLineFragment = new TimeLineFragment();
-                                    bundle.putString("date", info.getSendAt().replace("-", "").split("[T.]")[0]);
-                                    bundle.putLong("goalId", Long.parseLong(String.valueOf(attributes.get("goalId"))));
-                                    timeLineFragment.setArguments(bundle);
-                                    Log.d(LOG_TAG, "invite_upload");
-                                    Navigation.findNavController(view).navigate(R.id.action_navigation_alarm_to_timeLineFragment, bundle);
-                                    break;
-                                case "INVITE_REPLY":
-                                    GoalDetailFragment goalDetailFragment = new GoalDetailFragment();
-                                    bundle.putLong("goalId", Long.parseLong(String.valueOf(attributes.get("goalId"))));
-                                    goalDetailFragment.setArguments(bundle);
-                                    Log.d(LOG_TAG, "invite_reply");
-                                    Log.d(LOG_TAG, "attribute" + attributes);
-                                    if(attributes.get("accept").equals("true")){ // 수락한 알람
-                                        Navigation.findNavController(view).navigate(R.id.action_navigation_alarm_to_goalDetailFragment, bundle);
-                                    }else{
-                                        Log.d(LOG_TAG, "false"); // 거절한 알람
-                                        Toast.makeText(context, "다음에 같이해요! :)",Toast.LENGTH_LONG).show();
-                                    }
-                                    break;
-                                default:
-                                    Log.d(LOG_TAG, "default"); // 목표 수행 완수, 목표 퇴출
-                                    nextPage.putExtras(bundle);
-                                    context.startActivity(nextPage);
-                                    break;
-                            }
+                            handleNotificationType(notificationResponse, attributes, bundle, nextPage, info, view);
                         }
                         else{
                             Log.d(LOG_TAG, String.valueOf(response.code()));
@@ -138,6 +102,67 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
                         onErrorFragment.show(onErrorFragment.getChildFragmentManager(), "error");
                     }
                 });
+    }
+
+    // 알람 종류별 분류
+    private void handleNotificationType(NotificationDetailResponse notificationResponse, Map<String, String> attributes, Bundle bundle, Intent nextPage, NotificationInfoResponse info, View view) {
+        switch (notificationResponse.getType()) {
+            case "INVITE_GOAL": // 초대 알람
+
+                // 초대 응답 페이지로 이동
+                goToInviteResponse(bundle, info, view);
+
+                break;
+            case "POST_UPLOAD": // 목표 수행 인증
+
+                // 타임라인으로 이동
+                goToTimeLine(attributes, bundle, info, view);
+
+                break;
+            case "INVITE_REPLY": // 초대 응답 알람
+
+                // 목표 상세 화면으로 이동
+                goToGoalDetail(attributes, bundle, view);
+
+                break;
+            default:
+                nextPage.putExtras(bundle);
+                context.startActivity(nextPage);
+                break;
+        }
+    }
+
+    private void goToGoalDetail(Map<String, String> attributes, Bundle bundle, View view) {
+        GoalDetailFragment goalDetailFragment = new GoalDetailFragment();
+
+        bundle.putLong("goalId", Long.parseLong(String.valueOf(attributes.get("goalId"))));
+        goalDetailFragment.setArguments(bundle);
+
+        if(attributes.get("accept").equals("true")){ // 수락한 알람
+            Navigation.findNavController(view).navigate(R.id.action_navigation_alarm_to_goalDetailFragment, bundle);
+        }else{ // 거절한 알람
+            Toast.makeText(context, "다음에 같이해요! :)",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void goToTimeLine(Map<String, String> attributes, Bundle bundle, NotificationInfoResponse info, View view) {
+        TimeLineFragment timeLineFragment = new TimeLineFragment();
+
+        bundle.putString("date", info.getSendAt().replace("-", "").split("[T.]")[0]);
+        bundle.putLong("goalId", Long.parseLong(String.valueOf(attributes.get("goalId"))));
+        timeLineFragment.setArguments(bundle);
+
+        Navigation.findNavController(view).navigate(R.id.action_navigation_alarm_to_timeLineFragment, bundle);
+    }
+
+    private void goToInviteResponse(Bundle bundle, NotificationInfoResponse info, View view) {
+        InviteResponseFragment inviteResponseFragment = new InviteResponseFragment();
+
+        bundle.putString("messageBody", info.getContent());
+        bundle.putLong("notificationId", info.getNotificationId());
+        inviteResponseFragment.setArguments(bundle);
+
+        Navigation.findNavController(view).navigate(R.id.action_navigation_alarm_to_inviteResponseFragment, bundle);
     }
 
     @Override
@@ -185,7 +210,10 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
         void onBind(NotificationInfoResponse item) {
             title.setText(item.getTitle());
             content.setText(item.getContent());
+            // 23.07.21 09:06
             alarmDate.setText(item.getSendAt().replace("-", "").split("[T.]")[1]);
+            Log.d(LOG_TAG, alarmDate.toString());
+            Log.d(LOG_TAG, item.toString());
         }
     }
 }
