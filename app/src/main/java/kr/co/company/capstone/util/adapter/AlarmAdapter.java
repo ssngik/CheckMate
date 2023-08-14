@@ -55,24 +55,21 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
     @Override
     @SuppressLint({"RecyclerView", "CheckResult"})
     public void onBindViewHolder(@NonNull AlarmAdapter.ViewHolder holder, int position) {
+        NotificationInfoResponse info = alarmList.get(position);
 
         holder.onBind(alarmList.get(position));
-        if(alarmList.get(position).isChecked()) holder.verticalView.setBackgroundColor(Color.LTGRAY);
+        if(alarmList.get(position).isChecked()) holder.checkPoint.setBackgroundColor(Color.LTGRAY);
+        // 확인한 경우 -> checked -> true
 
         holder.body.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NotificationInfoResponse info = alarmList.get(position);
-                if (Objects.equals(info.getType(), "INVITE_GOAL") && !info.isChecked()) {
-                    callNotificationFindApi(info, view);
-                }
-                else if (!Objects.equals(info.getType(), "INVITE_GOAL")) {
-                    info.setChecked(true);
-                    holder.verticalView.setBackgroundColor(Color.LTGRAY);
-                    callNotificationFindApi(info, view);
-                }
+                callNotificationFindApi(info, view);
+
             }
         });
+
+
     }
 
     @SuppressLint("CheckResult")
@@ -196,11 +193,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
         TextView content;
         TextView alarmDate;
         RelativeLayout body;
-        View verticalView;
+        View checkPoint;
 
         public ViewHolder(@NonNull View view) {
             super(view);
-            verticalView = view.findViewById(R.id.vertical_view);
+            checkPoint = view.findViewById(R.id.check_point);
             body = view.findViewById(R.id.alarm_body);
             title = view.findViewById(R.id.alarm_title);
             content = view.findViewById(R.id.alarm_content);
@@ -210,10 +207,10 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
         void onBind(NotificationInfoResponse item) {
             title.setText(item.getTitle());
             content.setText(item.getContent());
-            // 23.07.21 09:06
+            // 23.09.21 09:06
             alarmDate.setText(item.getSendAt().replace("-", "").split("[T.]")[1]);
-            Log.d(LOG_TAG, alarmDate.toString());
-            Log.d(LOG_TAG, item.toString());
+//            Log.d(LOG_TAG, alarmDate.toString());
+//            Log.d(LOG_TAG, item.toString());
         }
     }
 }
