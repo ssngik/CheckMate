@@ -20,6 +20,7 @@ import java.util.List;
 
 import kr.co.company.capstone.dto.ErrorMessage;
 import kr.co.company.capstone.dto.notification.NotificationInfoResponse;
+import kr.co.company.capstone.service.RecyclerDecorationHeight;
 import kr.co.company.capstone.util.adapter.AlarmAdapter;
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.notification.NotificationInfoListResponse;
@@ -72,7 +73,8 @@ public class NotificationFragment extends Fragment {
                 }
             }
         };
-
+        RecyclerDecorationHeight decoration_height = new RecyclerDecorationHeight(-80); // 간격조정
+        notificationRecycler.addItemDecoration(decoration_height);
         notificationRecycler.addOnScrollListener(onScrollListener);
         notificationRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
