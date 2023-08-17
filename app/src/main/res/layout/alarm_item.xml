@@ -19,11 +19,11 @@
 
     <TextView
             android:id="@+id/alarm_content"
-            android:layout_width="wrap_content"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/alarm_title"
             android:layout_marginStart="18dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:text="@string/alarm_content"
             android:textSize="15dp"/>
 
