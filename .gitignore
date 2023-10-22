@@ -71,6 +71,8 @@ captures/
 .externalNativeBuild
 .cxx/
 
+
+
 # Google Services (e.g. APIs or Firebase)
 # google-services.json
 
@@ -242,3 +244,4 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/java,android,androidstudio
 .idea/deploymentTargetDropDown.xml
+/app/src/main/res/values/values.xml

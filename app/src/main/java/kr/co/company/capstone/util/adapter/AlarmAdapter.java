@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +23,7 @@ import java.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.company.capstone.R;
-import kr.co.company.capstone.activity.MainActivity;
+import kr.co.company.capstone.activity.*;
 import kr.co.company.capstone.fragment.GoalDetailFragment;
 import kr.co.company.capstone.fragment.InviteResponseFragment;
 import kr.co.company.capstone.fragment.OnErrorFragment;
@@ -30,6 +32,7 @@ import kr.co.company.capstone.dto.ErrorMessage;
 import kr.co.company.capstone.dto.notification.NotificationInfoResponse;
 import kr.co.company.capstone.dto.notification.NotificationDetailResponse;
 import kr.co.company.capstone.service.NotificationService;
+import kr.co.company.capstone.util.time.TimeAgoConverter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -45,31 +48,24 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final String LOG_TAG = "AlarmAdapter";
 
+    @Override
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void onBindViewHolder(@NonNull AlarmAdapter.ViewHolder holder, int position) {
+        NotificationInfoResponse info = alarmList.get(position);
+
+        holder.onBind(alarmList.get(position));
+        if(alarmList.get(position).isRead()) holder.checkPoint.setBackgroundColor(Color.LTGRAY);
+        // 확인한 경우 -> checked -> true
+
+        // body Click Listener
+        holder.body.setOnClickListener(view -> callNotificationFindApi(info, view));
+    }
+
     @NonNull
     @Override
     public AlarmAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alarm_item, parent, false);
         return new ViewHolder(view);
-    }
-
-    @Override
-    @SuppressLint({"RecyclerView", "CheckResult"})
-    public void onBindViewHolder(@NonNull AlarmAdapter.ViewHolder holder, int position) {
-        NotificationInfoResponse info = alarmList.get(position);
-
-        holder.onBind(alarmList.get(position));
-        if(alarmList.get(position).isChecked()) holder.checkPoint.setBackgroundColor(Color.LTGRAY);
-        // 확인한 경우 -> checked -> true
-
-        holder.body.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callNotificationFindApi(info, view);
-
-            }
-        });
-
-
     }
 
     @SuppressLint("CheckResult")
@@ -85,7 +81,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
 
                             Bundle bundle = new Bundle();
                             Intent nextPage = new Intent(context.getApplicationContext(), MainActivity.class);
-
+                            Log.d(LOG_TAG, notificationResponse.toString() );
                             handleNotificationType(notificationResponse, attributes, bundle, nextPage, info, view);
                         }
                         else{
@@ -104,7 +100,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
     // 알람 종류별 분류
     private void handleNotificationType(NotificationDetailResponse notificationResponse, Map<String, String> attributes, Bundle bundle, Intent nextPage, NotificationInfoResponse info, View view) {
         switch (notificationResponse.getType()) {
-            case "INVITE_GOAL": // 초대 알람
+            case "INVITE_SEND": // 초대 알람
 
                 // 초대 응답 페이지로 이동
                 goToInviteResponse(bundle, info, view);
@@ -158,7 +154,8 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
         bundle.putString("messageBody", info.getContent());
         bundle.putLong("notificationId", info.getNotificationId());
         inviteResponseFragment.setArguments(bundle);
-
+        Log.d(LOG_TAG, info.getContent());
+        Log.d(LOG_TAG, info.getNotificationId().toString());
         Navigation.findNavController(view).navigate(R.id.action_navigation_alarm_to_inviteResponseFragment, bundle);
     }
 
@@ -204,13 +201,14 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder>{
             alarmDate = view.findViewById(R.id.alarm_date);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         void onBind(NotificationInfoResponse item) {
             title.setText(item.getTitle());
             content.setText(item.getContent());
-            // 23.09.21 09:06
-            alarmDate.setText(item.getSendAt().replace("-", "").split("[T.]")[1]);
-//            Log.d(LOG_TAG, alarmDate.toString());
-//            Log.d(LOG_TAG, item.toString());
+
+            // 알림 시간을 상대적인 시간 형식으로 표시
+            String timeAgo = TimeAgoConverter.formatTimeAgo(item.getSendAt());
+            alarmDate.setText(timeAgo);
         }
     }
 }
