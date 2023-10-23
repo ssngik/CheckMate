@@ -53,11 +53,10 @@ public class OngoingGoalRecyclerViewAdapter extends RecyclerView.Adapter{
             public void onClick(View v) {
                 GoalDetailFragment goalDetailFragment = new GoalDetailFragment();
                 Bundle goalIdRc = new Bundle();
-                long goalId = goals.get(myViewHolder.getAdapterPosition()).getId();
+                long goalId = goals.get(myViewHolder.getAdapterPosition()).getGoalId();
 
                 goalIdRc.putLong("goalId",goalId);
                 goalDetailFragment.setArguments(goalIdRc);
-
                 Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_goalDetailFragment, goalIdRc);
 
             }

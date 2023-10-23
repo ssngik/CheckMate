@@ -4,9 +4,8 @@ import lombok.Data;
 
 @Data
 public class SimpleGoalInfoResponse extends OngoingGoalInfo {
-    private long id;
+    private long goalId;
     private String title;
     private String category;
     private String weekDays;
-
 }
