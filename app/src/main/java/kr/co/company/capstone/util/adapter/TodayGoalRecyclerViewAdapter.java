@@ -62,7 +62,7 @@ public class TodayGoalRecyclerViewAdapter extends RecyclerView.Adapter{
             public void onClick(View v) {
                 goalDetailFragment = new GoalDetailFragment();
                 Bundle goalIdRc = new Bundle();
-                long goalId = goals.get(myViewHolder.getAdapterPosition()).getId();
+                long goalId = goals.get(myViewHolder.getAdapterPosition()).getGoalId();
                 goalIdRc.putLong("goalId",goalId);
 
                 goalDetailFragment.setArguments(goalIdRc);
