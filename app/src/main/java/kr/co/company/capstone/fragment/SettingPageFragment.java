@@ -96,7 +96,7 @@ public class SettingPageFragment extends Fragment {
                         if (response.isSuccessful()) {
                             SharedPreferenceUtil.removeKey(getActivity(), "accessToken");
                             SharedPreferenceUtil.removeKey(getActivity(), "refreshToken");
-                            Objects.requireNonNull(getActivity()).finish();
+                            requireActivity().finish();
 
                             Log.d(LOG_TAG, "succes!");
 
