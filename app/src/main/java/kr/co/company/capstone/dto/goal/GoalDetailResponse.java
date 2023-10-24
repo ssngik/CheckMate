@@ -21,5 +21,5 @@ public class GoalDetailResponse<TeamMatesResponse> implements Serializable {
     private Uploadable uploadable; // 인증 가능 조건
     private String goalSchedule; // 목표 수행 일정 ( 목표 수행일 해당 여부 )
     private String mateSchedule; // 팀원의 목표 수행 일정 ( 목표를 수행했는지에 대한 여부 )
-    private double progress; // 팀원의 목표 수행 진행률
+    private double achievementPercent; // 팀원의 목표 수행 진행률
 }

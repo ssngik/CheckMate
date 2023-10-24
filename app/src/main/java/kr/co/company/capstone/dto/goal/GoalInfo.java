@@ -1,7 +1,7 @@
 package kr.co.company.capstone.dto.goal;
 
 public abstract class GoalInfo {
-    public abstract long getId();
+    public abstract long getGoalId();
 
     public abstract String getTitle();
 
