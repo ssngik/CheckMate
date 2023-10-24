@@ -58,7 +58,7 @@ public class DoMyGoalFragment extends Fragment {
         if(getArguments()!=null)
         {
             Bundle bundle = getArguments();
-            goalId = bundle.getLong("goalId", 0L);
+            goalId = bundle.getLong("goalId");
             teamMateId = bundle.getLong("teamMateId");
             title = bundle.getString("goalTitle");
         }else
@@ -179,12 +179,12 @@ public class DoMyGoalFragment extends Fragment {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity().getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "권한이 거부됨", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity().getApplicationContext(), "권한이 거부됨", Toast.LENGTH_SHORT).show();
             }
         };
         return permissionListener;
