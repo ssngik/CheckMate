@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +55,6 @@ public class GoalDetailFragment extends Fragment {
     private Long goalId, userTeamMateId, userId;
     private TextView inviteButton;
     private Button registerButton;
-    private String goalTitle = null;
     private WaveDrawable mWaveDrawable;
     ProgressBar goalDetailLoading;
     Group goalDetailGroup;
@@ -66,13 +64,11 @@ public class GoalDetailFragment extends Fragment {
     @Override
     public void onAttach(@NonNull @NotNull Context context) {
         super.onAttach(context);
-        Log.d(LOG_TAG, "onAttach");
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if(getArguments()!=null){
             Bundle bundle = getArguments();
             goalId = bundle.getLong("goalId");
@@ -148,7 +144,7 @@ public class GoalDetailFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_goalDetailActivity_to_navigation_home);
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 
 
@@ -206,12 +202,13 @@ public class GoalDetailFragment extends Fragment {
             public void onClick(View view) {
                 DoMyGoalFragment doMyGoal = new DoMyGoalFragment();
                 Bundle toCertification = new Bundle();
+                String goalTitle = goalDetailResponse.getTitle(); // 목표명
 
                 toCertification.putLong("goalId", goalId);
                 toCertification.putLong("teamMateId", userTeamMateId);
                 toCertification.putString("goalTitle", goalTitle);
-
                 doMyGoal.setArguments(toCertification);
+
                 Navigation.findNavController(view).navigate(R.id.action_goalDetailFragment_to_doMyGoalFragment, toCertification);
             }
         });
@@ -254,7 +251,7 @@ public class GoalDetailFragment extends Fragment {
 
     // 목표 수행률 체크 이미지 설정
     private void setPercentProgress(ImageView mImageView) {
-        mWaveDrawable = new WaveDrawable(Objects.requireNonNull(getActivity()), R.drawable.check_icon);
+        mWaveDrawable = new WaveDrawable(requireActivity(), R.drawable.check_icon);
         mWaveDrawable.setWaveAmplitude(10);
         mWaveDrawable.setWaveLength(200);
         mWaveDrawable.setWaveSpeed(3);
@@ -271,7 +268,6 @@ public class GoalDetailFragment extends Fragment {
 
                             // 목표 상세 response
                             goalDetailResponse = response.body();
-
                             // TeamMatesResponse 리스트에서 JSON 데이터를 파싱하여 mates 데이터 값을 가져옴
                             parseTeamMateResponse(goalDetailResponse.getMates());
 
@@ -294,7 +290,6 @@ public class GoalDetailFragment extends Fragment {
                     }
                     @Override
                     public void onFailure(Call<GoalDetailResponse> call, Throwable t) {
-                        Log.d(LOG_TAG, t.getMessage());
                         OnErrorFragment onErrorFragment = new OnErrorFragment();
                         onErrorFragment.show(getChildFragmentManager(), "error");
                     }
@@ -309,14 +304,13 @@ public class GoalDetailFragment extends Fragment {
 
         // 전체 팀원을 담을 List
         List<TeamMatesResponse> teamMates = new ArrayList<>();
-        
+
         for(int i=0; i<members; i++) 
         {
             // 파싱
             Gson gson = new Gson();
             String json = gson.toJson(teamMatesResponse.get(i));
             TeamMatesResponse teamMateResponse = gson.fromJson(json, TeamMatesResponse.class);
-            Log.d(LOG_TAG, teamMateResponse.toString());
             String myNickName = SharedPreferenceUtil.getString(getActivity(), "nickName");
 
             // 본인의 정보 식별
@@ -325,10 +319,8 @@ public class GoalDetailFragment extends Fragment {
                 userId = teamMateResponse.getUserId();
                 userTeamMateId = teamMateResponse.getMateId();
             }
-
             // 전체 팀원 List 에 추가
             teamMates.add(teamMateResponse);
-
         }
         
         // set Adapter
@@ -342,9 +334,9 @@ public class GoalDetailFragment extends Fragment {
         // UI 에 사용자 목표 정보 표시
         startDate.setText(response.getStartDate());
         goalName.setText(response.getTitle());
-        Log.d(LOG_TAG, response.toString());
+
         // 퍼센트 표시
-        double percent = response.getProgress();
+        double percent = response.getAchievementPercent();
         progressPercent.setText(String.valueOf(percent));
         mWaveDrawable.setLevel((int) (percent * 100));
     }
@@ -363,7 +355,7 @@ public class GoalDetailFragment extends Fragment {
                 registerButton.setText("오늘 이미 성공했어요 " + new String(Character.toChars(0x1F60A)));
                 registerButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.button_round_green));
             }
-            else if (!uploadable.isWorkingDay()) {
+            else if (!uploadable.isCheckDay()) {
                 registerButton.setText("인증요일이 아닙니다!");
                 registerButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.button_round_gray));
             }
