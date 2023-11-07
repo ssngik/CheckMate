@@ -3,6 +3,7 @@ package kr.co.company.capstone.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,34 +12,35 @@ import kr.co.company.capstone.util.SharedPreferenceUtil;
 import kr.co.company.capstone.Theme;
 
 public class SplashActivity extends AppCompatActivity {
-    private String jwtToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-//        SharedPreferenceUtil.removeKey(this, "jwtToken");
-        jwtToken = SharedPreferenceUtil.getString(this, "accessToken");
+
+        // accessToken 가져오기
+        String accessToken = SharedPreferenceUtil.getString(this, "accessToken");
 
         //로딩화면 시작.
-        LoadingStart();
+        LoadingStart(accessToken);
     }
-    private void LoadingStart(){
+    private void LoadingStart(String accessToken){
         Handler handler=new Handler();
         handler.postDelayed(new Runnable(){
             public void run(){
-                if(jwtToken.isEmpty()) {
+                if(accessToken.isEmpty()) { // accessToken 만료
                     SharedPreferenceUtil.removeKey(getApplicationContext(), "accessToken");
+
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                     finish();
+                    Log.d("splash", "loading done !");
                 }
-                // context 는 생명주기 타고 getapplicationcontext는 싱글턴
-                //result ok 인지 체크해서 맞으면 보여주고
                 else {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
+                    // 화면 테마 적용
                     Theme.applyTheme(SharedPreferenceUtil.getString(getApplicationContext(), "scnMode"));
                 }
             }
