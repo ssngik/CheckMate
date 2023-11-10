@@ -72,8 +72,7 @@
     <string name="complete">완료</string>
     <string name="modify_complete">수정 완료</string>
     <string name="sent">전송 완료</string>
-    <string name="Hello">Hello</string>
-    <string name="login_to_naver">NAVER</string>
+    <string name="Hello">친구들과 함께 목표를 정하고 달성해요</string>
     <string name="display_theme">화면 테마</string>
     <string name="do_goal">목표 인증하기</string>
     <string name="there_is_no_method_info">method에 대한 정보가 없습니다.</string>
@@ -104,7 +103,8 @@
     <string name="set_nickname">닉네임 설정</string>
     <string name="setting_nickname">닉네임을 설정 해봅시다!</string>
     <string name="nickname_hint">Put your Nickname!</string>
-    <string name="splash_title">Hello Checker</string>
+    <string name="hello_checker">Hello\nChecker:)</string>
+    <string name="with_friend">친구들과 함께 목표를 정하고 달성해요</string>
     <string name="image_upload">이미지 업로드</string>
     <string name="text_certification_hint">오늘의 한일을 공유해볼까요?</string>
     <string name="invite_teammate">팀원 초대하기</string>
@@ -125,4 +125,6 @@
     <string name="O">O</string>
     <string name="day_date">토 \n 19일</string>
     <string name="to_history_guide">완료한 목표는 History에서 확인할 수 있어요</string>
+    <string name="login_kakao">login_kakao</string>
+    <string name="login_btn_naver">login_btn_naver</string>
 </resources>

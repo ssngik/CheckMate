@@ -8,7 +8,7 @@
             android:id="@+id/sub_item_crew"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/sub_font"
+            android:fontFamily="@font/hello_checker"
             android:padding="5dp"
             android:textColor="@color/black"
             android:text="@string/teamcrew" />
