@@ -84,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.social_login);
 
         mContext = this;
-
         // FCM Token 서비스 실행
         startFcmTokenService();
 
@@ -135,11 +134,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // 디바이스에 카카오톡 설치 여부 확인 / 카카오톡으로 로그인
-                if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this))
+                if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)) {
                     UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
+                }
 
                     // 카카오 계정으로 로그인 (카카오톡 설치 x )
-                else UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
+                else {
+                    UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
+                }
             }
         });
     }
@@ -152,9 +154,8 @@ public class LoginActivity extends AppCompatActivity {
                 .requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         googleLoginButton = findViewById(R.id.google_login_button);
-        setGooglePlusButtonText(googleLoginButton, "Google 계정으로 로그인");
     }
-    
+
     private void googleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -251,7 +252,6 @@ public class LoginActivity extends AppCompatActivity {
                     if (loginResponse.getAccessToken() != null) {
                         SharedPreferenceUtil.setString(LoginActivity.this, "accessToken", loginResponse.getAccessToken());
                         SharedPreferenceUtil.setString(LoginActivity.this, "refreshToken", loginResponse.getRefreshToken());
-
                         moveToMainScreen();
                     }
                 } else { // 200이 아닌 경우
@@ -292,8 +292,16 @@ public class LoginActivity extends AppCompatActivity {
 
         // naver Login 버튼 설정
         // naverLoginButton 을 누르면 OAuthLoginHandler 실행
-        OAuthLoginButton naverLoginButton = findViewById(R.id.naver_login_btn);
+        OAuthLoginButton naverLoginButton = findViewById(R.id.naver_login_btn_oauth);
         naverLoginButton.setOAuthLoginHandler(mOAuthLoginHandler);
+
+        ImageButton naverButton = findViewById(R.id.naver_login_btn);
+        naverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                naverLoginButton.performClick();
+            }
+        });
     }
 
 
@@ -320,7 +328,6 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferenceUtil.setString(mContext, "providerId", id);
                         SharedPreferenceUtil.setString(mContext, "emailAddress", jsonResult.getJSONObject("response").getString("email"));
                         SharedPreferenceUtil.setString(mContext, "username", name);
-
                         // Login Request
                         LoginRequest loginRequest = LoginRequest.builder()
                                 .fcmToken(MyFirebaseMessagingService.fcmToken)
@@ -341,11 +348,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 }).start();
 
-                }
-                else{
-                    // TODO: 2023/04/08 인증 실패 처리
-                }
             }
+            else{
+                // TODO: 2023/04/08 인증 실패 처리
+            }
+        }
 
     };
 
