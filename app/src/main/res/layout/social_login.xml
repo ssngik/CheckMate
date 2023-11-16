@@ -10,16 +10,16 @@
         android:id="@+id/hello_checker"
         android:layout_width="164dp"
         android:layout_height="84dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="136dp"
+        android:layout_marginEnd="165dp"
+        android:layout_marginBottom="420dp"
         android:fontFamily="@font/hello_checker"
+        android:gravity="center_vertical"
         android:lineSpacingExtra="2sp"
         android:text="@string/hello_checker"
         android:textColor="@color/hello_checker"
         android:textSize="40sp"
-        android:gravity="center_vertical"
-        android:layout_marginTop="136dp"
-        android:layout_marginStart="31dp"
-        android:layout_marginEnd="165dp"
-        android:layout_marginBottom="420dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -27,75 +27,72 @@
 
     <TextView
         android:id="@+id/with_friend"
-        android:text="@string/with_friend"
+        style="@style/with_friend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/main_font"
-        style="@style/with_friend"
-        android:lineSpacingExtra="-2sp"
-        android:gravity="top"
         android:layout_marginStart="31dp"
-        android:layout_marginEnd="121dp"
         android:layout_marginTop="228dp"
+        android:layout_marginEnd="121dp"
         android:layout_marginBottom="397dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:fontFamily="@font/main_font"
+        android:gravity="top"
+        android:lineSpacingExtra="-2sp"
+        android:text="@string/with_friend"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/kakao_login_btn"
-        app:srcCompat="@drawable/login_btn_kakao"
         android:layout_width="300dp"
-        android:layout_height="46dp"
-        android:background="@drawable/ic_clear"
-        android:layout_marginTop="384dp"
+        android:layout_height="45dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="384dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="210dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/login_kakao"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:contentDescription="@string/login_kakao" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/login_btn_kakao" />
 
     <ImageButton
         android:id="@+id/naver_login_btn"
-        app:srcCompat="@drawable/login_btn_naver"
         android:layout_width="300dp"
         android:layout_height="45dp"
-        android:layout_marginTop="16.5dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="16.5dp"
         android:layout_marginEnd="28dp"
-        app:layout_constraintTop_toBottomOf="@id/kakao_login_btn"
+        android:contentDescription="@string/login_btn_naver"
         app:layout_constraintBottom_toTopOf="@+id/google_login_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:contentDescription="@string/login_btn_naver" />
+        app:layout_constraintTop_toBottomOf="@id/kakao_login_btn"
+        app:srcCompat="@drawable/login_btn_naver" />
 
     <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
         android:id="@+id/naver_login_btn_oauth"
         android:layout_width="300dp"
         android:layout_height="45dp"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/naver_login_btn"
         app:layout_constraintLeft_toLeftOf="@+id/naver_login_btn"
         app:layout_constraintRight_toRightOf="@+id/naver_login_btn"
-        app:layout_constraintTop_toTopOf="@+id/naver_login_btn"
-        app:layout_constraintBottom_toBottomOf="@id/naver_login_btn"
-        android:contentDescription="@string/login_btn_naver" />
+        app:layout_constraintTop_toTopOf="@+id/naver_login_btn" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/google_login_button"
         android:layout_width="300dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="16.5dp"
+        android:layout_height="45dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="16.5dp"
         android:layout_marginEnd="28dp"
         android:foreground="@drawable/login_btn_google"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/naver_login_btn"
-        app:layout_constraintVertical_chainStyle="spread" />
+        app:layout_constraintTop_toBottomOf="@+id/naver_login_btn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
