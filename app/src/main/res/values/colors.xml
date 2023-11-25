@@ -12,10 +12,12 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="gray_800">#424242</color>
+    <color name="gray">#E2E2E2</color>
     <color name="gray_700">#616161</color>
     <color name="gray_300">#8C8C8C</color>
     <color name="almost_white">#CDCDCD</color>
+    <color name="nickname_btn_color">#E2E2E2</color>
+    <color name="checkmate_color">#6E86FF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_text">#383838</color>
     <color name="dark_text">#ebebeb</color>

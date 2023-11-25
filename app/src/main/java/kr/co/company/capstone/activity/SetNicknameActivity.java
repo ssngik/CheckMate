@@ -2,10 +2,9 @@
 package kr.co.company.capstone.activity;
 
 // Android Framework 제공 라이브러리 관련
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,11 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 // androidx 라이브러리 관련
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 // Java 라이브러리 관련
 import java.util.UUID;
@@ -38,197 +38,155 @@ import kr.co.company.capstone.util.SharedPreferenceUtil; // SharedPreferences를
 
 
 public class SetNicknameActivity extends AppCompatActivity {
-
-    public static Context context;
-    EditText nicknameEditText;
-    TextView nicknameErrorText;
-    TextView nicknameNotiText;
-    Button dupCheckButton;
+    TextView nicknameNotification;
     Button joinButton;
     static final String LOG_TAG = "SetNicknameActivity";
     String nickname;
     boolean nicknameChecked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_nickname);
 
-        nicknameEditText = findViewById(R.id.putNickname);
-        nicknameErrorText = findViewById(R.id.nick_error_text);
-        nicknameNotiText = findViewById(R.id.nickNotification);
-        dupCheckButton = findViewById(R.id.dupCheck);
-        joinButton = findViewById(R.id.joinButton);
+        initializeViews();
 
-        Pattern charPattern = Pattern.compile("^[a-zA-Z0-9ㄱ-ㅎ가-힣]+$");
-        Pattern lengthPattern = Pattern.compile("^.{2,8}$");
+        // 닉네임 유효성 체크
+        checkNickname();
 
-        nicknameValidation(charPattern, lengthPattern);
-        dupCheckButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nickname = nicknameEditText.getText().toString();
-                UserService.getService().duplicatedNicknameCheck(nickname)
-                        .enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                if (response.isSuccessful()) {
-                                    nicknameChecked = true;
-                                    showCorrectDialog();
-                                    joinButton.setEnabled(true);
-                                    joinButton.setBackgroundColor(Color.parseColor("#43A047"));
-                                    Log.i(LOG_TAG, "enable nickname");
-                                } else {
-                                    showIncorrectDialog();
-                                    Log.d(LOG_TAG, "dupCheckError");
-                                }
-                            }
+        // 회원가입 버튼 클릭리스너
+        setupJoinButtonClickListener();
 
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                showIncorrectDialogAndRestart();
-                            }
-                        });
-            }
-        });
+    }
 
-        // 회원가입
+    // 회원가입 버튼 클릭리스너
+    private void setupJoinButtonClickListener() {
         joinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(nicknameChecked){
-                    // 회원가입 시 필요 정보
-                    String providerId = SharedPreferenceUtil.getString(getApplicationContext(), "providerId");
-                    String username = SharedPreferenceUtil.getString(getApplicationContext(), "username");
-                    String emailAddress = SharedPreferenceUtil.getString(getApplicationContext(), "emailAddress");
-                    String fcmToken = MyFirebaseMessagingService.fcmToken;
+                    // 회원가입
+                    signUp();
+                }
 
-                    // 사용자 식별 정보
-                    String identifier = UUID.nameUUIDFromBytes(providerId.getBytes()).toString();
+            }
+        });
+    }
 
-                    // 회원가입 Request
-                    UserSignUpRequest userSignUpRequest = new UserSignUpRequest(identifier, username, emailAddress, nickname);
+    // 회원가입
+    private void signUp() {
+        // 회원가입 시 필요 정보
+        String providerId = SharedPreferenceUtil.getString(getApplicationContext(), "providerId");
+        String username = SharedPreferenceUtil.getString(getApplicationContext(), "username");
+        String emailAddress = SharedPreferenceUtil.getString(getApplicationContext(), "emailAddress");
+        String fcmToken = MyFirebaseMessagingService.fcmToken;
 
-                    UserService.getService().signUp(userSignUpRequest)
-                            .enqueue(new Callback<Void>(){
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response){
+        // 사용자 식별 정보
+        String identifier = UUID.nameUUIDFromBytes(providerId.getBytes()).toString();
 
-                            if(response.isSuccessful()){ // 회원가입 API 성공
-                                Log.d(LOG_TAG, response.toString());
+        // 회원가입 Request
+        UserSignUpRequest userSignUpRequest = new UserSignUpRequest(identifier, username, emailAddress, nickname);
 
-                                LoginRequest loginRequest = new LoginRequest(identifier, fcmToken);
-                                UserService.getService().login(loginRequest).enqueue(new Callback<LoginResponse>() {
-                                    @Override
-                                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                                        if(response.isSuccessful()){
-                                            LoginResponse loginResponse = response.body();
-                                            Log.d(LOG_TAG, loginResponse + "login Success!!");
+        UserService.getService().signUp(userSignUpRequest)
+                .enqueue(new Callback<Void>(){
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response){
 
-                                            SharedPreferenceUtil.setString(getApplicationContext(), "accessToken", loginResponse.getAccessToken());
-                                            SharedPreferenceUtil.setString(getApplicationContext(), "refreshToken", loginResponse.getRefreshToken());
-                                            SharedPreferenceUtil.setString(getApplicationContext(), "nickName", nickname);
-
-                                            // Main 화면으로 이동
-                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                            startActivity(intent);
-                                            finish();
-
-                                        }else{
-                                            Log.d(LOG_TAG, "로그인이 실패");
-                                            Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).getMessage());
-                                            Log.d(LOG_TAG, loginRequest.toString());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-                                        Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
-                                    }
-                                });
-
-
-
-                            }else{
-                                Log.d(LOG_TAG, "fail");
-                                Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
-                                Log.d(LOG_TAG, "error response : " + response);
-                            }
-
-                        }
-
-                                @Override
-                                public void onFailure(Call<Void> call, Throwable t) {
-                                    // 통신 실패 처리
-                                    Log.d(LOG_TAG, "fail");
-                                    Log.d(LOG_TAG, "error message : " + t.getMessage());
-
-                                }
-
-
-                            });
-
-
-
-
+                // 회원가입 API 성공
+                if(response.isSuccessful()){
+                    // 회원가입 후 로그인
+                    LoginAfterSignUp(response, identifier, fcmToken);
                 }
             }
-        });
-
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        // 통신 실패 처리
+                        Log.d(LOG_TAG, "fail");
+                        Log.d(LOG_TAG, "error message : " + t.getMessage());
+                    }
+                });
     }
 
-    private void showIncorrectDialogAndRestart(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(SetNicknameActivity.this);
-        builder.setTitle("띵").setMessage("중복된 닉네임 입니다.").setPositiveButton("확인", new DialogInterface.OnClickListener() {
+    // 회원가입 후 로그인
+    private void LoginAfterSignUp(Response<Void> response, String identifier, String fcmToken) {
+        LoginRequest loginRequest = new LoginRequest(identifier, fcmToken);
+        UserService.getService().login(loginRequest).enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if(response.isSuccessful()){
+                    // 로그인 response 처리
+                    handleLoginResponse(response.body());
+                }else{
+                    handleLoginFailure(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
             }
         });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
     }
 
-    private void showIncorrectDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(SetNicknameActivity.this);
-        builder.setTitle("띵").setMessage("중복된 닉네임 입니다.").setPositiveButton("확인",null);;
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+    private static void handleLoginFailure(Response<LoginResponse> response) {
+        Log.d(LOG_TAG, "로그인이 실패");
+        Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).getMessage());
+        // TODO: 11/25/23 UI 전달 받으면 에러처리
     }
 
-    private void showCorrectDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(SetNicknameActivity.this);
-        builder.setTitle("OK").setMessage("사용가능한 닉네임입니다.").setPositiveButton("확인",null);
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+    // 로그인 Response 처리
+    private void handleLoginResponse(LoginResponse loginResponse) {
+        SharedPreferenceUtil.setString(getApplicationContext(), "accessToken", loginResponse.getAccessToken());
+        SharedPreferenceUtil.setString(getApplicationContext(), "refreshToken", loginResponse.getRefreshToken());
+        SharedPreferenceUtil.setString(getApplicationContext(), "nickName", nickname);
+
+        // Main 화면으로 이동
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
+    private void initializeViews() {
+        nicknameNotification = findViewById(R.id.nickname_notification);
+        joinButton = findViewById(R.id.joinButton);
+    }
 
-    private void nicknameValidation(Pattern charPattern, Pattern lengthPattern) {
+    // 닉네임 유효성 체크
+
+    private void checkNickname() {
+
+        // 사용자 input 닉네임
+        EditText nicknameEditText = findViewById(R.id.put_nickname);
+
+        // 닉네임 안내 아이콘
+        ImageView alertCircle = findViewById(R.id.error_alert);
+
+        // 닉네임 조건 reg
+        Pattern charPattern = Pattern.compile("^[a-zA-Z0-9ㄱ-ㅎ가-힣]+$");
+        Pattern lengthPattern = Pattern.compile("^.{2,8}$");
+
         nicknameEditText.addTextChangedListener(new TextWatcher() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                nicknameChecked = false;
-                String target = s.toString();
-                if (!charPattern.matcher(target).matches()) {
-                    nicknameEditText.setBackgroundResource(R.drawable.red_edit_text);
-                    nicknameErrorText.setText("특수문자 사용 불가");
-                    dupCheckButton.setEnabled(false);
-                    joinButton.setEnabled(false);
+                nickname = s.toString();
 
-                } else if (!lengthPattern.matcher(target).matches()){
-                    nicknameErrorText.setText("2글자 이상 8글자 이하");
-                    dupCheckButton.setEnabled(false);
-                    joinButton.setEnabled(false);
+                // 닉네임 중복 체크
+                checkDuplication(alertCircle);
 
+                // 닉네임 길이 제한에 벗어난 경우
+                if (!lengthPattern.matcher(nickname).matches()){
+                    showNicknameErrorUi(R.string.nickname_length_guide, R.drawable.alert_cirlcle_error, alertCircle);
                 }
+
+                // 특수문자를 사용한 경우
+                else if (!charPattern.matcher(nickname).matches()) {
+                    showNicknameErrorUi(R.string.nickname_special_guide, R.drawable.alert_cirlcle_error, alertCircle);
+                }
+
+                // 올바른 닉네임 설정
                 else {
-                    nicknameEditText.setBackgroundResource(R.drawable.green_edit_text);
-                    nicknameErrorText.setText("");
-                    dupCheckButton.setEnabled(true);
-                    dupCheckButton.setBackgroundColor(Color.parseColor("#43A047"));
-                    joinButton.setBackgroundColor(Color.parseColor("#43A047"));
+                    showNicknameSuccessUi(R.string.nickname_ok, R.drawable.alert_circle_good, alertCircle);
                 }
 
             }
@@ -241,6 +199,54 @@ public class SetNicknameActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+    }
+
+    private void checkDuplication(ImageView alertCircle) {
+        UserService.getService().duplicatedNicknameCheck(nickname)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+
+                        // 닉네임이 중복된 경우
+                        if (!response.isSuccessful())
+                            showNicknameErrorUi(R.string.nickname_duplication, R.drawable.alert_cirlcle_error, alertCircle);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        // TODO: 11/25/23 UI 받으면 에러처리
+                    }
+                });
+    }
+
+    // 적합하지 않은 닉네임
+    private void showNicknameErrorUi(int messageResId, int imageResId, ImageView alertCircle) {
+        nicknameNotification.setText(messageResId);
+        alertCircle.setImageResource(imageResId);
+        setJoinButtonDisabled();
+    }
+
+    // 적합한 닉네임 화면 표시
+    private void showNicknameSuccessUi(int messageResId, int imageResId, ImageView alertCircle) {
+        nicknameNotification.setText(messageResId);
+        alertCircle.setImageResource(imageResId);
+        setJoinButtonEnabled();
+    }
+
+    // 버튼 활성화
+    @SuppressLint("ResourceAsColor")
+    private void setJoinButtonEnabled(){
+        joinButton.setBackgroundColor(ContextCompat.getColor(this, R.color.checkmate_color));
+        joinButton.setClickable(true);
+        nicknameChecked = true;
+    }
+
+    // 버튼 비활성화
+    @SuppressLint("ResourceAsColor")
+    private void setJoinButtonDisabled(){
+        joinButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray));
+        joinButton.setClickable(false);
+        nicknameChecked = false;
     }
 
 }

@@ -6,81 +6,74 @@
     android:layout_height="match_parent"
     tools:context=".activity.SetNicknameActivity">
 
-
     <TextView
-        android:id="@+id/warning_notice"
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:text="@string/enter_nickname"
+        android:layout_marginTop="115dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginEnd="201dp"
+        android:layout_marginBottom="20dp"
         android:fontFamily="@font/main_font"
-        android:text="@string/setting_nickname"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/putNickname"
+        android:textAppearance="@style/set_nickname"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/put_nickname"/>
     <EditText
-        android:id="@+id/putNickname"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="90dp"
-        android:background="@drawable/white_edit_text"
-        android:fontFamily="@font/main_font"
-        android:gravity="center"
+        android:id="@+id/put_nickname"
+        android:layout_width="295dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="191dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="400dp"
         android:hint="@string/nickname_hint"
         android:inputType="text"
+        android:textAppearance="@style/nickname_hint"
         android:maxLength="8"
-        android:selectAllOnFocus="true"
+        android:backgroundTint="@color/checkmate_color"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/dupCheck"
-        app:layout_constraintTop_toBottomOf="@+id/warning_notice" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/dupCheck"
+    <ImageView
+        android:id="@+id/error_alert"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/button_round_white"
-        android:enabled="false"
-        android:fontFamily="@font/main_font"
-        android:text="@string/dup_check"
-        app:layout_constraintLeft_toRightOf="@+id/putNickname"
-        app:layout_constraintTop_toBottomOf="@+id/warning_notice" />
-
-    <TextView
-        android:id="@+id/nick_error_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#80FF0000"
-        app:layout_constraintBottom_toTopOf="@+id/putNickname"
-        app:layout_constraintStart_toStartOf="@+id/putNickname"
-        tools:text="" />
+        android:layout_height="0dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="311dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/put_nickname"/>
 
     <TextView
-        android:id="@+id/nickNotification"
+        android:id="@+id/nickname_notification"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="5dp"
         android:fontFamily="@font/main_font"
-        android:text="@string/nickname_guide"
-        android:textColor="#616161"
-        android:textSize="15sp"
-        app:layout_constraintRight_toRightOf="@+id/putNickname"
-        app:layout_constraintTop_toBottomOf="@+id/putNickname" />
+        android:text=""
+        android:textAppearance="@style/alert_nickname_error"
+        android:visibility="visible"
+        app:layout_constraintLeft_toRightOf="@id/error_alert"
+        app:layout_constraintTop_toBottomOf="@id/put_nickname" />
 
     <Button
         android:id="@+id/joinButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:background="@drawable/button_round_white"
-        android:enabled="false"
-        android:fontFamily="@font/main_font"
-        android:text="@string/set_complete"
-        android:textSize="20sp"
+        android:layout_width="302dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="43dp"
+        android:text="@string/start_checkmate"
+        android:textAppearance="@style/start_checkmate"
+        android:backgroundTint="@color/gray"
+        android:clickable="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/warning_notice" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
