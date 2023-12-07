@@ -17,8 +17,6 @@ import android.widget.TextView;
 
 // androidx 라이브러리 관련
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 // Java 라이브러리 관련
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -229,22 +227,23 @@ public class SetNicknameActivity extends AppCompatActivity {
     // 적합한 닉네임 화면 표시
     private void showNicknameSuccessUi(int messageResId, int imageResId, ImageView alertCircle) {
         nicknameNotification.setText(messageResId);
+        nicknameNotification.setTextAppearance(R.style.alert_nickname_good);
         alertCircle.setImageResource(imageResId);
         setJoinButtonEnabled();
     }
 
     // 버튼 활성화
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void setJoinButtonEnabled(){
-        joinButton.setBackgroundColor(ContextCompat.getColor(this, R.color.checkmate_color));
+        joinButton.setBackground(getDrawable(R.drawable.btn_nickname_ok));
         joinButton.setClickable(true);
         nicknameChecked = true;
     }
 
     // 버튼 비활성화
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void setJoinButtonDisabled(){
-        joinButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray));
+        joinButton.setBackground(getDrawable(R.drawable.btn_nickname_reject));
         joinButton.setClickable(false);
         nicknameChecked = false;
     }

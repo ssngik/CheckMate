@@ -22,9 +22,16 @@
         <item name="android:fontFamily">@font/main_font</item>
     </style>
 
+<!--    닉네임 조건 미충족-->
     <style name="alert_nickname_error">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#FF7676</item>
+    </style>
+
+<!--    닉네임 조건 부합-->
+    <style name="alert_nickname_good">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#6E86FF</item>
     </style>
 
     <style name="start_checkmate">
