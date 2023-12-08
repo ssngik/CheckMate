@@ -3,21 +3,21 @@
     <item
         android:id="@+id/navigation_home"
         android:enabled="true"
-        android:icon="@drawable/ic_round_home_24"
-        android:title="Home" />
+        android:icon="@drawable/navi_menu_feed"
+        android:title="피드" />
     <item
         android:id="@+id/navigation_history"
         android:enabled="true"
-        android:icon="@drawable/ic_round_history_24"
-        android:title="History" />
+        android:icon="@drawable/navi_menu_history"
+        android:title="히스토리" />
     <item
         android:id="@+id/navigation_alarm"
         android:enabled="true"
-        android:icon="@drawable/ic_round_notifications_24"
-        android:title="Notification" />
+        android:icon="@drawable/navi_menu_notification"
+        android:title="알림" />
     <item
         android:id="@+id/settingPageFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_round_menu_24"
-        android:title="Menu" />
+        android:icon="@drawable/navi_menu_user"
+        android:title="마이페이지" />
 </menu>
