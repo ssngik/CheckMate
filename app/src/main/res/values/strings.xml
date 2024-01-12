@@ -8,7 +8,13 @@
         <item>LEARNING</item>
         <item>HOBBIES</item>
         <item>ETC</item>
+        <item>카테고리를 선택해주세요.</item>
     </string-array>
+
+    <string-array name="Category_Spinners">
+        <item>HOBBIES</item>
+    </string-array>
+    <string name="choose_category">카테고리를 선택해주세요.</string>
 
     <string name="default_notification_channel_id">Channel ID</string>
     <string name="default_notification_channel_name" translatable="true">Test</string>
@@ -29,16 +35,16 @@
     <string name="alarm_date_time">date_time</string>
     <string name="info_according_to_method_info_1">-- 시작 시간, 인증 시간, 좋아요 개수만 수정 가능해요</string>
     <string name="info_according_to_method_info_2">-- 내 목표를 클릭하면 수정 버튼이 보일 거예요</string>
-    <string name="info_according_to_method_info_3">-- 한 번 변경하면 일주일 후 변경을 할 수 있어요</string>
+    <string name="info_create_goal">카테고리, 목표이름은 설정 후 변경할 수 없어요.</string>
     <string name="go_to_main_text">메인 화면으로 갈래요</string>
     <string name="i_want_invite_text">초대할래요</string>
     <string name="the_end">끝 !</string>
     <string name="information_me_made">내가 만든 정보</string>
     <string name="title_name">title_name</string>
     <string name="period_text">기간</string>
-    <string name="period_start_information">0000-00-00</string>
+    <string name="period_start_information">2023.00.00</string>
     <string name="wave">~</string>
-    <string name="period_end_information">0000-00-00</string>
+    <string name="period_end_information">2023.00.00 ~ 2023.00.00</string>
     <string name="certification_days">인증 요일</string>
     <string name="day_value">hello</string>
     <string name="certification_method">인증 방식</string>
@@ -48,10 +54,10 @@
     <string name="post_time">00:00:00</string>
     <string name="like_count_text">좋아요 개수</string>
     <string name="like_count_value">0</string>
-    <string name="goal_create_text">목표 생성</string>
     <string name="goal_edit_text">목표 수정</string>
     <string name="goal_name_text">목표 이름</string>
-    <string name="what_is_goal_name">목표의 이름은 무엇인가요?</string>
+    <string name="create_goal_title">목표 생성</string>
+    <string name="what_is_goal_name">목표의 이름을 입력해주세요.</string>
     <string name="set_period_text">기간 설정</string>
     <string name="image_warning">이미지 없음</string>
     <string name="start_text">시작</string>
@@ -79,8 +85,8 @@
     <string name="goal_period_information">2021년 1월 1일부터 n일째</string>
     <string name="invite">더 초대할래요</string>
     <string name="invite_complete">"초대 요청을 보냈어요! \n응답이 오면 알려드릴게요"</string>
-    <string name="today_goals_guide">오늘 인증 할 목표들이에요.</string>
-    <string name="ongoing_goals_guide">진행중인 목표들이에요.</string>
+    <string name="today_goals_guide">오늘 인증 할 목표</string>
+    <string name="ongoing_goals_guide">진행중인 목표</string>
     <string name="wanna_new_goal_guide">나만의 새 목표를 만들어 볼까요?</string>
     <string name="service_terms">서비스 이용약관</string>
     <string name="privacy_policy">개인정보 처리방침</string>
@@ -98,6 +104,7 @@
     <string name="nickname_duplication">이 닉네임은 다른 사용자가 사용 중이에요.</string>
     <string name="nickname_ok">좋은 닉네임이네요!</string>
     <string name="start_checkmate">체크메이트 시작하기</string>
+    <string name="next">다음</string>
     <string name="good_job">어떤 목표든 꾸준히 이루었다면 대단한 일!</string>
     <string name="upload_image">이미지 업로드</string>
     <string name="do_my_goal_guide">오늘 하루를 공유해주세요!</string>
