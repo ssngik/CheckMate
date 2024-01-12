@@ -3,468 +3,230 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="10dp"
+    android:layout_height="match_parent"
     android:layout_marginBottom="?attr/actionBarSize"
-    android:padding="5dp"
-    tools:context=".fragment.SetNewGoalInfoFragment">
-
-
+    tools:context=".fragment.CreateNewGoalFirstPage">
 
     <TextView
         android:id="@+id/make_goal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/main_font"
-        android:text="@string/goal_create_text"
-        android:textColor="@color/black"
-        android:textSize="25sp"
+        android:text="@string/create_goal_title"
+        style="@style/main_name"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/make_goal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        android:background="@color/main_line"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/create_goal_first_step"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line"/>
 
     <TextView
         android:id="@+id/category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:fontFamily="@font/main_font"
+        android:layout_marginTop="56dp"
+        android:layout_marginStart="20dp"
+        style="@style/create_goal_page_font"
         android:text="@string/Category_spinner"
-        android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/make_goal" />
+        app:layout_constraintTop_toBottomOf="@+id/line" />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="8.5dp"
-        android:fontFamily="@font/main_font"
-        android:prompt="@string/Category_spinner"
+    <FrameLayout
+        android:id="@+id/frame1"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/make_goal" />
-
-    <View
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/almost_white"
+        app:layout_constraintTop_toBottomOf="@id/category"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        >
+
+        <Spinner
+            android:id="@+id/spinner"
+            style="@style/hint_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="-10dp"
+            android:layout_marginEnd="-10dp"
+            android:backgroundTint="@color/checkmate_color"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/btn_main"
+            />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/goal_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/main_font"
+        android:layout_marginTop="76dp"
         android:text="@string/goal_name_text"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view1" />
+        style="@style/create_goal_page_font"
+        app:layout_constraintLeft_toLeftOf="@id/category"
+        app:layout_constraintTop_toBottomOf="@+id/category" />
 
-    <EditText
-        android:id="@+id/Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="32dp"
-        android:background="@android:color/transparent"
-        android:fontFamily="@font/main_font"
-        android:hint="@string/what_is_goal_name"
-        android:inputType="text"
-        android:maxLength="20"
-        android:textSize="15sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view1" />
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintRight_toRightOf="@id/frame1"
+        app:layout_constraintTop_toBottomOf="@id/goal_name"
+        app:layout_constraintLeft_toLeftOf="@id/frame1"
+        >
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/almost_white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goal_name" />
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="@string/what_is_goal_name"
+            android:textColorHint="@color/hint"
+            android:layout_gravity="center_vertical"
+            style="@style/fill_text"
+            android:inputType="text"
+            android:maxLength="20"
+            />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/btn_main"
+            />
+
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/set_date_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/main_font"
+        android:layout_marginTop="76dp"
+        style="@style/create_goal_page_font"
         android:text="@string/set_period_text"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view2" />
+        app:layout_constraintLeft_toLeftOf="@id/goal_name"
+        app:layout_constraintTop_toBottomOf="@id/goal_name" />
 
-    <ImageButton
-        android:id="@+id/set_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/clear"
-        android:contentDescription="@string/image_warning"
-        android:src="@drawable/ic_baseline_calendar_today_24"
-        app:layout_constraintLeft_toRightOf="@+id/set_date_text"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
+    <FrameLayout
+        android:id="@+id/frame3"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintRight_toRightOf="@id/frame1"
+        app:layout_constraintTop_toBottomOf="@id/set_date_text"
+        app:layout_constraintLeft_toLeftOf="@id/frame1"
+        >
 
-    <ImageButton
-        android:id="@+id/set_date_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/clear"
-        android:contentDescription="@string/image_warning"
-        android:src="@drawable/ic_baseline_calendar_today_24"
-        android:visibility="invisible"
-        app:layout_constraintLeft_toRightOf="@+id/set_date_text"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
-
-    <View
-        android:id="@+id/view3"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/almost_white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/set_date_text" />
-
-    <TextView
-        android:id="@+id/start_date_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/main_font"
-        android:text="@string/start_text"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view3" />
-
-    <TextView
-        android:id="@+id/start_date_info_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="145dp"
-        android:layout_marginTop="20dp"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toRightOf="@+id/start_date_text"
-        app:layout_constraintTop_toBottomOf="@+id/view3" />
-
-    <View
-        android:id="@+id/view4"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/almost_white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_date_text" />
-
-    <TextView
-        android:id="@+id/end_date_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/main_font"
-        android:text="@string/end_text"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view4" />
-
-    <TextView
-        android:id="@+id/end_date_info_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="145dp"
-        android:layout_marginTop="20dp"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toRightOf="@+id/start_date_text"
-        app:layout_constraintTop_toBottomOf="@+id/view4" />
-
-    <View
-        android:id="@+id/view5"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/almost_white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/end_date_text" />
-
-    <TextView
-        android:id="@+id/check_time_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/main_font"
-        android:text="@string/certification_time_text"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view5" />
-
-    <ImageButton
-        android:id="@+id/set_time_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="13dp"
-        android:background="@color/clear"
-        android:contentDescription="@string/image_warning"
-        android:fontFamily="@font/main_font"
-        android:onClick="TimePicker"
-        android:src="@drawable/ic_round_stat_24"
-        app:layout_constraintLeft_toRightOf="@+id/check_time_text"
-        app:layout_constraintTop_toBottomOf="@+id/view5" />
-
-    <TextView
-        android:id="@+id/my_time_picker_text_invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="13dp"
-        android:fontFamily="@font/sub_font"
-        android:text="@string/no_certification_time"
-        android:textSize="15sp"
-        android:visibility="invisible"
-        app:layout_constraintLeft_toRightOf="@+id/set_time_button"
-        app:layout_constraintTop_toBottomOf="@+id/view5" />
-
-    <TextView
-        android:id="@+id/my_time_picker_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="13dp"
-        android:text=""
-        android:textSize="15sp"
-        app:layout_constraintLeft_toRightOf="@+id/set_time_button"
-        app:layout_constraintTop_toBottomOf="@+id/view5" />
-
-    <CheckBox
-        android:id="@+id/time_check_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:checked="false"
-        app:layout_constraintLeft_toRightOf="@+id/set_time_button"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view5" />
-
-    <View
-        android:id="@+id/view6"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/almost_white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/check_time_text" />
-
-    <TextView
-        android:id="@+id/goal_confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/main_font"
-        android:text="@string/certification_method"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view6" />
-
-    <RadioGroup
-        android:id="@+id/check_mode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="36dp"
-        android:orientation="horizontal"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view6">
-
-        <RadioButton
-            android:id="@+id/radioButton"
+        <ImageButton
+            android:id="@+id/calendar_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/main_font"
-            android:text="@string/method_instant"
-            android:textSize="12sp" />
+            android:background="@color/clear"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/image_warning"
+            android:src="@drawable/calendar_appointment_date"
+            />
 
-        <RadioButton
-            android:id="@+id/radioButton2"
+        <View
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/main_font"
-            android:text="@string/method_confirm"
-            android:textSize="12sp" />
-    </RadioGroup>
-
-    <View
-        android:id="@+id/view8"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/almost_white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/check_mode" />
-
-
-    <LinearLayout
-        android:id="@+id/like_num_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view8">
+            android:layout_height="2dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/btn_main"
+            />
 
         <TextView
-            android:id="@+id/like_count"
+            android:id="@+id/date_picker_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/main_font"
-            android:text="@string/like_num"
-            android:textSize="15sp" />
+            style="@style/hint_text"
+            android:layout_gravity="center_vertical"
+            android:text="@string/period_end_information"/>
 
-        <EditText
-            android:id="@+id/like_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="23dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/main_font"
-            android:hint="@string/minimum_like_num"
-            android:inputType="number"
-            android:maxLength="2"
-            android:textSize="15sp" />
-    </LinearLayout>
+    </FrameLayout>
 
-    <View
-        android:id="@+id/view9"
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="300dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frame3"
+        android:id="@+id/container">
+
+    </FrameLayout>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/save_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_main_disabled"
+        android:layout_marginBottom="46dp"
+        android:text="@string/next"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        style="@style/main_btn_text"
+        android:clickable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageView
+        android:id="@+id/alert_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/alert_error"
+        android:layout_marginStart="59.5dp"
         android:layout_marginTop="10dp"
-        android:background="@color/almost_white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/like_num_group" />
+        app:layout_constraintTop_toBottomOf="@id/save_btn"
+        app:layout_constraintLeft_toLeftOf="@+id/save_btn"
+        />
 
     <TextView
-        android:id="@+id/pick_day"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/main_font"
-        android:text="@string/certification_days"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view9" />
-
-    <TableLayout
-        android:id="@+id/weekdays"
+        android:id="@+id/start_checkmate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:stretchColumns="0,1,2,3,4,5,6"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pick_day">
-
-        <TableRow tools:ignore="UselessParent">
-
-            <CheckBox
-                android:id="@+id/monday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="#4CAF50"
-                android:checked="false"
-                android:fontFamily="@font/main_font"
-                android:text="@string/monday" />
-
-            <CheckBox
-                android:id="@+id/tuesday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="#4CAF50"
-                android:fontFamily="@font/main_font"
-                android:text="@string/tuesday" />
-
-            <CheckBox
-                android:id="@+id/wednesday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="#4CAF50"
-                android:fontFamily="@font/main_font"
-                android:text="@string/wednesday" />
-
-            <CheckBox
-                android:id="@+id/thursday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="#4CAF50"
-                android:fontFamily="@font/main_font"
-                android:text="@string/thursday" />
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:includeFontPadding="false"
+        android:text="@string/info_create_goal"
+        style="@style/alert_information"
+        app:layout_constraintLeft_toRightOf="@+id/alert_icon"
+        app:layout_constraintTop_toBottomOf="@+id/save_btn"
+        />
 
 
-            <CheckBox
-                android:id="@+id/friday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="#4CAF50"
-                android:fontFamily="@font/main_font"
-                android:text="@string/friday" />
-
-            <CheckBox
-                android:id="@+id/saturday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="#4CAF50"
-                android:fontFamily="@font/main_font"
-                android:text="@string/saturday" />
-
-            <CheckBox
-                android:id="@+id/sunday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="#4CAF50"
-                android:fontFamily="@font/main_font"
-                android:text="@string/sunday" />
-        </TableRow>
-    </TableLayout>
-
-    <TextView
-        android:id="@+id/set_complete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="3dp"
-        android:fontFamily="@font/main_font"
-        android:text="@string/complete"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/complete_modify_my_goal_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/main_font"
-        android:text="@string/modify_complete"
-        android:textSize="20sp"
-        android:visibility="invisible"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weekdays" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

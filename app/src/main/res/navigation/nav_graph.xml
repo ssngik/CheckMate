@@ -13,15 +13,14 @@
         tools:layout="@layout/fragment_main_icon">
 
         <action
-            android:id="@+id/action_navigation_home_to_setNewGoalInfoFragment"
-            app:destination="@id/setNewGoalInfoFragment"
-        />
-        <action
             android:id="@+id/action_navigation_home_to_goalDetailFragment"
             app:destination="@id/goalDetailFragment"
             app:popUpTo="@id/navigation_home"
             app:popUpToInclusive="true"
         />
+        <action
+            android:id="@+id/action_navigation_home_to_createNewGoalFirstPage"
+            app:destination="@id/createNewGoalFirstPage" />
     </fragment>
 
     <fragment
@@ -64,22 +63,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/setNewGoalInfoFragment"
-        android:name="kr.co.company.capstone.fragment.SetNewGoalInfoFragment"
-        android:label="profile"
-        tools:layout="@layout/fragment_create_goal_info">
-        <action
-            android:id="@+id/action_setNewGoalInfoFragment_to_goalCreateCompleteActivity"
-            app:destination="@id/goalCreateCompleteActivity"
-            app:popUpTo="@id/setNewGoalInfoFragment"
-            app:popUpToInclusive="true"
-        />
-        <action
-            android:id="@+id/action_setNewGoalInfoFragment_to_goalDetailFragment"
-            app:destination="@id/goalDetailFragment"
-            />
-    </fragment>
-    <fragment
         android:id="@+id/goalCreateCompleteActivity"
         android:name="kr.co.company.capstone.fragment.GoalCreateCompleteFragment"
         android:label="completeactivity_main"
@@ -105,9 +88,6 @@
         <action
             android:id="@+id/action_goalDetailFragment_to_inviteUserFragment"
             app:destination="@id/inviteUserFragment" />
-        <action
-            android:id="@+id/action_goalDetailFragment_to_create_goal_info_fragment"
-            app:destination="@id/setNewGoalInfoFragment" />
         <action
             android:id="@+id/action_goalDetailFragment_to_doMyGoalFragment"
             app:destination="@id/doMyGoalFragment"/>
@@ -179,4 +159,9 @@
         <action android:id="@+id/action_editMyGoalFragment_to_goalDetailFragment"
                 app:destination="@id/goalDetailFragment"/>
     </fragment>
+    <fragment
+        android:id="@+id/createNewGoalFirstPage"
+        android:name="kr.co.company.capstone.fragment.CreateNewGoalFirstPage"
+        android:label="fragment_create_goal_info"
+        tools:layout="@layout/fragment_create_goal_info" />
 </navigation>
