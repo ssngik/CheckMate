@@ -34,7 +34,7 @@
         android:layout_marginBottom="398dp"
         android:hint="@string/nickname_hint"
         android:inputType="text"
-        android:textAppearance="@style/nickname_hint"
+        android:textAppearance="@style/hint_text"
         android:maxLength="8"
         android:backgroundTint="@color/checkmate_color"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -52,7 +52,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/type_your_nickname_notification"/>
-<!--        android:src="@drawable/alert_cirlcle_error"-->
 
     <TextView
         android:id="@+id/nickname_notification"
