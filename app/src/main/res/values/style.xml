@@ -15,12 +15,20 @@
         <item name="android:textColor">#808080</item>
     </style>
 
+    <style name="WeekdaysCheckBox">
+        <item name="android:buttonTint">@color/checkmate_color</item>
+        <item name="android:fontFamily">@font/main_font</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
     <!--Hint Text-->
     <style name="hint_text">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#ABABAB</item>
         <item name="android:fontFamily">@font/main_font</item>
     </style>
+
 
 <!--    닉네임 조건 미충족-->
     <style name="alert_nickname_error">

@@ -36,6 +36,7 @@
     <string name="info_according_to_method_info_1">-- 시작 시간, 인증 시간, 좋아요 개수만 수정 가능해요</string>
     <string name="info_according_to_method_info_2">-- 내 목표를 클릭하면 수정 버튼이 보일 거예요</string>
     <string name="info_create_goal">카테고리, 목표이름은 설정 후 변경할 수 없어요.</string>
+    <string name="once_a_week">등록 후 일주일에 한 번 변경이 가능해요.</string>
     <string name="go_to_main_text">메인 화면으로 갈래요</string>
     <string name="i_want_invite_text">초대할래요</string>
     <string name="the_end">끝 !</string>
@@ -45,11 +46,11 @@
     <string name="period_start_information">2023.00.00</string>
     <string name="wave">~</string>
     <string name="period_end_information">2023.00.00 ~ 2023.00.00</string>
-    <string name="certification_days">인증 요일</string>
+    <string name="check_days">인증 요일</string>
     <string name="day_value">hello</string>
     <string name="certification_method">인증 방식</string>
     <string name="method">method</string>
-    <string name="certification_time">인증 시간</string>
+    <string name="proof_time">인증 시간</string>
     <string name="certification_time_value">00:00</string>
     <string name="post_time">00:00:00</string>
     <string name="like_count_text">좋아요 개수</string>
@@ -105,6 +106,7 @@
     <string name="nickname_ok">좋은 닉네임이네요!</string>
     <string name="start_checkmate">체크메이트 시작하기</string>
     <string name="next">다음</string>
+    <string name="check_my_goal">목표 확인하기</string>
     <string name="good_job">어떤 목표든 꾸준히 이루었다면 대단한 일!</string>
     <string name="upload_image">이미지 업로드</string>
     <string name="do_my_goal_guide">오늘 하루를 공유해주세요!</string>
