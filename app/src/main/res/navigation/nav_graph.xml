@@ -163,5 +163,18 @@
         android:id="@+id/createNewGoalFirstPage"
         android:name="kr.co.company.capstone.fragment.CreateNewGoalFirstPage"
         android:label="fragment_create_goal_info"
-        tools:layout="@layout/fragment_create_goal_info" />
+        tools:layout="@layout/fragment_create_new_goal_first_page" >
+        <action
+            android:id="@+id/action_createNewGoalFirstPage_to_createNewGoalFinalPage"
+            app:destination="@id/createNewGoalFinalPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/createNewGoalFinalPage"
+        android:name="kr.co.company.capstone.fragment.CreateNewGoalFinalPage"
+        android:label="fragment_create_new_goal_final_page"
+        tools:layout="@layout/fragment_create_new_goal_final_page" >
+        <action
+            android:id="@+id/action_createNewGoalFinalPage_to_goalCreateCompleteActivity"
+            app:destination="@id/goalCreateCompleteActivity" />
+    </fragment>
 </navigation>
