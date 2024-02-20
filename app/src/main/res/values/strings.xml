@@ -37,12 +37,12 @@
     <string name="info_according_to_method_info_2">-- 내 목표를 클릭하면 수정 버튼이 보일 거예요</string>
     <string name="info_create_goal">카테고리, 목표이름은 설정 후 변경할 수 없어요.</string>
     <string name="once_a_week">등록 후 일주일에 한 번 변경이 가능해요.</string>
-    <string name="go_to_main_text">메인 화면으로 갈래요</string>
+    <string name="go_to_main_text">메인화면으로 이동하기</string>
     <string name="i_want_invite_text">초대할래요</string>
     <string name="the_end">끝 !</string>
     <string name="information_me_made">내가 만든 정보</string>
     <string name="title_name">title_name</string>
-    <string name="period_text">기간</string>
+    <string name="period_text">인증 기간</string>
     <string name="period_start_information">2023.00.00</string>
     <string name="wave">~</string>
     <string name="period_end_information">2023.00.00 ~ 2023.00.00</string>
@@ -76,7 +76,7 @@
     <string name="friday">금</string>
     <string name="saturday">토</string>
     <string name="sunday">일</string>
-    <string name="complete">완료</string>
+    <string name="check_my_goal_page_title">목표 확인</string>
     <string name="modify_complete">수정 완료</string>
     <string name="sent">전송 완료</string>
     <string name="Hello">친구들과 함께 목표를 정하고 달성해요</string>
@@ -118,7 +118,7 @@
     <string name="with_friend">친구들과 함께 목표를 정하고 달성해요</string>
     <string name="image_upload">이미지 업로드</string>
     <string name="text_certification_hint">오늘의 한일을 공유해볼까요?</string>
-    <string name="invite_teammate">팀원 초대하기</string>
+    <string name="invite_teammate">친구 초대하기</string>
     <string name="find_teammate">이제 동료를 찾아볼까요?</string>
     <string name="enter_nickname">닉네임을\n입력해주세요</string>
     <string name="invite_teammate_button">초대하기</string>

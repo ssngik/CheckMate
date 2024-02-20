@@ -66,7 +66,7 @@
         android:id="@+id/goalCreateCompleteActivity"
         android:name="kr.co.company.capstone.fragment.GoalCreateCompleteFragment"
         android:label="completeactivity_main"
-        tools:layout="@layout/fragment_complete">
+        tools:layout="@layout/fragment_goal_creation_complete">
         <action
             android:id="@+id/action_goalCreateCompleteActivity_to_navigation_home"
             app:popUpTo="@id/navigation_home"
