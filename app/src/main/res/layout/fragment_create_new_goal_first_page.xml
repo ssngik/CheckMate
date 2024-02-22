@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="2dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/btn_main"
+            android:background="@color/checkmate_color"
             />
 
     </FrameLayout>
@@ -119,7 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="2dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/btn_main"
+            android:background="@color/checkmate_color"
             />
 
     </FrameLayout>
@@ -160,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="2dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/btn_main"
+            android:background="@color/checkmate_color"
             />
 
         <TextView
@@ -175,14 +175,12 @@
 
 
     <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frame3"
         android:id="@+id/container">
-
     </FrameLayout>
 
 

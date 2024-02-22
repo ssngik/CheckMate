@@ -1,187 +1,94 @@
+package kr.co.company.capstone.fragment
 
-package kr.co.company.capstone.fragment;
-
-import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-
-// layout
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
-// Animation
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-
-// Dialog
-import androidx.appcompat.app.AlertDialog;
-import android.content.DialogInterface;
-
-// Toast
-import android.widget.Toast;
-// LOG
-import android.util.Log;
-
-// Navigation
-import androidx.navigation.Navigation;
-
-// DTO
-import kr.co.company.capstone.R;
-import kr.co.company.capstone.dto.ErrorMessage;
-import kr.co.company.capstone.dto.team_mate.TeamMateInviteRequest;
-// 서비스
-import kr.co.company.capstone.service.TeamMateService;
-
-// lombok
-import lombok.SneakyThrows;
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import kr.co.company.capstone.databinding.FragmentInviteUserBinding
+import kr.co.company.capstone.dto.ErrorMessage
+import kr.co.company.capstone.dto.team_mate.TeamMateInviteRequest
+import kr.co.company.capstone.service.TeamMateService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // Retrofit
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+class InviteUserFragment : Fragment() {
+    private var _binding: FragmentInviteUserBinding? = null
 
-public class InviteUserFragment extends Fragment {
+    // 매번 null 체크를 할 필요 없이 편의성을 위해 바인딩 변수 재 선언
+    private val binding get() = _binding!!
 
-    private static final String LOG_TAG = InviteUserFragment.class.getSimpleName();
+    private var goalId: Long = 0
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        goalId = arguments?.getLong("goalId")?:0L
+        Log.d(LOG_TAG, goalId.toString())
+    }
 
-    private TextView mText;
-    private Animation mAnimation;
-    private EditText mInputUserName;
-    private long goalId;
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentInviteUserBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        binding.btnInvite.setOnClickListener { callInviteTeamMateApi() }
+        binding.btnXClose.setOnClickListener { parentFragmentManager.popBackStack()}
+    }
 
-        if (getArguments() != null) {
-            Bundle bundle = getArguments();
-            goalId = bundle.getLong("goalId");
+    private fun callInviteTeamMateApi(){
+        val inviteRequest = TeamMateInviteRequest(binding.inputTeamNickname.text.toString())
+        var dialogTitle : String
+        var dialogBody : String
+        TeamMateService.getService().invite(goalId, inviteRequest)
+            .enqueue(object : Callback<Void>{
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.code()==200) {
+                        dialogTitle = "전송 완료"
+                        dialogBody = setDialogBodyMessageByCode("success")
+                    }
+                    else { // 404
+                        dialogTitle = "초대 실패"
+                        dialogBody = setDialogBodyMessageByCode(ErrorMessage.getErrorByResponse(response).code)
+                    }
+
+                    val dialog = CustomDialog(dialogTitle, dialogBody)
+                    dialog.show(childFragmentManager, "custom")
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    dialogTitle = "서버 오류"
+                    dialogBody = setDialogBodyMessageByCode("onFailure")
+                    Log.d(LOG_TAG, "fail!")
+                    Log.d(LOG_TAG, t.message.toString())
+                }
+            })
+    }
+
+    private fun setDialogBodyMessageByCode(em : String):String{
+        return when(em){
+            "USER-001" -> "존재하지 않는 유저입니다."
+            "MATE-002" -> "이미 해당 목표를 진행 중인 유저입니다."
+            "MATE-003" -> "이미 초대를 보낸 유저입니다."
+            "onFailure" -> "통신 오류가 발생했습니다.\n메인화면으로 이동합니다."
+            "success" -> "초대 요청을 보냈어요!\n응답이 오면 알려드릴게요"
+            else -> "닉네임을 입력해주세요"
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_invite_user, container, false);
-        Button mInviteButton = view.findViewById(R.id.do_invite_button);
-
-        mText = view.findViewById(R.id.search_member);
-        mInputUserName = view.findViewById(R.id.inputUserName);
-        mAnimation = new AlphaAnimation(0.0f, 1.0f);
-
-        textEffecting();
-
-        mInviteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Input 사용자 이름
-                String userName = mInputUserName.getText().toString().trim();
-
-                // 사용자 이름을 입력하지 않았을 때
-                if (userName.isEmpty()) {
-                    Toast.makeText(getActivity(), "이름을 알려주세요", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // 팀원 초대
-                inviteUser(userName);
-            }
-        });
-
-        return view;
+    companion object {
+        private val LOG_TAG = InviteUserFragment::class.java.simpleName
     }
 
-    // 팀원 초대
-    private void inviteUser(String userName) {
-        TeamMateInviteRequest teamMateInviteRequest = new TeamMateInviteRequest(userName);
-        TeamMateService.getService().invite(goalId, teamMateInviteRequest)
-                .enqueue(new Callback<Void>() {
-                    @SneakyThrows
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        // API 요청 성공
-                        if (response.isSuccessful())
-                        {
-                            // 완료 문구 설정
-                            inviteSuccess();
-                        }
-                        else
-                        {
-                            inviteError(response);
-                        }
-                    }
-
-                    // API 요청 실패
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        inviteError(t);
-                    }
-                });
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding=null
     }
-
-    // 초대 요청 성공
-    private void inviteSuccess() {
-        String title = getString(R.string.sent);
-        String message = getString(R.string.invite_complete);
-        showAlertDialog(title, message);
-    }
-
-    // 초대 요청 실패
-    private void inviteError(Throwable t) {
-        OnErrorFragment onErrorFragment = new OnErrorFragment();
-        onErrorFragment.show(getChildFragmentManager(), "error");
-        Log.d(LOG_TAG, t.getMessage());
-    }
-
-    // 초대 요청 에러
-    private void inviteError(Response<Void> response) {
-        ErrorMessage em = ErrorMessage.getErrorByResponse(response);
-        String title = "초대 실패";
-        String message = em.getMessage();
-        showAlertDialog(title, message);
-    }
-
-    private void showAlertDialog(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(title)
-                .setMessage(message)
-                // positive
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        // input 초기화
-                        mInputUserName.setText(null);
-                    }
-                })
-                // neutral
-                .setNeutralButton(R.string.go_to_main_text, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        // input 초기화
-                        mInputUserName.setText(null);
-
-                        // 메인 화면으로 이동
-                        Navigation.findNavController(requireView()).navigate(R.id.action_inviteUserFragment_to_navigation_home);
-                    }
-                })
-                .create()
-                .show();
-    }
-
-    private void textEffecting() {
-        mAnimation.setDuration(1000);
-        mAnimation.setStartOffset(100);
-        mAnimation.setRepeatMode(Animation.REVERSE);
-        mAnimation.setRepeatCount(3);
-        //anim.setRepeatCount(Animation.INFINITE);
-        mText.startAnimation(mAnimation);
-    }
-
-
 }

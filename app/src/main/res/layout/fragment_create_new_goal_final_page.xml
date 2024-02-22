@@ -86,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="2dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/btn_main"
+            android:background="@color/checkmate_color"
             />
 
     </FrameLayout>

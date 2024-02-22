@@ -113,14 +113,16 @@
     <string name="register">등록</string>
     <string name="date_info_ex">20210101 토요일</string>
     <string name="set_nickname">닉네임 설정</string>
-    <string name="nickname_hint">닉네임 (2~8자리 이내 한글 혹은 영문)</string>
     <string name="hello_checker">Hello\nChecker:)</string>
     <string name="with_friend">친구들과 함께 목표를 정하고 달성해요</string>
     <string name="image_upload">이미지 업로드</string>
     <string name="text_certification_hint">오늘의 한일을 공유해볼까요?</string>
-    <string name="invite_teammate">친구 초대하기</string>
-    <string name="find_teammate">이제 동료를 찾아볼까요?</string>
+    <string name="invite_my_friend">친구 초대하기</string>
+    <string name="invite_my_team">팀원 초대</string>
+    <string name="lets_find_my_team">이제 함께 할\n친구를 찾아볼까요?</string>
     <string name="enter_nickname">닉네임을\n입력해주세요</string>
+    <string name="put_nickname">닉네임을 입력해주세요</string>
+    <string name="nickname_hint">닉네임 (2~8자리 이내 한글 혹은 영문)</string>
     <string name="invite_teammate_button">초대하기</string>
     <string name="history_title">History title</string>
     <string name="history_teammate">함께한 팀원들</string>
@@ -138,4 +140,6 @@
     <string name="to_history_guide">완료한 목표는 History에서 확인할 수 있어요</string>
     <string name="login_kakao">login_kakao</string>
     <string name="login_btn_naver">login_btn_naver</string>
+    <string name="btn_x_close">btn_x_close</string>
+    <string name="invite_btn">invite_btn</string>
 </resources>
