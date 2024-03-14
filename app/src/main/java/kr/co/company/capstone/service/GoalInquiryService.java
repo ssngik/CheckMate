@@ -1,13 +1,17 @@
 package kr.co.company.capstone.service;
 
-import java.util.List;
-
 import kr.co.company.capstone.dto.goal.*;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface GoalInquiryService {
+
+    // TODO: 3/14/24 주간 목표 스케줄 API 적용
+    //조회를 요청한 유저 주간 목표 스케줄
+    @GET("/users/weekly-schedule")
+    Call<UserWeeklySchedule> weeklySchedule(@Query("date") String date);
 
     // 오늘 인증해야 할 목표 정보 조회
     @GET("/goals/today")
@@ -15,7 +19,7 @@ public interface GoalInquiryService {
 
     // 진행 중인 목표 정보 조회
     @GET("/goals/ongoing")
-    Call<GoalInfoListResponse<SimpleGoalInfoResponse>> ongoingGoals();
+    Call<GoalInfoListResponse<OngoingGoalInfoResponse>> ongoingGoals();
 
     // 조회를 요청한 유저 특화 목표 상세 정보 조회
     @GET("/goals/{goalId}/detail")

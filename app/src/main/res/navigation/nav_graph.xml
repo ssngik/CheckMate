@@ -10,7 +10,7 @@
         android:name="kr.co.company.capstone.fragment.MainPageFragment"
         android:label="home"
         app:defaultNavHost="true"
-        tools:layout="@layout/fragment_main_icon">
+        tools:layout="@layout/fragment_main_page">
 
         <action
             android:id="@+id/action_navigation_home_to_goalDetailFragment"
@@ -75,7 +75,7 @@
             android:id="@+id/action_goalCreateCompleteActivity_to_fragmentInviteUser"
             app:destination="@id/inviteUserFragment"
             app:popUpTo="@id/goalCreateCompleteActivity"
-            app:popUpToInclusive="true"
+            app:popUpToInclusive="false"
         />
     </fragment>
 

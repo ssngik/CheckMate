@@ -107,6 +107,7 @@
     <string name="start_checkmate">체크메이트 시작하기</string>
     <string name="next">다음</string>
     <string name="create_my_goal">목표 생성하기</string>
+    <string name="create_my_new_goal">새 목표 만들기</string>
     <string name="good_job">어떤 목표든 꾸준히 이루었다면 대단한 일!</string>
     <string name="upload_image">이미지 업로드</string>
     <string name="do_my_goal_guide">오늘 하루를 공유해주세요!</string>
@@ -142,4 +143,8 @@
     <string name="login_btn_naver">login_btn_naver</string>
     <string name="btn_x_close">btn_x_close</string>
     <string name="invite_btn">invite_btn</string>
+    <string name="greeting">사용자 님\n오늘도 파이팅하세요!</string>
+    <string name="error_dialog_body">에러 예시 문구입니다.</string>
+    <string name="error_dialog_title">문제가 생겼어요</string>
+    <string name="ok">확인</string>
 </resources>
