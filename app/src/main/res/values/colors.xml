@@ -20,8 +20,10 @@
     <color name="hint">#ABABAB</color>
     <color name="nickname_btn_color">#E2E2E2</color>
     <color name="checkmate_color">#6E86FF</color>
+    <color name="recycler_item_main_color">#F2F4FE</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_text">#383838</color>
+    <color name="edit_text">#C0C0C0</color>
     <color name="dark_text">#ebebeb</color>
     <color name="orange">#FF9518</color>
     <color name="grn">#AEE6B2</color>

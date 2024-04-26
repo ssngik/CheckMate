@@ -7,7 +7,7 @@
     app:startDestination="@+id/navigation_home">
     <fragment
         android:id="@+id/navigation_home"
-        android:name="kr.co.company.capstone.fragment.MainPageFragment"
+        android:name="kr.co.company.capstone.home.MainPageFragment"
         android:label="home"
         app:defaultNavHost="true"
         tools:layout="@layout/fragment_main_page">
