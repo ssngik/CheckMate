@@ -17,8 +17,9 @@
     <color name="gray_300">#8C8C8C</color>
     <color name="main_line">#E6E6E6</color>
     <color name="almost_white">#CDCDCD</color>
-    <color name="hint">#ABABAB</color>
+    <color name="hint">#B0B0B0</color>
     <color name="nickname_btn_color">#E2E2E2</color>
+    <color name="btn_disabled_color">#E0E0E0</color>
     <color name="checkmate_color">#6E86FF</color>
     <color name="recycler_item_main_color">#F2F4FE</color>
     <color name="white">#FFFFFFFF</color>

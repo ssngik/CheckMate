@@ -2,67 +2,58 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/dialog_custom"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ImageView
+        android:id="@+id/emoji"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/emojis_smiling_face"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
         <TextView
-            android:id="@+id/error_title"
+            android:id="@+id/dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginStart="20dp"
             android:text="Title"
-            android:textSize="18sp"
-            android:fontFamily="@font/pretendard_semibold"
+            android:textAppearance="@style/dialog_title"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
 
-    <LinearLayout
-        android:id="@+id/btn_layout"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/dialog_body"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="20dp"
+        style="@style/dialog_body"
+        android:text="예시 문구입니다."
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_title"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_ok"
+        android:layout_width="256dp"
+        android:layout_height="62dp"
+        android:background="#6E86FF"
         android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="20dp"
+        android:text="확인"
+        android:textAppearance="@style/main_btn_text"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/error_body"
+        app:layout_constraintTop_toBottomOf="@id/dialog_body"
         app:layout_constraintBottom_toBottomOf="parent"
-        >
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/go_to_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/btn_go_to_main"
-            android:layout_marginStart="20dp"
-            android:background="@android:color/transparent"/>
-
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/invite_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/btn_invite_again"
-            android:background="@android:color/transparent"/>
-
-    </LinearLayout>
-
-        <TextView
-            android:id="@+id/error_body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="예시 문구입니다."
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btn_layout"
-            app:layout_constraintTop_toBottomOf="@+id/error_title"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="16dp"
-            />
+        />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
