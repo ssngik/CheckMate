@@ -32,22 +32,6 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.SignUpView {
         binding.loading.hide()
     }
 
-    // 닉네임 input text Changed Listener
-    private val nicknameWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val code = presenter.checkNicknameValidity(s.toString())
-            binding.requestButton.isClickable = code == SignUpPresenter.NicknameCheckCode.NICKNAME_OK
-            handleNicknameValidationImage(presenter.getNicknameCheckDrawable(code))
-        }
-        override fun afterTextChanged(s: Editable?) {}
-    }
-
-    // 닉네임 조건 부합 여부에 따른 문구 UI 설정
-    private fun handleNicknameValidationImage(drawable : Int) {
-        binding.alertNicknameValidation.setImageResource(drawable)
-    }
-
     // MainActivity로 이동
     override fun actionToMainActivity() {
         val intent = Intent(applicationContext, MainActivity::class.java)
@@ -55,10 +39,14 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.SignUpView {
         finish()
     }
 
-    // 회원가입 버튼 색상 변경
+    // 회원가입 버튼 상태 변경
     override fun setNicknameValidityDrawable(isValid: Boolean) {
+        // 회원가입 버튼 색상 변경
         val colorResource = if (isValid) R.color.checkmate_color else R.color.btn_disabled_color
         binding.joinButton.setBackgroundColor(ContextCompat.getColor(this, colorResource))
+
+        // 회원가입 버튼 클릭 설정
+        binding.joinButton.isClickable = isValid
     }
 
     // 닉네임 중복 확인 Dialog
@@ -71,6 +59,22 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.SignUpView {
         ErrorDialogFragment.newInstance(errorMessage).show(supportFragmentManager, "error_dialog")
     }
 
+    private fun setJoinButtonDisabled() {
+        binding.joinButton.isClickable = false
+        binding.joinButton.setBackgroundResource(R.drawable.btn_main_disabled)
+    }
+
+    private fun getNicknameCheckCode(s: CharSequence?): SignUpPresenter.NicknameCheckCode {
+        val code = presenter.checkNicknameValidity(s.toString())
+        binding.requestButton.isClickable = code == SignUpPresenter.NicknameCheckCode.NICKNAME_OK
+        return code
+    }
+
+    // 닉네임 조건 부합 여부에 따른 문구 UI 설정
+    private fun handleNicknameValidationImage(drawable : Int) {
+        binding.alertNicknameValidation.setImageResource(drawable)
+    }
+
     private fun setupListener() {
         // 시작하기 버튼
         binding.joinButton.setOnClickListener { presenter.onJoinButtonClicked(binding.putNickname.text.toString()) }
@@ -78,6 +82,23 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.SignUpView {
         binding.requestButton.setOnClickListener { presenter.checkNicknameDuplicate(binding.putNickname.text.toString()) }
         // 닉네임 input 리스너
         binding.putNickname.addTextChangedListener (nicknameWatcher)
+    }
+
+    // 닉네임 input text Changed Listener
+    private val nicknameWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            // 닉네임 조건 부합 여부에 따른 경고 문구 변경
+            val code = getNicknameCheckCode(s)
+            handleNicknameValidationImage(presenter.getNicknameCheckDrawable(code))
+
+            // 닉네임 입력 여부에 따른 밑줄 색상 변경
+            binding.inputLine.setBackgroundResource(presenter.getEditTextUnderLineColor(s))
+
+            // 회원가입 버튼 상태 비활성
+            setJoinButtonDisabled()
+        }
+        override fun afterTextChanged(s: Editable?) {}
     }
 }
 

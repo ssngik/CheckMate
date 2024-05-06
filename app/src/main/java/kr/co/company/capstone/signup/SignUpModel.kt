@@ -64,7 +64,7 @@ class SignUpModel : SignUpContract.Model {
 
                         SharedPreferenceUtil.setString(context, "accessToken", accessToken)
                         SharedPreferenceUtil.setString(context, "refresh Token", refreshToken)
-
+                        SharedPreferenceUtil.setString(context, "nickname", nickname)
                         onSuccess(true)
                 }else{
                     onFailure("로그인에 실패했습니다.")

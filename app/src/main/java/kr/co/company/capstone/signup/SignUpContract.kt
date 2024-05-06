@@ -15,6 +15,7 @@ interface SignUpContract {
     }
     interface Presenter{
         fun onJoinButtonClicked(nickname : String)
+        fun getEditTextUnderLineColor(s : CharSequence?) : Int
         fun getNicknameCheckDrawable(response: SignUpPresenter.NicknameCheckCode): Int
         fun checkNicknameValidity(nickname : String) : SignUpPresenter.NicknameCheckCode
         fun checkNicknameDuplicate(nickname : String)

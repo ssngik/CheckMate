@@ -11,6 +11,10 @@ class SignUpPresenter (
 
     // 회원가입 버튼 클릭
     override fun onJoinButtonClicked(nickname : String) { callSignUpApi(nickname) }
+    override fun getEditTextUnderLineColor(s: CharSequence?): Int {
+        return if (s!!.isEmpty()) R.color.edit_text
+        else R.color.checkmate_color
+    }
 
     // 회원가입 API 요청
     private fun callSignUpApi(nickname: String) {
