@@ -12,7 +12,9 @@ class FragmentUtil {
     }
 
     fun actionDetailToTimeLine(view: View, goalId: Long){
-        NavigationUtil.navigateTo(view, R.id.action_goalDetailFragment_to_timeLineFragment)
+        val bundle = Bundle()
+        bundle.putLong("goalId", goalId)
+        NavigationUtil.navigateTo(view, R.id.action_goalDetailFragment_to_timeLineFragment, bundle)
     }
 
     fun actionDetailToDoMyGoal(view: View){
