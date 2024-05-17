@@ -84,7 +84,7 @@
     <string name="do_goal">목표 인증하기</string>
     <string name="there_is_no_method_info">method에 대한 정보가 없습니다.</string>
     <string name="goal_period_information">2021년 1월 1일부터 n일째</string>
-    <string name="invite">더 초대할래요</string>
+    <string name="invite">초대하기</string>
     <string name="invite_complete">"초대 요청을 보냈어요! \n응답이 오면 알려드릴게요"</string>
     <string name="today_goals_guide">오늘 인증 할 목표</string>
     <string name="ongoing_goals_guide">진행중인 목표</string>
@@ -127,7 +127,8 @@
     <string name="invite_teammate_button">초대하기</string>
     <string name="history_title">History title</string>
     <string name="history_teammate">함께한 팀원들</string>
-    <string name="progress_percent">99.9%</string>
+    <string name="progress_percent">%.1f%%</string>
+
     <string name="invite_request">초대를 받을까요?</string>
     <string name="invite_msg">~님이 ~ 목표로 초대했습니다!</string>
     <string name="accept">수락</string>
@@ -147,4 +148,14 @@
     <string name="error_dialog_body">에러 예시 문구입니다.</string>
     <string name="error_dialog_title">문제가 생겼어요</string>
     <string name="ok">확인</string>
+    <string name="login_to_sns">login_to_sns</string>
+    <string name="percent_notification">목표 달성까지</string>
+    <string name="text_percent">0%</string>
+    <string name="team_mate_status">함께 하는 친구 상태</string>
+    <string name="eclipse">eclipse</string>
+    <string name="btn_do_my_goal">btn_do_my_goal</string>
+    <string name="_0000_00_0">0000년 00월 0주차</string>
+    <string name="btn_do_goal">btn_do_goal</string>
+    <string name="item_date_example">19</string>
+    <string name="item_day_of_the_week_example">토</string>
 </resources>

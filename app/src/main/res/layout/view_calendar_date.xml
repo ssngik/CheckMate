@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="50dp"
-    android:layout_height="80dp"
-    android:background="@color/clear"
+    android:layout_width="42dp"
+    android:layout_height="41dp"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/calendar_date"
-        android:layout_width="30dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="10dp"
-        android:background="@color/clear"
-        android:layout_gravity="center_vertical"
-        android:fontFamily="@font/main_font"
-        android:text="토\n19일"
-        android:textColor="@color/black" />
-    <ImageView
-        android:id="@+id/calendar_icon"
-        android:layout_width="30dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="5dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="10dp"
-        android:background="@color/clear"
-        tools:ignore="ContentDescription" />
+        android:id="@+id/item_day_of_the_week"
+        android:layout_width="wrap_content"
+        android:layout_height="13dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal|top"
+        android:textAppearance="@style/calendar_day_text"
+        android:text="@string/item_day_of_the_week_example"
+        />
+
+    <TextView
+        android:id="@+id/item_date"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:gravity="center"
+        android:textAppearance="@style/calendar_day_text"
+        android:text="@string/item_date_example"/>
 
 </LinearLayout>

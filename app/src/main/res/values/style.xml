@@ -42,6 +42,7 @@
         <item name="android:fontFamily">@font/main_font</item>
     </style>
 
+
     <style name="WeekdaysCheckBox">
         <item name="android:buttonTint">@color/checkmate_color</item>
         <item name="android:fontFamily">@font/main_font</item>
@@ -87,15 +88,81 @@
         <item name="android:textColor">#000000</item>
     </style>
 
-    <!--    목표 생성화면 폰트-->
-    <style name="create_goal_page_font">
-        <item name="android:textSize">16sp</item>
+<!--    **-->
+<!--    목표 상세 화면-->
+<!--    **-->
+
+    <!--    팀원 목록 Recyclerview 아이템-->
+    <style name="team_mate_nickname">
+        <item name="android:textSize">13sp</item>
         <item name="android:textColor">#000000</item>
-        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:fontFamily">@font/nanum_square_ac_r</item>
+    </style>
+    <!--    팀원 목록 Recyclerview 초대버튼-->
+    <style name="text_btn_invite">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#C0C0C0</item>
+        <item name="android:fontFamily">@font/nanum_gothic_b</item>
+    </style>
+
+    <!--    팀원 목록 Recyclerview 타이틀-->
+    <style name="team_mate_title">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/nanum_gothic_b</item>
+    </style>
+
+    <!--    목표 생성화면 타이틀 폰트-->
+    <style name="calendar_day_text">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#A0A0A0</item>
+        <item name="android:fontFamily">@font/nanum_gothic_b</item>
+    </style>
+
+    <!--    목표 생성화면 타이틀 폰트-->
+    <style name="create_goal_page_title_font">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#404040</item>
+        <item name="android:fontFamily">@font/nanum_gothic_b</item>
+    </style>
+
+<!--    목표 상세 화면 인증 버튼 폰트-->
+    <style name="goal_detail_btn_text">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:fontFamily">@font/nanum_gothic_b</item>
+    </style>
+
+    <!--    퍼센트 안내-->
+    <style name="percent_notification">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#909090</item>
+        <item name="android:fontFamily">@font/nanum_gothic_b</item>
+    </style>
+
+    <!--    달성률 값-->
+    <style name="text_percent">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#404040</item>
+        <item name="android:fontFamily">@font/nanum_square_ac_eb</item>
+    </style>
+
+
+    <!-- 목표 상세화면 골 Title -->
+    <style name="goal_detail_title">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#404040</item>
+        <item name="android:fontFamily">@font/nanum_gothic_b</item>
+    </style>
+
+    <!--목표 생성 화면 내용-->
+    <style name="create_goal_page_contents">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/nanum_gothic_b</item>
     </style>
 
     <!--    메인화면 사용자 닉네임-->
-    <!--    목표 생성 타이틀-->
     <style name="main_name">
         <item name="android:textSize">18sp</item>
         <item name="android:letterSpacing">-0.01</item>
