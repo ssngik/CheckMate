@@ -8,7 +8,6 @@ import retrofit2.http.Query;
 
 public interface GoalInquiryService {
 
-    // TODO: 3/14/24 주간 목표 스케줄 API 적용
     //조회를 요청한 유저 주간 목표 스케줄
     @GET("/users/weekly-schedule")
     Call<UserWeeklySchedule> weeklySchedule(@Query("date") String date);
@@ -23,7 +22,7 @@ public interface GoalInquiryService {
 
     // 조회를 요청한 유저 특화 목표 상세 정보 조회
     @GET("/goals/{goalId}/detail")
-    Call<GoalDetailResponse> goalDetail(@Path("goalId") long goalId);
+    Call<GoalDetail> goalDetail(@Path("goalId") long goalId);
 
     // 목표 인증일 조회
     @GET("/goals/{goalId}/period")

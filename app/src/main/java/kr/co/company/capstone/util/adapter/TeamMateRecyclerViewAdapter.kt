@@ -1,61 +1,40 @@
-package kr.co.company.capstone.util.adapter;
+package kr.co.company.capstone.util.adapter
 
-import android.content.Context;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import kr.co.company.capstone.R
+import kr.co.company.capstone.databinding.TeamMateItemBinding
+import kr.co.company.capstone.dto.goal.Mate
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
-
-import kr.co.company.capstone.R;
-import kr.co.company.capstone.dto.team_mate.TeamMatesResponse;
-
-
-public class TeamMateRecyclerViewAdapter extends RecyclerView.Adapter{
-    private static final String LOG_TAG = "RecyclerViewAdapter";
-
-    List<TeamMatesResponse> teamMates;
-    Context context;
-
-    public TeamMateRecyclerViewAdapter(Context context, List<TeamMatesResponse> teamMates) {
-        this.teamMates = teamMates;
-        this.context = context;
+class TeamMateRecyclerViewAdapter(private val teamMates: List<Mate>) :
+    RecyclerView.Adapter<TeamMateRecyclerViewAdapter.TeamMateViewHolder>() {
+    override fun getItemCount(): Int {
+        return teamMates.size
     }
 
-    @Override
-    public int getItemCount() {
-        return teamMates.size();
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamMateViewHolder {
+        val binding = TeamMateItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return TeamMateViewHolder(binding)
     }
 
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(LOG_TAG,"onCreateViewHolder");
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_mate_view , parent,false);
-        return new MyViewHolder(view);
+    override fun onBindViewHolder(holder: TeamMateViewHolder, position: Int) {
+        // 팀원의 닉네임
+        val nickname = teamMates[position].nickname
+        // 팀원의 목표 수행 인증 상태
+        val status = teamMates[position].uploaded
+
+        holder.bind(nickname, status)
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        MyViewHolder myViewHolder = (MyViewHolder)holder;
-        myViewHolder.teamMateNickname.setText(teamMates.get(position).getNickname());
-        myViewHolder.teamMateStatus.setText(teamMates.get(position).isUploaded()?"O":"X");
-    }
+    inner class TeamMateViewHolder(val binding : TeamMateItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(nickname : String, status : Boolean){
+            binding.teamMateNickname.text = nickname
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView teamMateStatus;
-        TextView teamMateNickname;
-
-        public MyViewHolder(@NonNull View view) {
-            super(view);
-            teamMateNickname =  view.findViewById(R.id.team_mate_nickname);
-            teamMateStatus = view.findViewById(R.id.team_mate_status);
+            // 팀원이 목표를 인증한 경우
+            if (status)
+                binding.teamMateStatus.background = ContextCompat.getDrawable(itemView.context, R.drawable.icon_checked)
         }
     }
-
 }
