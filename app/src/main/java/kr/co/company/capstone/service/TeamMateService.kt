@@ -1,27 +1,29 @@
-package kr.co.company.capstone.service;
+package kr.co.company.capstone.service
 
-import kr.co.company.capstone.dto.goal.GoalCalendar;
-import kr.co.company.capstone.dto.team_mate.TeamMateAcceptInviteResponse;
-import kr.co.company.capstone.dto.team_mate.TeamMateInviteReplyRequest;
-import kr.co.company.capstone.dto.team_mate.TeamMateInviteRequest;
-import retrofit2.Call;
-import retrofit2.http.*;
+import kr.co.company.capstone.dto.team_mate.MateInvitationAcceptResponse
+import kr.co.company.capstone.dto.team_mate.MateInvitationReplyRequest
+import kr.co.company.capstone.dto.team_mate.TeamMateInviteRequest
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.PATCH
+import retrofit2.http.POST
+import retrofit2.http.Path
 
-public interface TeamMateService {
-
+interface TeamMateService {
     // 초대 수락
     @PATCH("/mates/accept")
-    Call<TeamMateAcceptInviteResponse> inviteReply(@Body TeamMateInviteReplyRequest request);
+    fun invitationAccept(@Body request: MateInvitationReplyRequest): Call<MateInvitationAcceptResponse>
 
     @PATCH("/mates/reject")
-    Call<Void> inviteReject(@Body TeamMateInviteReplyRequest request);
+    fun invitationReject(@Body request: MateInvitationReplyRequest): Call<Void>
 
     // 팀원 초대 요청
     @POST("/goals/{goalId}/mates")
-    Call<Void> invite(@Path("goalId") Long goalId, @Body TeamMateInviteRequest request);
+    fun invite(@Path("goalId") goalId: Long, @Body request: TeamMateInviteRequest): Call<Void>
 
-
-    static TeamMateService getService(){
-        return RetrofitBuilder.getRetrofit().create(TeamMateService.class);
+    companion object {
+        fun service(): TeamMateService{
+            return RetrofitBuilder.getRetrofit().create(TeamMateService::class.java)
+        }
     }
 }
