@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NotificationsAdapter(private val fragment : Fragment, private val notifications : List<NotificationUserResponse>):
+class NotificationsAdapter(private val fragment : Fragment, val notifications : MutableList<NotificationUserResponse>):
     RecyclerView.Adapter<NotificationsAdapter.NotificationViewHolder>(){
 
     override fun onCreateViewHolder(
@@ -33,7 +34,6 @@ class NotificationsAdapter(private val fragment : Fragment, private val notifica
         viewType: Int
     ): NotificationViewHolder {
         val binding = NotificationItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        // 새로 생성된 뷰를 담는 Viewholder 객체를 반환
         return NotificationViewHolder(parent.context, binding)
     }
 
@@ -42,13 +42,13 @@ class NotificationsAdapter(private val fragment : Fragment, private val notifica
         position: Int
     ) {
         // data
-        val notifications = notifications[position]
-        holder.bind(notifications)
+        val notification = notifications[position]
+        holder.bind(notification)
 
         // 이미 확인되지 않은 알림인 경우
-        if (!notifications.checked){
+        if (!notification.checked){
             holder.itemView.setOnClickListener {
-                loadNotificationDetail(holder, notifications.notificationId)
+                loadNotificationDetail(holder, notification.notificationId)
             }
         }
     }
@@ -76,7 +76,21 @@ class NotificationsAdapter(private val fragment : Fragment, private val notifica
             })
     }
 
+    // 최초 알림
+    fun initNotifications(initialNotifications : List<NotificationUserResponse>) {
+        notifications.clear()
+        notifications.addAll(initialNotifications)
+        notifyItemInserted(0)
+    }
 
+    // 새로운 알림 추가
+    fun addNotifications(newNotifications : List<NotificationUserResponse>) {
+        val insertPosition = notifications.size
+        notifications.addAll(newNotifications)
+        notifyItemRangeChanged(insertPosition, newNotifications.size)
+    }
+
+    // 알림 종류별
     private fun handleNotificationDetail(
         holder : NotificationViewHolder, notificationDetail : NotificationDetailResponse, notificationId : Long){
         val attributes: Map<String, String> = Gson().fromJson(notificationDetail.attributes, Map::class.java) as Map<String, String>
