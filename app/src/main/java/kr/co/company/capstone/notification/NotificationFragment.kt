@@ -58,8 +58,8 @@ class NotificationFragment : Fragment(), NotificationContract.NotificationView, 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val upTo = 4
-                if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter.itemCount-upTo){
+                val threshold = 4
+                if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter.itemCount-threshold){
                     // 추가 알림 호출
                     val cursorId = adapter.notifications.lastOrNull()?.notificationId
                     if (cursorId != null){
