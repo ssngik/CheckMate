@@ -6,7 +6,7 @@ android {
     compileSdk 33
     defaultConfig {
         applicationId "kr.co.company.capstone"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -98,6 +98,9 @@ dependencies {
     implementation 'gun0912.ted:tedbottompicker:2.0.1'
     implementation 'gun0912.ted:tedpermission:2.0.0'
 
+    // lottie
+    implementation 'com.airbnb.android:lottie:5.0.2'
+
     implementation 'com.race604.waveloading:library:1.1.1'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -120,4 +123,7 @@ dependencies {
 
     //json
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+
+    // Mokito
+    testImplementation "org.mockito:mockito-core:3.3.3"
 }

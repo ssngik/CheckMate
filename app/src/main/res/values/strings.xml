@@ -30,7 +30,8 @@
     <string name="app_version_value">0.0.1</string>
     <string name="logout">로그아웃</string>
     <string name="alarm_setting">알림 설정</string>
-    <string name="alarm_title">Alarm Title</string>
+    <string name="alarm_page_title">알림</string>
+    <string name="alarm_title">alarm_title</string>
     <string name="alarm_content">Alarm Content</string>
     <string name="alarm_date_time">date_time</string>
     <string name="info_according_to_method_info_1">-- 시작 시간, 인증 시간, 좋아요 개수만 수정 가능해요</string>
@@ -158,4 +159,9 @@
     <string name="btn_do_goal">btn_do_goal</string>
     <string name="item_date_example">19</string>
     <string name="item_day_of_the_week_example">토</string>
+    <string name="reply_btn_accept">수락</string>
+    <string name="reply_btn_reject">거절</string>
+    <string name="invitation_reply_title">초대를 받을까요?</string>
+    <string name="invitation_reply_content">예시 문구입니다.</string>
+    <string name="invitation_reply_emoji">invitation_reply_emoji</string>
 </resources>

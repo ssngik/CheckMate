@@ -32,23 +32,19 @@
         <action android:id="@+id/action_navigation_history_to_timeLineFragment" app:destination="@id/timeLineFragment"/>
     </fragment>
     <fragment
-        android:id="@+id/navigation_alarm"
-        android:name="kr.co.company.capstone.fragment.NotificationFragment"
+        android:id="@+id/navigation_notification"
+        android:name="kr.co.company.capstone.notification.NotificationFragment"
         android:label="search"
-        tools:layout="@layout/fragment_alarm_icon">
+        tools:layout="@layout/fragment_notification">
+
         <action
-            android:id="@+id/action_navigation_alarm_to_inviteResponseFragment"
-            app:destination="@id/inviteResponseFragment"
-        app:popUpTo="@id/navigation_alarm"
-        app:popUpToInclusive="true"/>
-        <action
-            android:id="@+id/action_navigation_alarm_to_navigation_home"
+            android:id="@+id/action_navigation_notification_to_navigation_home"
             app:destination="@id/navigation_home" />
         <action
-            android:id="@+id/action_navigation_alarm_to_goalDetailFragment"
+            android:id="@+id/action_navigation_notification_to_goalDetailFragment"
             app:destination="@id/goalDetailFragment" />
         <action
-            android:id="@+id/action_navigation_alarm_to_timeLineFragment"
+            android:id="@+id/action_navigation_notification_to_timeLineFragment"
             app:destination="@id/timeLineFragment" />
     </fragment>
 
@@ -82,7 +78,7 @@
 
     <fragment
         android:id="@+id/goalDetailFragment"
-        android:name="kr.co.company.capstone.fragment.GoalDetailFragment"
+        android:name="kr.co.company.capstone.detail.GoalDetailFragment"
         android:label="fragment_goal_detail"
         tools:layout="@layout/fragment_goal_detail">
         <action
@@ -119,25 +115,7 @@
         <action android:id="@+id/action_editNicknameFragment_to_settingPageFragment"
                 app:destination="@id/settingPageFragment"/>
     </fragment>
-    <fragment
-        android:id="@+id/inviteResponseFragment"
-        android:name="kr.co.company.capstone.fragment.InviteResponseFragment"
-        android:label="FragmentInviteResponse"
-        tools:layout="@layout/invite_response">
-        <action
-            android:id="@+id/action_inviteResponseFragment_to_goalDetailFragment"
-            app:destination="@id/goalDetailFragment"
-        app:popUpTo="@+id/inviteResponseFragment"
-        app:popUpToInclusive="true"/>
-        <action
-            android:id="@+id/action_inviteResponseFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
-        <action android:id="@+id/action_inviteResponseFragment_to_navigation_alarm"
-                app:destination="@id/navigation_alarm"
-                app:popUpTo="@id/inviteResponseFragment"
-                app:popUpToInclusive="true"
-        />
-    </fragment>
+
     <fragment
         android:id="@+id/doMyGoalFragment"
         android:name="kr.co.company.capstone.fragment.DoMyGoalFragment"
