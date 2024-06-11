@@ -98,7 +98,8 @@
                         android:maxWidth="150dp"
                         android:maxHeight="150dp"
                         android:scaleType="centerInside"
-                        app:srcCompat="@drawable/three_photo_icon" />
+                        app:srcCompat="@drawable/camera_icon" />
+
 
                     <ImageView
                         android:id="@+id/third_image"

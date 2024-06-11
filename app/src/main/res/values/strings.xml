@@ -106,7 +106,9 @@
     <string name="nickname_duplication">이 닉네임은 다른 사용자가 사용 중이에요.</string>
     <string name="nickname_ok">좋은 닉네임이네요!</string>
     <string name="start">시작하기</string>
+    <string name="nickname_guide">닉네임 변경 시 30일 이후에 다시 변경 가능해요.</string>
     <string name="next">다음</string>
+    <string name="btn_edit_nickname">변경하기</string>
     <string name="create_my_goal">목표 생성하기</string>
     <string name="create_my_new_goal">새 목표 만들기</string>
     <string name="good_job">어떤 목표든 꾸준히 이루었다면 대단한 일!</string>

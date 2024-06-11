@@ -153,7 +153,7 @@
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/image_warning"
-            android:src="@drawable/calendar_appointment_date"
+            android:src="@drawable/goal_calendar"
             />
 
         <View

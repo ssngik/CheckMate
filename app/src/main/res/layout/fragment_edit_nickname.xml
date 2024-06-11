@@ -116,7 +116,7 @@
         android:background="@drawable/button_round_white"
         android:enabled="false"
         android:fontFamily="@font/main_font"
-        android:text="@string/set_complete"
+        android:text="@string/btn_edit_nickname"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
