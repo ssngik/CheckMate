@@ -5,16 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import kr.co.company.capstone.R
-import kr.co.company.capstone.databinding.ActivityMainBinding
+import kr.co.company.capstone.databinding.ActivityBottomBinding
 
 class MainActivity : AppCompatActivity(), MainContract.View {
-    private var _binding : ActivityMainBinding? = null
+    private var _binding : ActivityBottomBinding? = null
     private val binding get() = _binding!!
     private var presenter : MainPresenter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        _binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityBottomBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 

@@ -78,9 +78,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
             Log.d(LOG_TAG, goalId + date);
         } else {
-            OnErrorFragment onErrorFragment = new OnErrorFragment();
-            onErrorFragment.show(getChildFragmentManager(), "error");
-            Log.d(LOG_TAG, "there is no getArguments");
+            showErrorDialog("문제가 발생했습니다.");
         }
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,6 +117,12 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
         day = date == null ? today : date; // date 가 없을 경우 오늘 날짜로 설정
         nowDate = day;
         dateTime.setText(getProcessedDate(day));
+    }
+
+
+    private void showErrorDialog(String errorMessage){
+        ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.Companion.getErrorMessage(errorMessage);
+        errorDialogFragment.show(getParentFragmentManager(), "ErrorDialogFragment");
     }
 
     // RecyclerView 설정
@@ -166,8 +170,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 
                             setOnClickDatePicker(calendarConstraints);
                         } else {
-                            OnErrorFragment onErrorFragment = new OnErrorFragment();
-                            onErrorFragment.show(getChildFragmentManager(), "error");
+                            showErrorDialog("문제가 발생했습니다.");
                         }
                     }
 
@@ -201,7 +204,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
                     }
                     @Override
                     public void onFailure(Call<GoalPeriodResponse> call, Throwable t) {
-                        showErrorFragment();
+                        showErrorDialog("문제가 발생했습니다.");
                     }
                 });
     }
@@ -265,7 +268,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
                             TimeLineViewVisible();
 
                         } else {
-                            showErrorFragment();
+                            showErrorDialog("정보를 불러올 수 없습니다.");
                         }
                     }
 
@@ -282,8 +285,4 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
                 });
     }
 
-    private void showErrorFragment() {
-        OnErrorFragment onErrorFragment = new OnErrorFragment();
-        onErrorFragment.show(getChildFragmentManager(), "error");
-    }
 }

@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import kr.co.company.capstone.R;
+import kr.co.company.capstone.detail.GoalDetailFragment;
 import kr.co.company.capstone.dto.ErrorMessage;
 import kr.co.company.capstone.dto.goal.GoalDetailResponse;
 import kr.co.company.capstone.dto.goal.GoalModifyRequest;

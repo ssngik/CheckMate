@@ -116,13 +116,17 @@ public class EditNicknameFragment extends Fragment {
                             @Override
                             public void onFailure(Call<Void> call, Throwable t) {
                                 //Log.d(LOG_TAG, t.getMessage());
-                                OnErrorFragment onErrorFragment = new OnErrorFragment();
-                                onErrorFragment.show(getChildFragmentManager(), "error");
+                                showErrorDialog("문제가 발생했습니다.");
                             }
                         });
             }
         });
         return view;
+    }
+
+    private void showErrorDialog(String errorMessage){
+        ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.Companion.getErrorMessage(errorMessage);
+        errorDialogFragment.show(getParentFragmentManager(), "ErrorDialogFragment");
     }
 
     private void showIncorrectDialog() {

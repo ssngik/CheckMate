@@ -47,27 +47,28 @@ class InviteUserFragment : Fragment() {
         val inviteRequest = TeamMateInviteRequest(binding.inputTeamNickname.text.toString())
         var dialogTitle : String
         var dialogBody : String
-        TeamMateService.getService().invite(goalId, inviteRequest)
+        var emoji : Boolean
+        TeamMateService.service().invite(goalId, inviteRequest)
             .enqueue(object : Callback<Void>{
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.code()==200) {
                         dialogTitle = "전송 완료"
                         dialogBody = setDialogBodyMessageByCode("success")
+                        emoji = true
                     }
                     else { // 404
                         dialogTitle = "초대 실패"
                         dialogBody = setDialogBodyMessageByCode(ErrorMessage.getErrorByResponse(response).code)
+                        emoji = false
                     }
 
-                    val dialog = CustomDialog(dialogTitle, dialogBody)
+                    val dialog = AlertDialogFragment(dialogTitle, dialogBody, emoji)
                     dialog.show(childFragmentManager, "custom")
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     dialogTitle = "서버 오류"
                     dialogBody = setDialogBodyMessageByCode("onFailure")
-                    Log.d(LOG_TAG, "fail!")
-                    Log.d(LOG_TAG, t.message.toString())
                 }
             })
     }

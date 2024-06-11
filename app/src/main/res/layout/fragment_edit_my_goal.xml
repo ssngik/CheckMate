@@ -229,7 +229,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="13dp"
-        android:fontFamily="@font/sub_font"
+        android:fontFamily="@font/main_font"
         android:text="@string/no_certification_time"
         android:textSize="15sp"
         app:layout_constraintLeft_toRightOf="@+id/set_time_button"
@@ -294,7 +294,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/main_font"
-        android:text="@string/certification_days"
+        android:text="@string/check_days"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view6" />

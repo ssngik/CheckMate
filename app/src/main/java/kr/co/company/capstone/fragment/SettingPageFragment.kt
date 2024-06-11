@@ -88,18 +88,18 @@ class SettingPageFragment : Fragment() {
                         val intent = Intent(context, LoginActivity::class.java)
                         startActivity(intent)
                     } else {
-                        val onErrorFragment = OnErrorFragment()
-                        onErrorFragment.show(childFragmentManager, "error")
-                        Log.d(LOG_TAG, response.toString())
+                        showErrorDialog("로그아웃 할 수 없습니다.")
                     }
                 }
 
                 override fun onFailure(call: Call<Void?>, t: Throwable) {
-                    val onErrorFragment = OnErrorFragment()
-                    onErrorFragment.show(childFragmentManager, "error")
+                    showErrorDialog("문제가 발생했습니다.")
                 }
             })
         }
+    }
+    private fun showErrorDialog(errorMessage : String){
+        ErrorDialogFragment.getErrorMessage(errorMessage).show(parentFragmentManager, "error_dialog")
     }
 
     // 화면 모드 변경

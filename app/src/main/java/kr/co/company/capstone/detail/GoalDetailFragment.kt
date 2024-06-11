@@ -124,7 +124,7 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
     }
 
     override fun showError(errorMessage: String) {
-        val errorDialog = ErrorDialogFragment.newInstance(errorMessage)
+        val errorDialog = ErrorDialogFragment.getErrorMessage(errorMessage)
         errorDialog.show(childFragmentManager, "error_dialog")
     }
 

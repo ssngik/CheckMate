@@ -77,22 +77,21 @@ public class HistoryPageFragment extends Fragment {
                             });
                             HistoryRecyclerView.setAdapter(historyAdapter);
                         }else{
-                            OnErrorFragment onErrorFragment = new OnErrorFragment();
-                            onErrorFragment.show(getChildFragmentManager(), "error");
-                            //Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(response).toString());
+                            showErrorDialog("정보를 불러올 수 없습니다.");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<GoalInfoListResponse<HistoryGoalInfoResponse>> call, Throwable t) {
-                        OnErrorFragment onErrorFragment = new OnErrorFragment();
-                        onErrorFragment.show(getChildFragmentManager(), "error");
-                        //Log.d(LOG_TAG, t.getMessage());
+                        showErrorDialog("문제가 발생했습니다.");
                     }
                 });
 
+
         return view;
     }
-
-
+    private void showErrorDialog(String errorMessage){
+        ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.Companion.getErrorMessage(errorMessage);
+        errorDialogFragment.show(getParentFragmentManager(), "ErrorDialogFragment");
+    }
 }

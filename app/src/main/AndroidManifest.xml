@@ -9,6 +9,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -40,15 +41,14 @@
         </service>
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true" />
 
         <activity
-            android:name=".activity.SetNicknameActivity"
+            android:name=".signup.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -74,9 +74,10 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activity.GoalCompleteNotificationActivity"
-            android:exported="false" />
+
+<!--        <activity-->
+<!--            android:name=".activity.GoalCompleteNotificationActivity"-->
+<!--            android:exported="false" />-->
 
         <provider
             android:name="androidx.core.content.FileProvider"

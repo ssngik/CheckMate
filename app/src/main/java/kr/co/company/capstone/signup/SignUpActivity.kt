@@ -56,7 +56,7 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.SignUpView {
     }
 
     override fun showErrorDialog(errorMessage: String) {
-        ErrorDialogFragment.newInstance(errorMessage).show(supportFragmentManager, "error_dialog")
+        ErrorDialogFragment.getErrorMessage(errorMessage).show(supportFragmentManager, "error_dialog")
     }
 
     private fun setJoinButtonDisabled() {

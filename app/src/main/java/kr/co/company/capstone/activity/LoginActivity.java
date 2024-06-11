@@ -39,7 +39,9 @@ import kotlin.jvm.functions.Function2;
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.ErrorMessage;
 import kr.co.company.capstone.dto.login.*;
+import kr.co.company.capstone.main.MainActivity;
 import kr.co.company.capstone.service.UserService;
+import kr.co.company.capstone.signup.SignUpActivity;
 import kr.co.company.capstone.util.SharedPreferenceUtil;
 import kr.co.company.capstone.service.MyFirebaseMessagingService;
 
@@ -280,7 +282,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // 신규 회원 -> 회원가입 화면으로 이동
     private void moveToSignUpScreen() {
-        Intent intent = new Intent(getApplicationContext(), SetNicknameActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
         finish();
     }

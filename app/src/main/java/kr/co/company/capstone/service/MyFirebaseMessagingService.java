@@ -25,7 +25,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import kr.co.company.capstone.fragment.InviteResponseFragment;
 import kr.co.company.capstone.fragment.TimeLineFragment;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +34,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import kr.co.company.capstone.R;
+import kr.co.company.capstone.invitationReplyDialog.InvitationReplyDialogFragment;
 import lombok.SneakyThrows;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -70,7 +70,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         boolean flag = false;
         if(Objects.equals(data.get("type"), "INVITE_GOAL")){
             flag = true;
-            intent = new Intent(getApplicationContext(), InviteResponseFragment.class);
+            intent = new Intent(getApplicationContext(), InvitationReplyDialogFragment.class);
             bundle.putString("messageBody", message);
         }
         else if(Objects.equals(data.get("type"), "POST_UPLOAD")){

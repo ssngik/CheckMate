@@ -48,7 +48,7 @@
                 android:id="@+id/edit_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/sub_font"
+                android:fontFamily="@font/main_font"
                 android:text="@string/change_nickname"
                 android:textSize="18sp" />
 
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:fontFamily="@font/sub_font"
+                android:fontFamily="@font/main_font"
                 android:text="@string/display_theme"
                 android:textSize="18sp" />
 
@@ -68,7 +68,7 @@
                 android:id="@+id/Logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/sub_font"
+                android:fontFamily="@font/main_font"
                 android:text="@string/logout"
                 android:textSize="18sp" />
 
