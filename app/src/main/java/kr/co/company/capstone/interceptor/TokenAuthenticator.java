@@ -2,6 +2,8 @@ package kr.co.company.capstone.interceptor;
 
 import android.content.Intent;
 import android.util.Log;
+
+import kr.co.company.capstone.BuildConfig;
 import kr.co.company.capstone.GlobalApplication;
 import kr.co.company.capstone.util.SharedPreferenceUtil;
 import kr.co.company.capstone.activity.LoginActivity;
@@ -28,7 +30,7 @@ public class TokenAuthenticator implements Authenticator {
 
         if (response.code() == 401) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https:/www.checkyourgoal.com/")
+                    .baseUrl(BuildConfig.baseUrl)
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())

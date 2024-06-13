@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     //id 'kotlin-android'
 }
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 android {
     compileSdk 33
     defaultConfig {
@@ -10,6 +12,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+        buildConfigField "String", "baseUrl", properties["baseUrl"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

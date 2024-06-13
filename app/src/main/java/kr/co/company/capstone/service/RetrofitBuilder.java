@@ -1,5 +1,8 @@
 package kr.co.company.capstone.service;
 
+import android.util.Log;
+
+import kr.co.company.capstone.BuildConfig;
 import kr.co.company.capstone.GlobalApplication;
 import kr.co.company.capstone.util.SharedPreferenceUtil;
 import kr.co.company.capstone.interceptor.JwtInterceptor;
@@ -22,9 +25,7 @@ public class RetrofitBuilder {
             OkHttpClient client = builder.build();
 
             return new Retrofit.Builder()
-                    .baseUrl("https:/www.checkyourgoal.com/")
-//                    .baseUrl("http:/ec2-52-78-156-229.ap-northeast-2.compute.amazonaws.com:8080/")
-//                    .baseUrl("http:/192.168.219.104:8080/")
+                    .baseUrl(BuildConfig.baseUrl)
                     .client(client)
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
