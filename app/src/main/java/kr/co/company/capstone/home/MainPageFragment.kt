@@ -18,6 +18,7 @@ import kr.co.company.capstone.dto.goal.OngoingGoalInfoResponse
 import kr.co.company.capstone.dto.goal.TodayGoalInfoResponse
 import kr.co.company.capstone.fragment.ErrorDialogFragment
 import kr.co.company.capstone.util.NavigationUtil
+import kr.co.company.capstone.util.SharedPreferenceUtil
 
 class MainPageFragment : Fragment(), MainPageContract.MainView {
 
