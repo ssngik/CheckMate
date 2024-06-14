@@ -63,7 +63,7 @@ class SignUpModel : SignUpContract.Model {
                         val refreshToken = loginResponse?.refreshToken
 
                         SharedPreferenceUtil.setString(context, "accessToken", accessToken)
-                        SharedPreferenceUtil.setString(context, "refresh Token", refreshToken)
+                        SharedPreferenceUtil.setString(context, "refreshToken", refreshToken)
                         SharedPreferenceUtil.setString(context, "nickname", nickname)
                         onSuccess(true)
                 }else{

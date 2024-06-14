@@ -44,9 +44,8 @@ class MainPageFragment : Fragment(), MainPageContract.MainView {
 
     // 뷰 초기화
     override fun initView() {
-        // 사용자 이름, 서버 복구 후 SharedPreference 저장 정보 사용
-        val userName = "상익"
-//        val userName = SharedPreferenceUtil.getString(context, "nickName")
+        // 사용자 이름
+        val userName = SharedPreferenceUtil.getString(context, "nickname")
         // 인사 문구 설정
         val greetingText = "$userName 님\n오늘도 파이팅하세요!"
         val spannable = SpannableString(greetingText)

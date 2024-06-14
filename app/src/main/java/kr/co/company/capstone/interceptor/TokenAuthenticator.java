@@ -26,7 +26,6 @@ public class TokenAuthenticator implements Authenticator {
     @Nullable
     @Override
     public Request authenticate(@Nullable Route route, Response response) throws IOException {
-        Log.d(LOG_TAG, "TOKEN REISSUE");
 
         if (response.code() == 401) {
             Retrofit retrofit = new Retrofit.Builder()
@@ -36,27 +35,25 @@ public class TokenAuthenticator implements Authenticator {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
-            String jwtToken = SharedPreferenceUtil.getString(GlobalApplication.getAppContext(), "jwtToken").replace("Bearer ", "");
+            String accessToken = SharedPreferenceUtil.getString(GlobalApplication.getAppContext(), "accessToken").replace("Bearer ", "");
             String refreshToken = SharedPreferenceUtil.getString(GlobalApplication.getAppContext(), "refreshToken").replace("Bearer ", "");
 
             TokenReissueRequest tokenReissueRequest = TokenReissueRequest.builder()
-                    .accessToken(jwtToken)
+                    .accessToken(accessToken)
                     .refreshToken(refreshToken)
                     .build();
 
             retrofit2.Response<LoginResponse> result = retrofit.create(LoginService.class).reissue(tokenReissueRequest).execute();
-
             if(result.isSuccessful()) {
                 LoginResponse loginResponse = result.body();
-                SharedPreferenceUtil.setString(GlobalApplication.getAppContext(), "jwtToken", loginResponse.getAccessToken());
+                SharedPreferenceUtil.setString(GlobalApplication.getAppContext(), "accessToken", loginResponse.getAccessToken());
                 SharedPreferenceUtil.setString(GlobalApplication.getAppContext(), "refreshToken", loginResponse.getRefreshToken());
 
                 return response.request().newBuilder()
-                        .header("Authorization", SharedPreferenceUtil.getString(GlobalApplication.getAppContext(), "jwtToken"))
+                        .header("Authorization", SharedPreferenceUtil.getString(GlobalApplication.getAppContext(), "accessToken"))
                         .build();
             }
             else{
-                Log.d(LOG_TAG, ErrorMessage.getErrorByResponse(result).toString() + "IN Authenticator");
                 Intent intent = new Intent(GlobalApplication.getAppContext(), LoginActivity.class);
                 GlobalApplication.getAppContext().startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
