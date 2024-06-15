@@ -25,7 +25,7 @@ interface NotificationService {
 
     companion object {
         fun service(): NotificationService{
-            return RetrofitBuilder.getRetrofit().create(NotificationService::class.java)
+            return RetrofitBuilder.retrofit.create(NotificationService::class.java)
         }
     }
 }

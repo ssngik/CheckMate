@@ -14,6 +14,6 @@ public interface LoginService {
     Call<Void> logout();
 
     static LoginService getService(){
-        return RetrofitBuilder.getRetrofit().create(LoginService.class);
+        return RetrofitBuilder.INSTANCE.getRetrofit().create(LoginService.class);
     }
 }

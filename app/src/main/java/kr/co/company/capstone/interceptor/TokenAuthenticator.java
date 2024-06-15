@@ -1,13 +1,11 @@
 package kr.co.company.capstone.interceptor;
 
 import android.content.Intent;
-import android.util.Log;
 
 import kr.co.company.capstone.BuildConfig;
 import kr.co.company.capstone.GlobalApplication;
 import kr.co.company.capstone.util.SharedPreferenceUtil;
 import kr.co.company.capstone.activity.LoginActivity;
-import kr.co.company.capstone.dto.ErrorMessage;
 import kr.co.company.capstone.dto.login.LoginResponse;
 import kr.co.company.capstone.dto.login.TokenReissueRequest;
 import kr.co.company.capstone.service.LoginService;
@@ -37,7 +35,6 @@ public class TokenAuthenticator implements Authenticator {
 
             String accessToken = SharedPreferenceUtil.getString(GlobalApplication.getAppContext(), "accessToken").replace("Bearer ", "");
             String refreshToken = SharedPreferenceUtil.getString(GlobalApplication.getAppContext(), "refreshToken").replace("Bearer ", "");
-
             TokenReissueRequest tokenReissueRequest = TokenReissueRequest.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
