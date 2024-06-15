@@ -13,6 +13,6 @@ public interface PostInquiryService {
     Call<PostListInquiryResponse<PostInquiryResponse>> getPosts(@Path("goalId") long goalId, @Path("date") String date);
 
     static PostInquiryService getService(){
-        return RetrofitBuilder.getRetrofit().create(PostInquiryService.class);
+        return RetrofitBuilder.INSTANCE.getRetrofit().create(PostInquiryService.class);
     }
 }

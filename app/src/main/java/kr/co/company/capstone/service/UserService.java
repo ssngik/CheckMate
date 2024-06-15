@@ -32,6 +32,6 @@ public interface UserService {
 
 
     static UserService getService(){
-        return RetrofitBuilder.getRetrofit().create(UserService.class);
+        return RetrofitBuilder.INSTANCE.getRetrofit().create(UserService.class);
     }
 }

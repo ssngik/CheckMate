@@ -19,6 +19,6 @@ public interface GoalCreateService {
     Call<Void> modifyGoal(@Path("goalId") long goalId, @Body GoalModifyRequest goalModifyRequest);
 
     static GoalCreateService getService(){
-        return RetrofitBuilder.getRetrofit().create(GoalCreateService.class);
+        return RetrofitBuilder.INSTANCE.getRetrofit().create(GoalCreateService.class);
     }
 }

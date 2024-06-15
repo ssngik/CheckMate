@@ -23,7 +23,7 @@ interface TeamMateService {
 
     companion object {
         fun service(): TeamMateService{
-            return RetrofitBuilder.getRetrofit().create(TeamMateService::class.java)
+            return RetrofitBuilder.retrofit.create(TeamMateService::class.java)
         }
     }
 }
