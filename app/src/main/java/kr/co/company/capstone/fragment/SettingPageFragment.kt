@@ -11,7 +11,7 @@ import android.widget.TextView
 import kr.co.company.capstone.util.SharedPreferenceUtil
 import kr.co.company.capstone.service.LoginService
 import android.content.Intent
-import kr.co.company.capstone.activity.LoginActivity
+import kr.co.company.capstone.login.LoginActivity
 import android.widget.RelativeLayout
 import android.net.Uri
 import android.util.Log

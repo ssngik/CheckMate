@@ -1,4 +1,4 @@
-package kr.co.company.capstone.activity;
+package kr.co.company.capstone.login;
 
 // Android Framework 제공 라이브러리 관련
 import android.content.Context;

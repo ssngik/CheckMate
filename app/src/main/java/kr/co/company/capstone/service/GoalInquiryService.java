@@ -8,10 +8,6 @@ import retrofit2.http.Query;
 
 public interface GoalInquiryService {
 
-    //조회를 요청한 유저 주간 목표 스케줄
-    @GET("/users/weekly-schedule")
-    Call<UserWeeklySchedule> weeklySchedule(@Query("date") String date);
-
     // 오늘 인증해야 할 목표 정보 조회
     @GET("/goals/today")
     Call<GoalInfoListResponse<TodayGoalInfoResponse>> todayGoals();
