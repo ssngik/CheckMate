@@ -17,10 +17,18 @@
     </style>
 
 
+<!--    로그인 화면 인사 타이틀-->
+
+    <style name="greeting_title">
+        <item name="android:textSize">32sp</item>
+        <item name="android:fontFamily">@font/nanum_gothic_eb</item>
+        <item name="android:textColor">#6E86FF</item>
+    </style>
+
     <!--로그인 화면 인사말-->
-    <style name="with_friend">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#808080</item>
+    <style name="greeting_body">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#909090</item>
     </style>
 
     <!--목표 확인 페이지 항목-->
