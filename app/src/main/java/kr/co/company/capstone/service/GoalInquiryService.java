@@ -30,6 +30,6 @@ public interface GoalInquiryService {
     Call<GoalInfoListResponse<HistoryGoalInfoResponse>> userHistory();
 
     static GoalInquiryService getService(){
-        return RetrofitBuilder.getRetrofit().create(GoalInquiryService.class);
+        return RetrofitBuilder.INSTANCE.getRetrofit().create(GoalInquiryService.class);
     }
 }

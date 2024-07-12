@@ -18,6 +18,6 @@ public interface LoginService {
     Call<LoginResponseKt> login(@Body LoginRequestKt loginRequestKt);
 
     static LoginService getService(){
-        return RetrofitBuilder.getRetrofit().create(LoginService.class);
+        return RetrofitBuilder.INSTANCE.getRetrofit().create(LoginService.class);
     }
 }

@@ -17,6 +17,6 @@ public interface LikeService {
     Call<Void> unlike(@Path("goalId") long  goalId, @Path("postId")long postId);
 
     static LikeService getService(){
-        return RetrofitBuilder.getRetrofit().create(LikeService.class);
+        return RetrofitBuilder.INSTANCE.getRetrofit().create(LikeService.class);
     }
 }

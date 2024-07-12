@@ -22,7 +22,7 @@ public interface PostRegisterService {
                                         @Part ArrayList<MultipartBody.Part> multipartFiles);
 
     static PostRegisterService getService(){
-        return RetrofitBuilder.getRetrofit().create(PostRegisterService.class);
+        return RetrofitBuilder.INSTANCE.getRetrofit().create(PostRegisterService.class);
     }
 
 }
