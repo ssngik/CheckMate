@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".login.LoginActivity">
 
+
     <TextView
         android:id="@+id/greeting_title"
         android:layout_width="124dp"
@@ -62,33 +63,16 @@
             android:src="@drawable/btn_login_kakao"
             />
 
-        <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+        <ImageButton
             android:id="@+id/naver_login_btn"
             android:layout_width="46dp"
             android:layout_height="46dp"
             android:layout_toEndOf="@id/kakao_login_btn"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/btn_login_naver"
-            android:foreground="@drawable/btn_login_naver"
-            />
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/google_login_button"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:visibility="invisible"
-            android:layout_toEndOf="@id/naver_login_btn"
-            app:layout_constraintLeft_toRightOf="@id/naver_login_btn"
-            />
-
-        <ImageButton
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:src="@drawable/btn_login_google"
-            android:layout_toEndOf="@id/naver_login_btn"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/google_login_button" />
+            android:src="@drawable/btn_login_naver"/>
+
+
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
