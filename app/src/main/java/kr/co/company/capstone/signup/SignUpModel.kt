@@ -10,16 +10,14 @@ import kr.co.company.capstone.util.SharedPreferenceUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.UUID
 
 class SignUpModel : SignUpContract.Model {
     private lateinit var identifier : String
     override fun getUserSignUpInformation(context : Context, nickname: String) : SignUpRequest {
         // 사용자 식별 정보
-        val providerId = SharedPreferenceUtil.getString(context, "providerId")
-        identifier = UUID.nameUUIDFromBytes(providerId.toByteArray()).toString()
+        identifier = SharedPreferenceUtil.getString(context, "identifier")
         val username = SharedPreferenceUtil.getString(context, "username")
-        val emailAddress = SharedPreferenceUtil.getString(context, "emailAddress")
+        val emailAddress = SharedPreferenceUtil.getString(context, "email")
 
         return SignUpRequest(identifier, username, emailAddress, nickname)
     }

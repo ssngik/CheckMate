@@ -13,6 +13,10 @@ public interface LoginService {
     @DELETE("/users/logout")
     Call<Void> logout();
 
+    // 로그인
+    @POST("/users/login")
+    Call<LoginResponseKt> login(@Body LoginRequestKt loginRequestKt);
+
     static LoginService getService(){
         return RetrofitBuilder.getRetrofit().create(LoginService.class);
     }
