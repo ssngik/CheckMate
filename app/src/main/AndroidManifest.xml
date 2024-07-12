@@ -56,7 +56,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".login.LoginActivity"
             android:exported="true" />
 
         <activity

@@ -5,15 +5,18 @@ plugins {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 android {
-    compileSdk 33
+    compileSdk 34
     defaultConfig {
         applicationId "kr.co.company.capstone"
         minSdk 26
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "baseUrl", properties["baseUrl"]
-
+        buildConfigField "String", "OAUTH_CLIENT_ID", properties["OAUTH_CLIENT_ID"]
+        buildConfigField "String", "OAUTH_CLIENT_SECRET", properties["OAUTH_CLIENT_SECRET"]
+        buildConfigField "String", "OAUTH_CLIENT_NAME", properties["OAUTH_CLIENT_NAME"]
+        buildConfigField "String", "KAKAO_NATIVE_KEY", properties["kakao_native_key"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -78,16 +81,22 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
     //NAVER
-    implementation files('libs/naver_login_sdk.aar')
+    implementation files('libs/oauth-5.9.1.aar')
+    implementation 'androidx.security:security-crypto:1.1.0-alpha06'
 
     //KAKAO
-    implementation "com.kakao.sdk:v2-user:2.17.0" // 카카오 로그인
+    implementation "com.kakao.sdk:v2-user:2.20.0" // 카카오 로그인
 
     //GOOGLE
-    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    implementation 'com.google.android.gms:play-services-auth:21.2.0'
+
+    implementation "com.google.android.libraries.identity.googleid:googleid:1.1.1"
+
 
     //JwtDecoder
     implementation 'com.auth0.android:jwtdecode:2.0.1'
+
+
 
     //firebase
     implementation platform('com.google.firebase:firebase-bom:29.0.4')

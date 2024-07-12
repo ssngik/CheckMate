@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kr.co.company.capstone.R
-import kr.co.company.capstone.activity.LoginActivity
+import kr.co.company.capstone.login.LoginActivity
 import kr.co.company.capstone.main.MainActivity
 
 class SplashActivity : AppCompatActivity(), SplashContract.SplashView{

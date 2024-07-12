@@ -5,7 +5,9 @@ import android.content.Intent;
 import kr.co.company.capstone.BuildConfig;
 import kr.co.company.capstone.GlobalApplication;
 import kr.co.company.capstone.util.SharedPreferenceUtil;
+
 import kr.co.company.capstone.activity.LoginActivity;
+
 import kr.co.company.capstone.dto.login.LoginResponse;
 import kr.co.company.capstone.dto.login.TokenReissueRequest;
 import kr.co.company.capstone.service.LoginService;

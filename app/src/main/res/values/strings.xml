@@ -117,8 +117,8 @@
     <string name="register">등록</string>
     <string name="date_info_ex">20210101 토요일</string>
     <string name="set_nickname">닉네임 설정</string>
-    <string name="hello_checker">Hello\nChecker:)</string>
-    <string name="with_friend">친구들과 함께 목표를 정하고 달성해요</string>
+    <string name="hello_checker">Hello\nChecker</string>
+    <string name="with_friend">친구들과 함께 목표를 정하고\n함께 달성해보세요!</string>
     <string name="image_upload">이미지 업로드</string>
     <string name="text_certification_hint">오늘의 한일을 공유해볼까요?</string>
     <string name="invite_my_friend">친구 초대하기</string>
@@ -166,4 +166,6 @@
     <string name="invitation_reply_title">초대를 받을까요?</string>
     <string name="invitation_reply_content">예시 문구입니다.</string>
     <string name="invitation_reply_emoji">invitation_reply_emoji</string>
+    <string name="login_with_sns">login_with_sns</string>
+    <string name="google_login_button">google_login_button</string>
 </resources>
