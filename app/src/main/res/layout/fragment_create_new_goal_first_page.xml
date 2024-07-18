@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="?attr/actionBarSize"
-    tools:context=".fragment.CreateNewGoalFirstPage">
+    tools:context=".createGoal.first.CreateGoalFirstPage">
 
     <TextView
         android:id="@+id/make_goal"

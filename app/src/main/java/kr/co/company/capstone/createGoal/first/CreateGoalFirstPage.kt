@@ -1,4 +1,4 @@
-package kr.co.company.capstone.fragment
+package kr.co.company.capstone.createGoal.first
 
 import android.os.Bundle
 import android.text.Editable
@@ -19,7 +19,7 @@ import java.util.Date
 import java.util.Locale
 
 
-class CreateNewGoalFirstPage : Fragment() {
+class CreateGoalFirstPage : Fragment() {
 
     // 바인딩 객체 타입 null을 허용  ( onDestroy 시 완벽 제거 )
     private var _binding: FragmentCreateNewGoalFirstPageBinding? = null
@@ -180,7 +180,7 @@ class CreateNewGoalFirstPage : Fragment() {
                     putString("category", binding.spinner.selectedItem.toString())
                     putString("title", binding.title.text.toString())
                 }
-                Navigation.findNavController(binding.root).navigate(R.id.action_createNewGoalFirstPage_to_createNewGoalFinalPage, firstPageBundle)
+                Navigation.findNavController(binding.root).navigate(R.id.action_createGoalFirstPage_to_createGoalFinalPage, firstPageBundle)
             }
         }
     }

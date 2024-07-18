@@ -70,7 +70,7 @@ class MainPageFragment : Fragment(), MainPageContract.MainView {
 
     // 새 목표 만들기
     override fun navigateToNewGoalPage() {
-        NavigationUtil.navigateTo(binding.root, R.id.action_navigation_home_to_createNewGoalFirstPage)
+        NavigationUtil.navigateTo(binding.root, R.id.action_navigation_home_to_createGoalFirstPage)
     }
 
     override fun setUpBtnClickListener() {
