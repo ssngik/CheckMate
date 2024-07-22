@@ -8,7 +8,7 @@
     tools:context=".fragment.CreateNewGoalFinalPage">
 
     <TextView
-        android:id="@+id/make_goal"
+        android:id="@+id/make_goal_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_goal_title"
@@ -23,7 +23,7 @@
         android:id="@+id/line"
         android:layout_width="wrap_content"
         android:layout_height="2dp"
-        app:layout_constraintTop_toBottomOf="@id/make_goal"
+        app:layout_constraintTop_toBottomOf="@id/make_goal_title"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="16dp"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/line" />
 
     <FrameLayout
-        android:id="@+id/frame1"
+        android:id="@+id/frame2"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
@@ -92,7 +92,7 @@
     </FrameLayout>
 
     <TextView
-        android:id="@+id/goal_name"
+        android:id="@+id/text_goal_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
@@ -107,9 +107,9 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintRight_toRightOf="@id/frame1"
-        app:layout_constraintTop_toBottomOf="@id/goal_name"
-        app:layout_constraintLeft_toLeftOf="@id/frame1"
+        app:layout_constraintRight_toRightOf="@id/frame2"
+        app:layout_constraintTop_toBottomOf="@id/text_goal_title"
+        app:layout_constraintLeft_toLeftOf="@id/frame2"
         >
 
 
@@ -183,8 +183,8 @@
         android:layout_marginTop="76dp"
         style="@style/create_goal_page_contents"
         android:text="@string/certification_method"
-        app:layout_constraintLeft_toLeftOf="@id/goal_name"
-        app:layout_constraintTop_toBottomOf="@id/goal_name" />
+        app:layout_constraintLeft_toLeftOf="@id/text_goal_title"
+        app:layout_constraintTop_toBottomOf="@id/text_goal_title" />
 
 
     <CheckBox
@@ -193,7 +193,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         app:layout_constraintTop_toBottomOf="@id/set_date_text"
-        app:layout_constraintLeft_toLeftOf="@id/frame1"
+        app:layout_constraintLeft_toLeftOf="@id/frame2"
         android:text="@string/method_instant"
         style="@style/WeekdaysCheckBox"/>
 
@@ -235,7 +235,7 @@
         />
 
     <TextView
-        android:id="@+id/start_checkmate"
+        android:id="@+id/modify_information"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"

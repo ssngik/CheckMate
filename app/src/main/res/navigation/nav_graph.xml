@@ -20,7 +20,7 @@
         />
         <action
             android:id="@+id/action_navigation_home_to_createGoalFirstPage"
-            app:destination="@id/createGoalFirstPage" />
+            app:destination="@id/createGoalFirstPageFragment" />
     </fragment>
 
     <fragment
@@ -138,8 +138,8 @@
                 app:destination="@id/goalDetailFragment"/>
     </fragment>
     <fragment
-        android:id="@+id/createGoalFirstPage"
-        android:name="kr.co.company.capstone.createGoal.first.CreateGoalFirstPage"
+        android:id="@+id/createGoalFirstPageFragment"
+        android:name="kr.co.company.capstone.createGoal.first.CreateGoalFirstPageFragment"
         android:label="fragment_create_goal_info"
         tools:layout="@layout/fragment_create_new_goal_first_page" >
         <action

@@ -2,18 +2,15 @@
     <string name="app_name">Check mate</string>
     <string name="Category_spinner">카테고리</string>
     <string-array name="Category_Spinner">
+        <item>카테고리를 선택해주세요.</item>
         <item>EXERCISE</item>
         <item>LIFESTYLE</item>
         <item>READING</item>
         <item>LEARNING</item>
         <item>HOBBIES</item>
         <item>ETC</item>
-        <item>카테고리를 선택해주세요.</item>
     </string-array>
 
-    <string-array name="Category_Spinners">
-        <item>HOBBIES</item>
-    </string-array>
     <string name="choose_category">카테고리를 선택해주세요.</string>
 
     <string name="default_notification_channel_id">Channel ID</string>
@@ -46,7 +43,7 @@
     <string name="period_text">인증 기간</string>
     <string name="period_start_information">2023.00.00</string>
     <string name="wave">~</string>
-    <string name="period_end_information">2023.00.00 ~ 2023.00.00</string>
+    <string name="period_end_information">202x.00.00 ~ 202x.00.00</string>
     <string name="check_days">인증 요일</string>
     <string name="day_value">hello</string>
     <string name="certification_method">인증 방식</string>
@@ -59,8 +56,9 @@
     <string name="goal_edit_text">목표 수정</string>
     <string name="goal_name_text">목표 이름</string>
     <string name="create_goal_title">목표 생성</string>
-    <string name="what_is_goal_name">목표의 이름을 입력해주세요.</string>
-    <string name="set_period_text">기간 설정</string>
+    <string name="what_is_goal_name">목표의 이름을 입력해 주세요.</string>
+    <string name="set_your_date_range">목표의 기간을 선택해 주세요.</string>
+    <string name="set_period_text">목표 기간</string>
     <string name="image_warning">이미지 없음</string>
     <string name="start_text">시작</string>
     <string name="end_text">종료</string>
