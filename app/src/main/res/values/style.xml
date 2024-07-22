@@ -58,11 +58,12 @@
 
     </style>
 
+
     <!--Hint Text-->
     <style name="hint_text">
         <item name="android:textSize">13sp</item>
-        <item name="android:textColorHint">#C0C0C0</item>
-        <item name="android:fontFamily">@font/nanum_square_ac_r</item>
+        <item name="android:textColorHint">#B0B0B0</item>
+        <item name="android:fontFamily">@font/nanum_gothic_b</item>
     </style>
 
     <style name="splash_greeting">
@@ -166,7 +167,7 @@
     <!--목표 생성 화면 내용-->
     <style name="create_goal_page_contents">
         <item name="android:textSize">13sp</item>
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">#404040</item>
         <item name="android:fontFamily">@font/nanum_gothic_b</item>
     </style>
 

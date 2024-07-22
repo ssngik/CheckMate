@@ -19,8 +19,8 @@
             app:popUpToInclusive="true"
         />
         <action
-            android:id="@+id/action_navigation_home_to_createNewGoalFirstPage"
-            app:destination="@id/createNewGoalFirstPage" />
+            android:id="@+id/action_navigation_home_to_createGoalFirstPage"
+            app:destination="@id/createGoalFirstPageFragment" />
     </fragment>
 
     <fragment
@@ -138,12 +138,12 @@
                 app:destination="@id/goalDetailFragment"/>
     </fragment>
     <fragment
-        android:id="@+id/createNewGoalFirstPage"
-        android:name="kr.co.company.capstone.fragment.CreateNewGoalFirstPage"
+        android:id="@+id/createGoalFirstPageFragment"
+        android:name="kr.co.company.capstone.createGoal.first.CreateGoalFirstPageFragment"
         android:label="fragment_create_goal_info"
         tools:layout="@layout/fragment_create_new_goal_first_page" >
         <action
-            android:id="@+id/action_createNewGoalFirstPage_to_createNewGoalFinalPage"
+            android:id="@+id/action_createGoalFirstPage_to_createGoalFinalPage"
             app:destination="@id/createNewGoalFinalPage" />
     </fragment>
     <fragment
