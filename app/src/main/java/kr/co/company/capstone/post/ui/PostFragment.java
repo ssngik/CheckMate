@@ -1,4 +1,4 @@
-package kr.co.company.capstone.fragment;
+package kr.co.company.capstone.post.ui.;
 
 import android.Manifest;
 import android.graphics.PorterDuff;
@@ -15,11 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 
 import id.zelory.compressor.Compressor;
 import kr.co.company.capstone.dto.ErrorMessage;
+import kr.co.company.capstone.fragment.TimeLineFragment;
 import kr.co.company.capstone.util.FileTransferUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,9 +27,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.IntStream;
-
-import gun0912.tedbottompicker.TedBottomPicker;
-import gun0912.tedbottompicker.TedBottomSheetDialogFragment;
 import kr.co.company.capstone.R;
 import kr.co.company.capstone.dto.post.PostRegisterResponse;
 import kr.co.company.capstone.service.PostRegisterService;
@@ -43,14 +39,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class DoMyGoalFragment extends Fragment {
+public class PostFragment extends Fragment {
 
     List<ImageView> imageViewList = new ArrayList<>();
 
     private List<Uri> imageUriList = new ArrayList<>();
     private long goalId,teamMateId;
     private String title;
-    private final String LOG_TAG = "DoMyGoalFragment";
+    private final String LOG_TAG = "PostFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,10 +82,10 @@ public class DoMyGoalFragment extends Fragment {
 
         //카메라 권한을 요청 및 처리
         //요청 허용, 거부에 따른 Toast 메시지
-        requestCameraPermission();
+//        requestCameraPermission();
 
         // 이미지 리스너 등록
-        setImageSelectListener();
+//        setImageSelectListener();
 
         // 등록 버튼 리스너
         clickRegisterButton(loading, userTextField, registerButton);
@@ -98,10 +94,10 @@ public class DoMyGoalFragment extends Fragment {
     }
 
     // 이미지 리스너 등록
-    private void setImageSelectListener() {
-        View.OnClickListener imageSelectListener = getImageSelectListener();
-        imageViewList.forEach(iv -> iv.setOnClickListener(imageSelectListener));
-    }
+//    private void setImageSelectListener() {
+//        View.OnClickListener imageSelectListener = getImageSelectListener();
+//        imageViewList.forEach(iv -> iv.setOnClickListener(imageSelectListener));
+//    }
 
     // 등록 버튼 리스너
     private void clickRegisterButton(ProgressBar loading, EditText userTextField, Button registerButton) {
@@ -174,38 +170,38 @@ public class DoMyGoalFragment extends Fragment {
     }
 
     // Permission Listener 생성
-    @NotNull
-    private PermissionListener setPermissionListener() {
-        PermissionListener permissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                Toast.makeText(requireActivity().getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                Toast.makeText(requireActivity().getApplicationContext(), "권한이 거부됨", Toast.LENGTH_SHORT).show();
-            }
-        };
-        return permissionListener;
-    }
+//    @NotNull
+//    private PermissionListener setPermissionListener() {
+//        PermissionListener permissionListener = new PermissionListener() {
+//            @Override
+//            public void onPermissionGranted() {
+//                Toast.makeText(requireActivity().getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+//                Toast.makeText(requireActivity().getApplicationContext(), "권한이 거부됨", Toast.LENGTH_SHORT).show();
+//            }
+//        };
+//        return permissionListener;
+//    }
 
     // 카메라 권한을 요청 및 처리
-    private void requestCameraPermission() {
-
-        // Permission Listener 생성
-        PermissionListener permissionListener = setPermissionListener();
-
-        // 권한 요청
-        TedPermission.with(getActivity())
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage("카메라 권한이 필요합니다.")
-                .setDeniedMessage("카메라 권한을 거부하셨습니다.")
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                        Manifest.permission.CAMERA,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                .check();
-    }
+//    private void requestCameraPermission() {
+//
+//        // Permission Listener 생성
+//        PermissionListener permissionListener = setPermissionListener();
+//
+//        // 권한 요청
+//        TedPermission.with(getActivity())
+//                .setPermissionListener(permissionListener)
+//                .setRationaleMessage("카메라 권한이 필요합니다.")
+//                .setDeniedMessage("카메라 권한을 거부하셨습니다.")
+//                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+////                        Manifest.permission.CAMERA,
+//                        Manifest.permission.READ_EXTERNAL_STORAGE)
+//                .check();
+//    }
 
     // 로딩 표시 초기화 및 설정
     private ProgressBar setUpLoading(View view){
@@ -277,40 +273,40 @@ public class DoMyGoalFragment extends Fragment {
         return new Compressor(getActivity().getApplicationContext()).compressToFile(new File(path));
     }
 
-    @NotNull
-    private View.OnClickListener getImageSelectListener() {
-        View.OnClickListener imageSelectListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 다이얼로그 생성
-                TedBottomPicker.with(getActivity())
-                        .setPeekHeight(1600)
-                        .showCameraTile(false) // 카메라 아이코 숨김
-                        .showGalleryTile(false) // 갤러리 아이콘 숨김
-                        .setPreviewMaxCount(1000)
-                        .setSelectMaxCount(3)
-                        .setSelectMaxCountErrorText("3장 이하로 선택해주세요.")
-                        .showTitle(false)
-                        .setCompleteButtonText("선택")
-                        .setEmptySelectionText("No Select")
-                        .showMultiImage(new TedBottomSheetDialogFragment.OnMultiImageSelectedListener() {
-                            @Override
-                            public void onImagesSelected(List<Uri> uriList) {
-                                // 이미지 선택 시 콜백 메소드
-                                imageUriList.clear();
-                                imageViewList.forEach(iv -> iv.setImageResource(0));
-                                IntStream.range(0, uriList.size()).forEach(
-                                        i -> {
-                                            Glide.with(DoMyGoalFragment.this).load(uriList.get(i)).into(imageViewList.get(i));
-                                            imageUriList.add(uriList.get(i));
-                                        }
-                                );
-                            }
-                        });
-            }
-        };
-
-        return imageSelectListener;
-    }
+//    @NotNull
+//    private View.OnClickListener getImageSelectListener() {
+//        View.OnClickListener imageSelectListener = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // 다이얼로그 생성
+//                TedBottomPicker.with(getActivity())
+//                        .setPeekHeight(1600)
+//                        .showCameraTile(false) // 카메라 아이코 숨김
+//                        .showGalleryTile(false) // 갤러리 아이콘 숨김
+//                        .setPreviewMaxCount(1000)
+//                        .setSelectMaxCount(3)
+//                        .setSelectMaxCountErrorText("3장 이하로 선택해주세요.")
+//                        .showTitle(false)
+//                        .setCompleteButtonText("선택")
+//                        .setEmptySelectionText("No Select")
+//                        .showMultiImage(new TedBottomSheetDialogFragment.OnMultiImageSelectedListener() {
+//                            @Override
+//                            public void onImagesSelected(List<Uri> uriList) {
+//                                // 이미지 선택 시 콜백 메소드
+//                                imageUriList.clear();
+//                                imageViewList.forEach(iv -> iv.setImageResource(0));
+//                                IntStream.range(0, uriList.size()).forEach(
+//                                        i -> {
+//                                            Glide.with(PostFragment.this).load(uriList.get(i)).into(imageViewList.get(i));
+//                                            imageUriList.add(uriList.get(i));
+//                                        }
+//                                );
+//                            }
+//                        });
+//            }
+//        };
+//
+//        return imageSelectListener;
+//    }
 
 }

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.race604.drawable.wave.WaveDrawable
 import kr.co.company.capstone.R
 import kr.co.company.capstone.databinding.FragmentGoalDetailBinding
 import kr.co.company.capstone.dto.goal.GoalCalendar
@@ -48,13 +47,13 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
     }
 
     // 물방울 프로그레스바
-    private fun setProgress(percent : Int){
-        val wd = WaveDrawable(context, R.drawable.water_percent)
-        wd.setWaveAmplitude(10)
-        wd.setWaveLength(200)
-        wd.level = (percent * 10000 / 100)
-        binding.waterProgress.setImageDrawable(wd)
-    }
+//    private fun setProgress(percent : Int){
+//        val wd = WaveDrawable(context, R.drawable.water_percent)
+//        wd.setWaveAmplitude(10)
+//        wd.setWaveLength(200)
+//        wd.level = (percent * 10000 / 100)
+//        binding.waterProgress.setImageDrawable(wd)
+//    }
 
     // 함께 하는 팀원 Recyclerview 초기화
     private fun fetchTeamMateInformation(mates : List<Mate>){
@@ -81,7 +80,7 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
         }
 
         // 목표 진행률 표시
-        setProgress(result.achievementPercent.toInt())
+//        setProgress(result.achievementPercent.toInt())
 
         // 함께 하는 팀원 목록
         fetchTeamMateInformation(result.mates)
