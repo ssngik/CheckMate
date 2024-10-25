@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    //id 'kotlin-android'
 }
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -28,8 +27,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility kotlin_version
-        targetCompatibility kotlin_version
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildFeatures {
@@ -77,8 +76,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
 
     //롬복
-    compileOnly 'org.projectlombok:lombok:1.18.12'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
 
     //NAVER
     implementation files('libs/oauth-5.9.1.aar')
@@ -107,13 +106,13 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     //사진 선택
-    implementation 'gun0912.ted:tedbottompicker:2.0.1'
-    implementation 'gun0912.ted:tedpermission:2.0.0'
+//    implementation 'gun0912.ted:tedbottompicker:2.0.1'
+//    implementation 'gun0912.ted:tedpermission:2.0.0'
 
     // lottie
     implementation 'com.airbnb.android:lottie:5.0.2'
 
-    implementation 'com.race604.waveloading:library:1.1.1'
+//    implementation 'com.race604.waveloading:library:1.1.1'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
