@@ -120,7 +120,7 @@
         android:id="@+id/doMyGoalFragment"
         android:name="kr.co.company.capstone.fragment.DoMyGoalFragment"
         android:label="fragment_certification_detail"
-        tools:layout="@layout/fragment_certification_detail" >
+        tools:layout="@layout/fragment_post" >
         <action
             android:id="@+id/action_doMyGoalFragment_to_timeLineFragment"
             app:destination="@id/timeLineFragment"
