@@ -15,8 +15,6 @@
 
     <string name="default_notification_channel_id">Channel ID</string>
     <string name="default_notification_channel_name" translatable="true">Test</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="history_check_image">HistoryCheck</string>
     <string name="nickname">Nickname</string>
     <string name="loading">LOADING...</string>
@@ -147,7 +145,7 @@
     <string name="invite_btn">invite_btn</string>
     <string name="greeting">사용자 님\n오늘도 파이팅하세요!</string>
     <string name="error_dialog_body">에러 예시 문구입니다.</string>
-    <string name="error_dialog_title">문제가 생겼어요</string>
+    <string name="error_dialog_title">문제가 발생했어요.</string>
     <string name="ok">확인</string>
     <string name="login_to_sns">login_to_sns</string>
     <string name="percent_notification">목표 달성까지</string>
