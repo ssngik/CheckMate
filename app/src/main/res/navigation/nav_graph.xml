@@ -94,6 +94,9 @@
                 app:popUpTo="@id/goalDetailFragment" app:popUpToInclusive="true"/>
         <action android:id="@+id/action_goalDetailFragment_to_editMyGoalFragment"
                 app:destination="@id/editMyGoalFragment"/>
+        <action
+            android:id="@+id/action_goalDetailFragment_to_albumFragment"
+            app:destination="@id/albumFragment" />
     </fragment>
     <fragment
         android:id="@+id/inviteUserFragment"
@@ -155,4 +158,21 @@
             android:id="@+id/action_createNewGoalFinalPage_to_goalCreateCompleteActivity"
             app:destination="@id/goalCreateCompleteActivity" />
     </fragment>
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="kr.co.company.capstone.album.ui.AlbumFragment"
+        android:label="fragment_album"
+        tools:layout="@layout/fragment_album"
+        >
+        <argument
+            android:name="goalId"
+            app:argType="long" />
+        <argument
+            android:name="teamMateId"
+            app:argType="long" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
 </navigation>
