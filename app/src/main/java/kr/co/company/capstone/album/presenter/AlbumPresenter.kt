@@ -2,6 +2,7 @@ package kr.co.company.capstone.album.presenter
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -36,10 +37,17 @@ class AlbumPresenter(
         if (granted) {
             loadImages()
         } else {
-            val shouldShowRationale = ActivityCompat.shouldShowRequestPermissionRationale(
-                fragment.requireActivity(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
+            val shouldShowRationale = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    fragment.requireActivity(),
+                    Manifest.permission.READ_MEDIA_IMAGES
+                )
+            }else {
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    fragment.requireActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            }
 
             if (shouldShowRationale) {
                 // 사용자가 권한을 한 번 거부한 경우
