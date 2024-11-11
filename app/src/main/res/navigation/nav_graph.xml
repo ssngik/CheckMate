@@ -86,7 +86,7 @@
             app:destination="@id/inviteUserFragment" />
         <action
             android:id="@+id/action_goalDetailFragment_to_doMyGoalFragment"
-            app:destination="@id/doMyGoalFragment"/>
+            app:destination="@id/postFragment"/>
         <action
             android:id="@+id/action_goalDetailFragment_to_timeLineFragment"
             app:destination="@id/timeLineFragment" />
@@ -120,10 +120,13 @@
     </fragment>
 
     <fragment
-        android:id="@+id/doMyGoalFragment"
-        android:name="kr.co.company.capstone.fragment.DoMyGoalFragment"
+        android:id="@+id/postFragment"
+        android:name="kr.co.company.capstone.post.ui.PostFragment"
         android:label="fragment_certification_detail"
         tools:layout="@layout/fragment_post" >
+        <argument
+            android:name="selectedUris"
+            app:argType="string[]"/>
         <action
             android:id="@+id/action_doMyGoalFragment_to_timeLineFragment"
             app:destination="@id/timeLineFragment"
@@ -164,6 +167,7 @@
         android:label="fragment_album"
         tools:layout="@layout/fragment_album"
         >
+
         <argument
             android:name="goalId"
             app:argType="long" />
@@ -173,6 +177,10 @@
         <argument
             android:name="title"
             app:argType="string" />
+        <action
+            android:id="@+id/action_albumFragment_to_postFragment"
+            app:destination="@id/postFragment"/>
+
     </fragment>
 
 </navigation>
