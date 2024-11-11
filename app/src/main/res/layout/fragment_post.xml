@@ -82,7 +82,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="8dp"
-        android:background="null"
+        android:background="@null"
         android:hint="@string/post_input_hint"
         android:textAppearance="@style/post_input"
         android:textColorHint="@color/hint"
