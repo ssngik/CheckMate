@@ -12,6 +12,8 @@ class ErrorDialogFragment : DialogFragment() {
 
     private var _binding: ErrorDialogLayoutBinding? = null
     private val binding get() = _binding!!
+    private var positiveClickListener: (() -> Unit)? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,7 +29,14 @@ class ErrorDialogFragment : DialogFragment() {
         binding.dialogBody.text = errorMessage
 
         // 완료 버튼 클릭 시.
-        binding.positiveButton.setOnClickListener { dismiss() }
+        binding.positiveButton.setOnClickListener {
+            positiveClickListener?.invoke()
+            dismiss()
+        }
+    }
+
+    fun setPositiveClickListener(listener: () -> Unit) {
+        positiveClickListener = listener
     }
 
     companion object {
