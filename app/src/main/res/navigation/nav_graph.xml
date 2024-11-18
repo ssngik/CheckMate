@@ -92,8 +92,7 @@
             app:destination="@id/timeLineFragment" />
         <action android:id="@+id/action_goalDetailActivity_to_navigation_home" app:destination="@id/navigation_home"
                 app:popUpTo="@id/goalDetailFragment" app:popUpToInclusive="true"/>
-        <action android:id="@+id/action_goalDetailFragment_to_editMyGoalFragment"
-                app:destination="@id/editMyGoalFragment"/>
+
         <action
             android:id="@+id/action_goalDetailFragment_to_albumFragment"
             app:destination="@id/albumFragment" />
@@ -138,11 +137,7 @@
         android:name="kr.co.company.capstone.fragment.TimeLineFragment"
         android:label="fragment_timeline"
         tools:layout="@layout/fragment_timeline" />
-    <fragment android:id="@+id/editMyGoalFragment" android:name="kr.co.company.capstone.fragment.EditMyGoalFragment"
-              android:label="fragment_edit_my_goal" tools:layout="@layout/fragment_edit_my_goal">
-        <action android:id="@+id/action_editMyGoalFragment_to_goalDetailFragment"
-                app:destination="@id/goalDetailFragment"/>
-    </fragment>
+
     <fragment
         android:id="@+id/createGoalFirstPageFragment"
         android:name="kr.co.company.capstone.createGoal.first.CreateGoalFirstPageFragment"
