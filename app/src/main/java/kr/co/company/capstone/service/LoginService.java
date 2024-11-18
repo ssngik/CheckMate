@@ -15,7 +15,7 @@ public interface LoginService {
 
     // 로그인
     @POST("/users/login")
-    Call<LoginResponseKt> login(@Body LoginRequestKt loginRequestKt);
+    Call<LoginResponse> login(@Body LoginRequestKt loginRequestKt);
 
     static LoginService getService(){
         return RetrofitBuilder.INSTANCE.getRetrofit().create(LoginService.class);

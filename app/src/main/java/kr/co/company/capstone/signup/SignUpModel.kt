@@ -2,7 +2,7 @@ package kr.co.company.capstone.signup
 
 import android.content.Context
 import kr.co.company.capstone.dto.login.LoginRequestKt
-import kr.co.company.capstone.dto.login.LoginResponseKt
+import kr.co.company.capstone.dto.login.LoginResponse
 import kr.co.company.capstone.dto.login.SignUpRequest
 import kr.co.company.capstone.service.MyFirebaseMessagingService
 import kr.co.company.capstone.service.UserService
@@ -53,8 +53,8 @@ class SignUpModel : SignUpContract.Model {
         onFailure : (String) -> Unit
     ) {
         val request = getUserLoginInformation()
-        UserService.getService().login(request).enqueue(object : Callback<LoginResponseKt>{
-            override fun onResponse(call: Call<LoginResponseKt>, response: Response<LoginResponseKt>) {
+        UserService.getService().login(request).enqueue(object : Callback<LoginResponse>{
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful){
                     val loginResponse = response.body()
                         val accessToken = loginResponse?.accessToken
@@ -69,7 +69,7 @@ class SignUpModel : SignUpContract.Model {
                 }
             }
 
-            override fun onFailure(call: Call<LoginResponseKt>, t: Throwable) {
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 onFailure("문제가 발생했습니다.")
             }
         })

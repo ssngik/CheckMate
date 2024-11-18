@@ -14,7 +14,7 @@ import com.navercorp.nid.profile.data.NidProfileResponse
 import kr.co.company.capstone.BuildConfig
 import kr.co.company.capstone.dto.ErrorMessage
 import kr.co.company.capstone.dto.login.LoginRequestKt
-import kr.co.company.capstone.dto.login.LoginResponseKt
+import kr.co.company.capstone.dto.login.LoginResponse
 import kr.co.company.capstone.service.LoginService
 import kr.co.company.capstone.service.MyFirebaseMessagingService
 import kr.co.company.capstone.util.SharedPreferenceUtil
@@ -141,10 +141,10 @@ class LoginModel(private val context: Context) : LoginContract.LoginModel {
 
         val identifier = SharedPreferenceUtil.getString(context, "identifier")
         loginRequest = LoginRequestKt(identifier, MyFirebaseMessagingService.fcmToken)
-        LoginService.getService().login(loginRequest).enqueue(object : Callback<LoginResponseKt> {
+        LoginService.getService().login(loginRequest).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(
-                call: Call<LoginResponseKt>,
-                response: Response<LoginResponseKt>
+                call: Call<LoginResponse>,
+                response: Response<LoginResponse>
             ) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
@@ -158,7 +158,7 @@ class LoginModel(private val context: Context) : LoginContract.LoginModel {
                 }
             }
 
-            override fun onFailure(call: Call<LoginResponseKt>, t: Throwable) {
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 onFailure("문제가 발생했습니다.")
             }
         })
