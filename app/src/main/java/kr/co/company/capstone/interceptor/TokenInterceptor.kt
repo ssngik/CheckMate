@@ -1,22 +1,18 @@
-package kr.co.company.capstone.interceptor;
+package kr.co.company.capstone.interceptor
 
+import android.util.Log
+import okhttp3.Interceptor
+import okhttp3.Request
+import okhttp3.Response
 
-import java.io.IOException;
-import okhttp3.Interceptor;
-import okhttp3.Request;
-import okhttp3.Response;
+class TokenInterceptor(private val accessToken: String) : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val original: Request = chain.request()
 
-public class TokenInterceptor implements Interceptor{
-    private final String accessToken;
+        // 요청에 Authorization 추가
+        val updateRequest = original.newBuilder().header("Authorization", accessToken).build()
 
-    public TokenInterceptor(String accessToken) {
-        this.accessToken = accessToken;
+        return chain.proceed(updateRequest)
     }
-    @Override
-    public Response intercept(Chain chain) throws IOException {
-        Request original = chain.request();
-        Request.Builder builder = original.newBuilder().header("Authorization", accessToken);
-        Request request = builder.build();
-        return chain.proceed(request);
-    }
+
 }
