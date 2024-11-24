@@ -177,5 +177,9 @@
             app:destination="@id/postFragment"/>
 
     </fragment>
+    <dialog
+        android:id="@+id/invitationReplyDialogFragment"
+        android:name="kr.co.company.capstone.invitationReplyDialog.InvitationReplyDialogFragment"
+        android:label="InvitationReplyDialogFragment" />
 
 </navigation>

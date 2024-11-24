@@ -27,7 +27,16 @@ class SplashActivity : AppCompatActivity(), SplashContract.SplashView{
 
     // Main Activity로 이동
     override fun actionToMainActivity() {
-        val intent = Intent(applicationContext, MainActivity::class.java)
+        val messageBody = intent.getStringExtra("messageBody")
+        val notificationId = intent.getLongExtra("notificationId", 0L)
+        val navigateTo = intent.getStringExtra("navigateTo")
+
+        val intent = Intent(applicationContext, MainActivity::class.java).apply {
+            putExtra("messageBody", messageBody)
+            putExtra("notificationId", notificationId)
+            putExtra("navigateTo", navigateTo)
+        }
+
         startActivity(intent)
         finish()
     }

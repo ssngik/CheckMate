@@ -16,7 +16,7 @@ import kr.co.company.capstone.dto.ErrorMessage
 import kr.co.company.capstone.dto.login.LoginRequestKt
 import kr.co.company.capstone.dto.login.LoginResponse
 import kr.co.company.capstone.service.LoginService
-import kr.co.company.capstone.service.MyFirebaseMessagingService
+import kr.co.company.capstone.service.FirebaseMessagingService
 import kr.co.company.capstone.util.SharedPreferenceUtil
 import retrofit2.Call
 import retrofit2.Callback
@@ -140,7 +140,7 @@ class LoginModel(private val context: Context) : LoginContract.LoginModel {
     override fun callLoginApi(onSuccess: () -> Unit, onFailure: (String) -> Unit) {
 
         val identifier = SharedPreferenceUtil.getString(context, "identifier")
-        loginRequest = LoginRequestKt(identifier, MyFirebaseMessagingService.fcmToken)
+        loginRequest = LoginRequestKt(identifier, FirebaseMessagingService.fcmToken)
         LoginService.getService().login(loginRequest).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(
                 call: Call<LoginResponse>,

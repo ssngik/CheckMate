@@ -4,7 +4,7 @@ import android.content.Context
 import kr.co.company.capstone.dto.login.LoginRequestKt
 import kr.co.company.capstone.dto.login.LoginResponse
 import kr.co.company.capstone.dto.login.SignUpRequest
-import kr.co.company.capstone.service.MyFirebaseMessagingService
+import kr.co.company.capstone.service.FirebaseMessagingService
 import kr.co.company.capstone.service.UserService
 import kr.co.company.capstone.util.SharedPreferenceUtil
 import retrofit2.Call
@@ -24,7 +24,7 @@ class SignUpModel : SignUpContract.Model {
 
     // 로그인 필요 정보
     override fun getUserLoginInformation(): LoginRequestKt {
-        val fcmToken = MyFirebaseMessagingService.fcmToken
+        val fcmToken = FirebaseMessagingService.fcmToken
         return LoginRequestKt(identifier, fcmToken)
     }
 

@@ -36,7 +36,7 @@
             android:value="@string/default_notification_channel_id" />
 
         <service
-            android:name=".service.MyFirebaseMessagingService"
+            android:name=".service.FirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
