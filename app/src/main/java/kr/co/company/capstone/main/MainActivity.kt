@@ -2,7 +2,6 @@ package kr.co.company.capstone.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
@@ -49,30 +48,33 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         intent ?: return
 
         val navigateTo = intent.getStringExtra("navigateTo")
-        val message = intent.getStringExtra("messageBody")
-        val notificationId = intent.getLongExtra("notificationId", 0L)
 
-        val navController = findNavController(this, R.id.navHostFragment)
-
-        when (navigateTo) {
-            "INVITE_SEND" -> { // 목표 초대 메시지
-                val bundle = Bundle().apply {
-                    putString("messageBody", message)
-                    putLong("notificationId", notificationId)
-                }
-                navController.navigate(R.id.invitationReplyDialogFragment, bundle)
+        val bundle = when (navigateTo) {
+            // 목표 초대 메시지 처리
+            "INVITE_SEND" -> Bundle().apply {
+                putString("messageBody", intent.getStringExtra("messageBody"))
+                putLong("notificationId", intent.getLongExtra("notificationId", 0L))
             }
-
-            "TimeLine" -> {
-                val bundle = Bundle().apply {
-                    putLong("notificationId", notificationId)
-                }
-                navController.navigate(R.id.timeLineFragment, bundle)
+            // 게시물 업로드 알림
+            "POST_UPLOAD" -> Bundle().apply {
+                putLong("goalId", intent.getLongExtra("goalId", 0L))
+                putLong("userId", intent.getLongExtra("userId", 0L))
             }
-
-            else -> {
-            }
+            // 이외는 처리할 것 없음.
+            else -> null
         }
+
+
+        bundle?.let {
+            val navController = findNavController(this, R.id.navHostFragment)
+            val destinationId = when (navigateTo) {
+                "INVITE_SEND" -> R.id.invitationReplyDialogFragment
+                "POST_UPLOAD" -> R.id.timeLineFragment
+                else -> null
+            }
+            destinationId?.let { navController.navigate(it, bundle) }
+        }
+
     }
     override fun onDestroy() {
         super.onDestroy()

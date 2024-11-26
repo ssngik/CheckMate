@@ -29,11 +29,15 @@ class SplashActivity : AppCompatActivity(), SplashContract.SplashView{
     override fun actionToMainActivity() {
         val messageBody = intent.getStringExtra("messageBody")
         val notificationId = intent.getLongExtra("notificationId", 0L)
+        val goalId = intent.getLongExtra("goalId", 0L)
+        val userId = intent.getLongExtra("userId", 0L)
         val navigateTo = intent.getStringExtra("navigateTo")
 
         val intent = Intent(applicationContext, MainActivity::class.java).apply {
             putExtra("messageBody", messageBody)
             putExtra("notificationId", notificationId)
+            putExtra("goalId", goalId)
+            putExtra("userId", userId)
             putExtra("navigateTo", navigateTo)
         }
 
