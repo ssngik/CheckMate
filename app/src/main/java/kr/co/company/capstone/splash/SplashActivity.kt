@@ -21,8 +21,8 @@ class SplashActivity : AppCompatActivity(), SplashContract.SplashView{
     // 저장된 사용자 정보가 없는 경우 Login Activity로 이동
     override fun actionToLoginActivity() {
         val intent = Intent(applicationContext, LoginActivity::class.java)
-        startActivity(intent)
-        finish()
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
     }
 
     // Main Activity로 이동
@@ -39,9 +39,9 @@ class SplashActivity : AppCompatActivity(), SplashContract.SplashView{
             putExtra("goalId", goalId)
             putExtra("userId", userId)
             putExtra("navigateTo", navigateTo)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
 
         startActivity(intent)
-        finish()
     }
 }

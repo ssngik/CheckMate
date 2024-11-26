@@ -40,14 +40,13 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
     override fun actionToSignupActivity(){
         val intent = Intent(this, SignUpActivity::class.java)
         startActivity(intent)
-        finish()
     }
 
     // 메인화면 이동
     override fun actionToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
-        finish()
     }
 
     override fun showErrorDialog(errorMessage : String) {
