@@ -2,11 +2,13 @@ package kr.co.company.capstone.detail
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.company.capstone.R
 import kr.co.company.capstone.databinding.FragmentGoalDetailBinding
@@ -15,6 +17,7 @@ import kr.co.company.capstone.dto.goal.GoalDetail
 import kr.co.company.capstone.dto.goal.Mate
 import kr.co.company.capstone.fragment.ErrorDialogFragment
 import kr.co.company.capstone.util.FragmentUtil
+import kr.co.company.capstone.util.SharedPreferenceUtil
 import kr.co.company.capstone.util.adapter.CalendarRecyclerViewAdapter
 import kr.co.company.capstone.util.adapter.TeamMateRecyclerViewAdapter
 
@@ -33,7 +36,7 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentGoalDetailBinding.inflate(inflater, container, false)
         presenter = GoalDetailPresenter(this)
         return binding.root
@@ -41,19 +44,9 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showProgress()
         presenter.loadGoalDetailViewInformation(goalId)
         initListener()
     }
-
-    // 물방울 프로그레스바
-//    private fun setProgress(percent : Int){
-//        val wd = WaveDrawable(context, R.drawable.water_percent)
-//        wd.setWaveAmplitude(10)
-//        wd.setWaveLength(200)
-//        wd.level = (percent * 10000 / 100)
-//        binding.waterProgress.setImageDrawable(wd)
-//    }
 
     // 함께 하는 팀원 Recyclerview 초기화
     private fun fetchTeamMateInformation(mates : List<Mate>){
@@ -62,14 +55,34 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
         binding.teamMateList.layoutManager = LinearLayoutManager(context)
     }
 
-    // initialize Button Click Listener
+    // user mateId
+    private fun getUserMateId(): Long? {
+        val mates = presenter.getMates()
+        val myNickname = SharedPreferenceUtil.getString(context, "nickname")
+        val userMate = mates.find { it.nickname == myNickname }
+        return userMate?.mateId
+    }
+
     private fun initListener() {
-        binding.btnDo.setOnClickListener { fragmentUtil.actionDetailToDoMyGoal(binding.root) }
+        binding.btnDoMyGoal.setOnClickListener {
+            val myMateId = getUserMateId()
+
+            if (myMateId != null) {
+                val action = GoalDetailFragmentDirections.actionGoalDetailFragmentToAlbumFragment(
+                    goalId = goalId,
+                    mateId = myMateId,
+                    title = binding.goalTitle.text.toString()
+                )
+                findNavController().navigate(action)
+            }else {
+                showError("문제가 발생했습니다.")
+            }
+
+        }
         binding.btnInvite.setOnClickListener { fragmentUtil.actionDetailToInvite(binding.root, goalId)}
         binding.btnTimeline.setOnClickListener { fragmentUtil.actionDetailToTimeLine(binding.root, goalId) }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun initView(result : GoalDetail) {
 
         // View 기본 정보 초기화
@@ -78,9 +91,6 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
             dayWeek.text = presenter.getWeekOfMonth() // 오늘 기준 주차
             textPercent.text = getString(R.string.progress_percent, result.achievementPercent)
         }
-
-        // 목표 진행률 표시
-//        setProgress(result.achievementPercent.toInt())
 
         // 함께 하는 팀원 목록
         fetchTeamMateInformation(result.mates)
@@ -93,14 +103,17 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
     }
 
     // 목표 수행 여부에 따른 버튼 동작 상태 정의
-    override fun setDoButtonStatus(text: String, drawableId: Int) {
-        binding.btnDoMyGoal.text = text
-        if (drawableId != 0){
-            binding.btnDoMyGoal.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawableId, 0)
-        }else{
-            binding.btnDoMyGoal.visibility = View.INVISIBLE
-            binding.btnDo.visibility = View.VISIBLE
-            binding.btnDo.isClickable = true
+    override fun setDoButtonStatus(statusText: String, drawableId: Int) {
+        with(binding.btnDoMyGoal) {
+            isEnabled = statusText.isEmpty()
+            this.text= statusText
+
+            // Drawable 설정
+            if (isEnabled) {
+                setCompoundDrawablesWithIntrinsicBounds(0, 0, drawableId, 0)
+            } else {
+                setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            }
         }
     }
 
@@ -133,7 +146,4 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
         presenter.detachView()
     }
 
-    companion object {
-        private const val LOG_TAG = "GoalDetailFragment"
-    }
 }

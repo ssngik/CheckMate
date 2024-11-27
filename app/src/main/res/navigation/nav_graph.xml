@@ -126,6 +126,10 @@
         <argument
             android:name="selectedUris"
             app:argType="string[]"/>
+
+        <argument
+            android:name="goalTitle"
+            app:argType="string"/>
         <action
             android:id="@+id/action_doMyGoalFragment_to_timeLineFragment"
             app:destination="@id/timeLineFragment"
@@ -167,7 +171,7 @@
             android:name="goalId"
             app:argType="long" />
         <argument
-            android:name="teamMateId"
+            android:name="mateId"
             app:argType="long" />
         <argument
             android:name="title"
