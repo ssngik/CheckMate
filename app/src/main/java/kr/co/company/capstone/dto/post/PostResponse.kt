@@ -1,8 +1,6 @@
-package kr.co.company.capstone.dto.post;
+package kr.co.company.capstone.dto.post
 
-import lombok.Data;
 
-@Data
-public class PostRegisterResponse {
-    private long postId;
-}
+data class PostResponse(
+    val postId: Long
+)
