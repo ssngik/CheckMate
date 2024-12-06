@@ -31,6 +31,7 @@
     <color name="naver_green">#2DB400</color>
     <color name="n2">#60cb6c</color>
     <color name="green_bar">#5fc03a</color>
+    <color name="card_boundary">#F0F0F0</color>
 
     <color name="colorPrimary">#1f3197</color>
     <color name="colorPrimaryDark">#172781</color>

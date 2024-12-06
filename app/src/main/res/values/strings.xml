@@ -165,5 +165,7 @@
     <string name="login_with_sns">login_with_sns</string>
     <string name="google_login_button">google_login_button</string>
     <string name="post_input_hint">오늘은 무엇을 하셨나요?</string>
+    <string name="like_count_info">53명이 좋아요를 눌렀어요</string>
+    <string name="read_more">더보기</string>
 
 </resources>
