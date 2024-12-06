@@ -1,7 +1,7 @@
 package kr.co.company.capstone.dto.goal
 
 data class GoalDetail(
-    val goalId: Int,
+    val goalId: Long,
     val category: String,
     val title: String,
     val startDate: String,
