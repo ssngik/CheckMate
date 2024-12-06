@@ -146,7 +146,7 @@
     </fragment>
     <fragment
         android:id="@+id/timeLineFragment"
-        android:name="kr.co.company.capstone.fragment.TimeLineFragment"
+        android:name="kr.co.company.capstone.timeline.ui.TimeLineFragment"
         android:label="fragment_timeline"
         tools:layout="@layout/fragment_timeline" >
 
@@ -154,6 +154,9 @@
             android:name="goalId"
             app:argType="long" />
 
+        <argument
+            android:name="userId"
+            app:argType="long" />
     </fragment>
 
 
@@ -185,6 +188,9 @@
 
         <argument
             android:name="goalId"
+            app:argType="long" />
+        <argument
+            android:name="userId"
             app:argType="long" />
         <argument
             android:name="mateId"
