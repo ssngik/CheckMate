@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kr.co.company.capstone.databinding.ActivityLoginBinding
 import kr.co.company.capstone.fragment.ErrorDialogFragment
 import kr.co.company.capstone.main.MainActivity
-import kr.co.company.capstone.service.MyFirebaseMessagingService
+import kr.co.company.capstone.service.FirebaseMessagingService
 import kr.co.company.capstone.signup.SignUpActivity
 
 class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
 
     // FCM Token 서비스 실행
     private fun startFcmTokenService() {
-        val intent = Intent(this, MyFirebaseMessagingService::class.java)
+        val intent = Intent(this, FirebaseMessagingService::class.java)
         startService(intent)
     }
 
