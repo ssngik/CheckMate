@@ -86,14 +86,16 @@
             app:destination="@id/inviteUserFragment" />
         <action
             android:id="@+id/action_goalDetailFragment_to_doMyGoalFragment"
-            app:destination="@id/doMyGoalFragment"/>
+            app:destination="@id/postFragment"/>
         <action
             android:id="@+id/action_goalDetailFragment_to_timeLineFragment"
             app:destination="@id/timeLineFragment" />
         <action android:id="@+id/action_goalDetailActivity_to_navigation_home" app:destination="@id/navigation_home"
                 app:popUpTo="@id/goalDetailFragment" app:popUpToInclusive="true"/>
-        <action android:id="@+id/action_goalDetailFragment_to_editMyGoalFragment"
-                app:destination="@id/editMyGoalFragment"/>
+
+        <action
+            android:id="@+id/action_goalDetailFragment_to_albumFragment"
+            app:destination="@id/albumFragment" />
     </fragment>
     <fragment
         android:id="@+id/inviteUserFragment"
@@ -117,26 +119,48 @@
     </fragment>
 
     <fragment
-        android:id="@+id/doMyGoalFragment"
-        android:name="kr.co.company.capstone.fragment.DoMyGoalFragment"
+        android:id="@+id/postFragment"
+        android:name="kr.co.company.capstone.post.ui.PostFragment"
         android:label="fragment_certification_detail"
-        tools:layout="@layout/fragment_certification_detail" >
+        tools:layout="@layout/fragment_post" >
+        <argument
+            android:name="selectedUris"
+            app:argType="string[]"/>
+
+        <argument
+            android:name="goalTitle"
+            app:argType="string"/>
+
+        <argument
+            android:name="goalId"
+            app:argType="long" />
+        <argument
+            android:name="mateId"
+            app:argType="long" />
         <action
-            android:id="@+id/action_doMyGoalFragment_to_timeLineFragment"
+            android:id="@+id/action_postFragment_to_timeLineFragment"
             app:destination="@id/timeLineFragment"
-        app:popUpTo="@+id/goalDetailFragment"
-        app:popUpToInclusive="false"/>
+            app:popUpTo="@+id/goalDetailFragment"
+            app:popUpToInclusive="false"/>
+
     </fragment>
     <fragment
         android:id="@+id/timeLineFragment"
-        android:name="kr.co.company.capstone.fragment.TimeLineFragment"
+        android:name="kr.co.company.capstone.timeline.ui.TimeLineFragment"
         android:label="fragment_timeline"
-        tools:layout="@layout/fragment_timeline" />
-    <fragment android:id="@+id/editMyGoalFragment" android:name="kr.co.company.capstone.fragment.EditMyGoalFragment"
-              android:label="fragment_edit_my_goal" tools:layout="@layout/fragment_edit_my_goal">
-        <action android:id="@+id/action_editMyGoalFragment_to_goalDetailFragment"
-                app:destination="@id/goalDetailFragment"/>
+        tools:layout="@layout/fragment_timeline" >
+
+        <argument
+            android:name="goalId"
+            app:argType="long" />
+
+        <argument
+            android:name="userId"
+            app:argType="long" />
     </fragment>
+
+
+
     <fragment
         android:id="@+id/createGoalFirstPageFragment"
         android:name="kr.co.company.capstone.createGoal.first.CreateGoalFirstPageFragment"
@@ -155,4 +179,33 @@
             android:id="@+id/action_createNewGoalFinalPage_to_goalCreateCompleteActivity"
             app:destination="@id/goalCreateCompleteActivity" />
     </fragment>
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="kr.co.company.capstone.album.ui.AlbumFragment"
+        android:label="fragment_album"
+        tools:layout="@layout/fragment_album"
+        >
+
+        <argument
+            android:name="goalId"
+            app:argType="long" />
+        <argument
+            android:name="userId"
+            app:argType="long" />
+        <argument
+            android:name="mateId"
+            app:argType="long" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_albumFragment_to_postFragment"
+            app:destination="@id/postFragment"/>
+
+    </fragment>
+    <dialog
+        android:id="@+id/invitationReplyDialogFragment"
+        android:name="kr.co.company.capstone.invitationReplyDialog.InvitationReplyDialogFragment"
+        android:label="InvitationReplyDialogFragment" />
+
 </navigation>

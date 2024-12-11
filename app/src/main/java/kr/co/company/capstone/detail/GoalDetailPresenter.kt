@@ -1,15 +1,18 @@
 package kr.co.company.capstone.detail
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import kr.co.company.capstone.R
 import kr.co.company.capstone.dto.goal.GoalCalendar
 import kr.co.company.capstone.dto.goal.GoalDetail
+import kr.co.company.capstone.dto.goal.Mate
 import kr.co.company.capstone.dto.goal.Uploadable
 import java.time.LocalDate
 
 class GoalDetailPresenter(private var detailView : GoalDetailContract.DetailView?) : GoalDetailContract.Presenter{
     private val model = GoalDetailModel()
+    private var mates: List<Mate> = emptyList()
 
     override fun detachView() {
         this.detailView = null
@@ -21,6 +24,7 @@ class GoalDetailPresenter(private var detailView : GoalDetailContract.DetailView
         model.callGoalDetailApi(
             goalId,
             onSuccess = {result ->
+                mates = result.mates
                 detailView?.initView(result)
                 detailView?.hideProgress() },
             onFailure = {error -> handleError(error)}
@@ -28,7 +32,6 @@ class GoalDetailPresenter(private var detailView : GoalDetailContract.DetailView
     }
 
     // 목표 수행 일정 RecyclerView
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun fetchCalendarViewInformation(result: GoalDetail) {
         val startDate = LocalDate.parse(result.startDate)
         val schedule = result.goalSchedule
@@ -64,17 +67,19 @@ class GoalDetailPresenter(private var detailView : GoalDetailContract.DetailView
             isUploaded -> "오늘 목표를 성공했어요"
             !isCheckDay -> "인증 요일이 아니에요."
             isTimeOver -> "인증 시간이 지났어요."
-            else -> "" // 기타 상황에 대한 처리
+            else -> "" // uploadable -> true
         }
 
         val drawableId = when {
             isUploaded -> R.drawable.emoji_winking_face
             !isCheckDay || isTimeOver -> R.drawable.emojis_frowning_face
-            else -> 0 // 기본 아이콘
+            else -> 0
         }
 
         detailView?.setDoButtonStatus(buttonText, drawableId)
     }
+
+    override fun getMates(): List<Mate> = mates
 
     private fun handleError(errorMessage: String) {
         detailView?.showError(errorMessage)
