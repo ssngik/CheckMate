@@ -1,12 +1,9 @@
 package kr.co.company.capstone.detail
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,21 +52,31 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
         binding.teamMateList.layoutManager = LinearLayoutManager(context)
     }
 
-    // user mateId
-    private fun getUserMateId(): Long? {
+    // mateId
+    private fun getMateId(): Long? {
+        return getUserMateInfo()?.mateId
+    }
+
+    // userId
+    private fun getUserId(): Long? {
+        return getUserMateInfo()?.userId
+    }
+
+    private fun getUserMateInfo(): Mate? {
         val mates = presenter.getMates()
-        val myNickname = SharedPreferenceUtil.getString(context, "nickname")
-        val userMate = mates.find { it.nickname == myNickname }
-        return userMate?.mateId
+        val userNickname = SharedPreferenceUtil.getString(context, "nickname")
+        return mates.find { it.nickname == userNickname }
     }
 
     private fun initListener() {
         binding.btnDoMyGoal.setOnClickListener {
-            val myMateId = getUserMateId()
+            val myMateId = getMateId()
+            val userId = getUserId()
 
-            if (myMateId != null) {
+            if (myMateId != null && userId != null) {
                 val action = GoalDetailFragmentDirections.actionGoalDetailFragmentToAlbumFragment(
                     goalId = goalId,
+                    userId = userId,
                     mateId = myMateId,
                     title = binding.goalTitle.text.toString()
                 )
@@ -80,7 +87,18 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
 
         }
         binding.btnInvite.setOnClickListener { fragmentUtil.actionDetailToInvite(binding.root, goalId)}
-        binding.btnTimeline.setOnClickListener { fragmentUtil.actionDetailToTimeLine(binding.root, goalId) }
+        binding.btnTimeline.setOnClickListener {
+            val userId = getUserId()
+            if (userId != null) {
+                val action = GoalDetailFragmentDirections.actionGoalDetailFragmentToTimeLineFragment(
+                    goalId = goalId,
+                    userId = userId
+                )
+                findNavController().navigate(action)
+            } else {
+                showError("문제가 발생했습니다.")
+            }
+        }
     }
 
     override fun initView(result : GoalDetail) {
