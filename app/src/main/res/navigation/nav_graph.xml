@@ -126,17 +126,37 @@
         <argument
             android:name="selectedUris"
             app:argType="string[]"/>
+
+        <argument
+            android:name="goalTitle"
+            app:argType="string"/>
+
+        <argument
+            android:name="goalId"
+            app:argType="long" />
+        <argument
+            android:name="mateId"
+            app:argType="long" />
         <action
-            android:id="@+id/action_doMyGoalFragment_to_timeLineFragment"
+            android:id="@+id/action_postFragment_to_timeLineFragment"
             app:destination="@id/timeLineFragment"
-        app:popUpTo="@+id/goalDetailFragment"
-        app:popUpToInclusive="false"/>
+            app:popUpTo="@+id/goalDetailFragment"
+            app:popUpToInclusive="false"/>
+
     </fragment>
     <fragment
         android:id="@+id/timeLineFragment"
         android:name="kr.co.company.capstone.fragment.TimeLineFragment"
         android:label="fragment_timeline"
-        tools:layout="@layout/fragment_timeline" />
+        tools:layout="@layout/fragment_timeline" >
+
+        <argument
+            android:name="goalId"
+            app:argType="long" />
+
+    </fragment>
+
+
 
     <fragment
         android:id="@+id/createGoalFirstPageFragment"
@@ -167,7 +187,7 @@
             android:name="goalId"
             app:argType="long" />
         <argument
-            android:name="teamMateId"
+            android:name="mateId"
             app:argType="long" />
         <argument
             android:name="title"

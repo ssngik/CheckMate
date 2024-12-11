@@ -8,6 +8,17 @@
     android:paddingBottom="?attr/actionBarSize"
     tools:context=".post.ui.PostFragment">
 
+    <ProgressBar
+        android:id="@+id/post_loading"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="invisible"
+        android:progressTint="@color/checkmate_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
     <TextView
         android:id="@+id/goal_title"
         android:layout_width="match_parent"
@@ -36,6 +47,8 @@
         android:id="@+id/image_first"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
         app:layout_constraintRight_toLeftOf="@id/image_second"
@@ -47,6 +60,8 @@
         android:id="@+id/image_second"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         android:layout_marginTop="20dp"
         android:layout_marginStart="8dp"
         app:layout_constraintRight_toLeftOf="@id/image_third"
@@ -58,6 +73,8 @@
         android:id="@+id/image_third"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         android:layout_marginTop="20dp"
         android:layout_marginStart="8dp"
         app:layout_constraintLeft_toRightOf="@id/image_second"
@@ -81,7 +98,8 @@
         android:layout_height="50dp"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
+        android:maxLength="400"
         android:background="@null"
         android:hint="@string/post_input_hint"
         android:textAppearance="@style/post_input"
@@ -95,13 +113,14 @@
         android:id="@+id/post_page_line2"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_gravity="bottom"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
+        android:background="@color/underline_color_selector"
         app:layout_constraintTop_toBottomOf="@id/post_text_input"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/main_line"
+
         />
 
 
