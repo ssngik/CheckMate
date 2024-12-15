@@ -2,15 +2,15 @@
 # 목표 달성을 위한 앱, CheckMate
   
 ## CheckMate 개요
-    - 앱 Check Mate 는 같은 목표를 가진 팀원들이 서로의 동기부여가 되어 함께 목표 달성을 할 수 있도록 제안하는 앱입니다.
-      팀원을 직접 모집하여 팀원의 목표 수행 여부, 본인의 달성률을 직관적으로 파악할 수 있습니다. 기존 ToDo 관련 앱의 문제점을 개선했습니다.
-      
-    해당 레포지토리의 Check Mate는 졸업 이후 서버, 디자이너와 함께 리팩토링을 한 과정입니다. 해당 프로젝트는 꾸준히 다양한 시도를 하기 위해 서버를 열어두고 있습니다.
+
+![Group 40](https://github.com/user-attachments/assets/5dc22d07-0a7f-4e04-a04e-83515976e4ed)
+
+
 
 ### 팀 구성
 - 안드로이드 1, 백앤드 1, 기획 1, 디자인 1
 
-### 수상 내역
+### 🏅 수상 내역
 - 2022.06.16, 울산대학교 공과대학 IT융합학부 졸업작품 경진대회 우수상
 
 ### 주요 기능
@@ -35,21 +35,20 @@
 #### 알림
 - 팀원 초대 및 초대 응답 여부, 팀원의 목표 인증 등 알림을 받을 수 있습니다.
 
-### 기술 스택
+### 🧱 기술 스택
 - Java, Kotlin
 - MVP Pattern
 - Glide
 - Retrofit
 - Jetpack Navigation
 - FCM
-
-### Tool
+  
+### ⚒️ Tool
 - Android Studio
 - Figma
 - Notion
-  
-### API 명세
 - Spring Rest Docs
+  
 
 #### 전체 UI
 - 전체 UI는 이곳을 클릭하시면 Figma를 통해 보실 수 있습니다.
