@@ -349,4 +349,17 @@
         <item name="fontFamily">@font/nanum_gothic_b</item>
     </style>
 
+<!--    마이페이지-->
+
+    <style name="my_page_category">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/nanum_gothic_b</item>
+        <item name="android:textColor">#404040</item>
+    </style>
+
+    <style name="my_page_content">
+        <item name="android:textSize">13sp</item>
+        <item name="fontFamily">@font/nanum_gothic_r</item>
+        <item name="android:textColor">#404040</item>
+    </style>
 </resources>

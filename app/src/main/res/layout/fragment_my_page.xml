@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginBottom="?attr/actionBarSize"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.MyPageFragment">
+
+    <TextView
+        android:id="@+id/my_page_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/my_page"
+        style="@style/goal_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="22dp"/>
+
+    <TextView
+        android:id="@+id/personal_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/goal_title"
+        android:layout_marginTop="38dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toBottomOf="@id/my_page_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="@string/personal_info"/>
+    
+    <TextView
+        android:id="@+id/edit_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_marginStart="20dp"
+        style="@style/my_page_content"
+        android:text="@string/edit_nickname"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_information"/>
+
+    <TextView
+        android:id="@+id/theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        style="@style/my_page_content"
+        android:text="@string/theme"
+        app:layout_constraintTop_toBottomOf="@id/edit_nickname"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <View
+        android:id="@+id/line_1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/main_line"
+        app:layout_constraintTop_toBottomOf="@id/theme"/>
+
+    <TextView
+        android:id="@+id/app_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        style="@style/my_page_category"
+        android:text="@string/app_info"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_1"/>
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/my_page_question"
+        style="@style/my_page_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="22dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_info"/>
+
+    <TextView
+        android:id="@+id/checkmate_contact_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/my_page_content"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/my_page_checkmate_contact_value"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_info"
+        />
+
+
+    <TextView
+        android:id="@+id/app_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/my_page_app_version"
+        style="@style/my_page_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/question"/>
+
+    <TextView
+        android:id="@+id/app_version_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/my_page_content"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/my_page_app_version_value"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkmate_contact_info"
+        />
+
+
+    <TextView
+        android:id="@+id/term_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/my_page_content"
+        android:text="@string/my_page_term"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_version"/>
+
+    <TextView
+        android:id="@+id/privacy_policy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/my_page_content"
+        android:text="@string/my_page_privacy_policy"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/term_service"/>
+
+    <TextView
+        android:id="@+id/license_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/my_page_content"
+        android:text="@string/my_page_license"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/privacy_policy"/>
+
+    <TextView
+        android:id="@+id/delete_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/my_page_content"
+        android:text="@string/my_page_delete_account"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/license_info"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

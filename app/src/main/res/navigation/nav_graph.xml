@@ -50,9 +50,9 @@
 
     <fragment
         android:id="@+id/settingPageFragment"
-        android:name="kr.co.company.capstone.fragment.SettingPageFragment"
+        android:name="kr.co.company.capstone.fragment.MyPageFragment"
         android:label="profile"
-        tools:layout="@layout/fragment_setting_icon">
+        tools:layout="@layout/fragment_my_page">
         <action
             android:id="@+id/action_settingPageFragment_to_editNicknameFragment"
             app:destination="@id/editNicknameFragment" />
