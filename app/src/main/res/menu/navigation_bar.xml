@@ -4,7 +4,7 @@
         android:id="@+id/navigation_home"
         android:enabled="true"
         android:icon="@drawable/navi_menu_feed"
-        android:title="피드" />
+        android:title="홈" />
     <item
         android:id="@+id/navigation_history"
         android:enabled="true"
@@ -16,7 +16,7 @@
         android:icon="@drawable/navi_menu_notification"
         android:title="알림" />
     <item
-        android:id="@+id/settingPageFragment"
+        android:id="@+id/myPageFragment"
         android:enabled="true"
         android:icon="@drawable/navi_menu_user"
         android:title="마이페이지" />
