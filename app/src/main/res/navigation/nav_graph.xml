@@ -103,7 +103,7 @@
 
     <fragment
         android:id="@+id/editNicknameFragment"
-        android:name="kr.co.company.capstone.fragment.EditNicknameFragment"
+        android:name="kr.co.company.capstone.nickname.edit.ui.EditNicknameFragment"
     android:label="EditNickNameFragment"
     tools:layout="@layout/fragment_edit_nickname">
     </fragment>

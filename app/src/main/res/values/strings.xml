@@ -18,7 +18,7 @@
     <string name="history_check_image">HistoryCheck</string>
     <string name="nickname">Nickname</string>
     <string name="loading">LOADING...</string>
-    <string name="change_nickname">닉네임 변경</string>
+    <string name="change_nickname">변경하기</string>
     <string name="app_version">앱 버전</string>
     <string name="support_email">teamcheckus@gmail.com</string>
     <string name="support">문의하기</string>
