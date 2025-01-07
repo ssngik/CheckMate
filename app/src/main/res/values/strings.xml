@@ -18,7 +18,7 @@
     <string name="history_check_image">HistoryCheck</string>
     <string name="nickname">Nickname</string>
     <string name="loading">LOADING...</string>
-    <string name="change_nickname">닉네임 변경</string>
+    <string name="change_nickname">변경하기</string>
     <string name="app_version">앱 버전</string>
     <string name="support_email">teamcheckus@gmail.com</string>
     <string name="support">문의하기</string>
@@ -167,5 +167,18 @@
     <string name="post_input_hint">오늘은 무엇을 하셨나요?</string>
     <string name="like_count_info">53명이 좋아요를 눌렀어요</string>
     <string name="read_more">더보기</string>
+    <string name="my_page">마이페이지</string>
+    <string name="personal_info">개인 정보</string>
+    <string name="edit_nickname">닉네임 변경</string>
+    <string name="theme">화면 테마</string>
+    <string name="app_info">앱 정보</string>
+    <string name="my_page_checkmate_contact_value">teamcheckus@gmail.com</string>
+    <string name="my_page_question">문의하기</string>
+    <string name="my_page_app_version">앱 버전</string>
+    <string name="my_page_app_version_value">0.0.1</string>
+    <string name="my_page_term">서비스 이용약관</string>
+    <string name="my_page_privacy_policy">개인정보 처리방</string>
+    <string name="my_page_license">오픈소스 라이센스</string>
+    <string name="my_page_delete_account">탈퇴하기</string>
 
 </resources>

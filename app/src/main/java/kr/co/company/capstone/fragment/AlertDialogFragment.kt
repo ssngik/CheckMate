@@ -9,7 +9,12 @@ import androidx.fragment.app.DialogFragment
 import kr.co.company.capstone.R
 import kr.co.company.capstone.databinding.FragmentCustomDialogBinding
 
-class AlertDialogFragment(val title: String, val body: String, val emojiStatus: Boolean) : DialogFragment(){
+class AlertDialogFragment(
+    val title: String,
+    val body: String,
+    private val emojiStatus: Boolean,
+    private val onPositiveAction: (() -> Unit)? = null
+) : DialogFragment(){
     private var _binding: FragmentCustomDialogBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -24,7 +29,6 @@ class AlertDialogFragment(val title: String, val body: String, val emojiStatus: 
 
         setEmoji(binding.emoji)
         setButtonClickListener()
-
         return binding.root
     }
 
@@ -34,7 +38,10 @@ class AlertDialogFragment(val title: String, val body: String, val emojiStatus: 
     }
 
     private fun setButtonClickListener() {
-        binding.btnOk.setOnClickListener { dismiss() }
+        binding.btnOk.setOnClickListener {
+            onPositiveAction?.invoke()
+            dismiss()
+        }
     }
 
     override fun onDestroy() {

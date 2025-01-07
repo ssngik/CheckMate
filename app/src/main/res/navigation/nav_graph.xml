@@ -48,15 +48,7 @@
             app:destination="@id/timeLineFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/settingPageFragment"
-        android:name="kr.co.company.capstone.fragment.SettingPageFragment"
-        android:label="profile"
-        tools:layout="@layout/fragment_setting_icon">
-        <action
-            android:id="@+id/action_settingPageFragment_to_editNicknameFragment"
-            app:destination="@id/editNicknameFragment" />
-    </fragment>
+
 
     <fragment
         android:id="@+id/goalCreateCompleteActivity"
@@ -111,11 +103,9 @@
 
     <fragment
         android:id="@+id/editNicknameFragment"
-        android:name="kr.co.company.capstone.fragment.EditNicknameFragment"
+        android:name="kr.co.company.capstone.nickname.edit.ui.EditNicknameFragment"
     android:label="EditNickNameFragment"
     tools:layout="@layout/fragment_edit_nickname">
-        <action android:id="@+id/action_editNicknameFragment_to_settingPageFragment"
-                app:destination="@id/settingPageFragment"/>
     </fragment>
 
     <fragment
@@ -207,5 +197,14 @@
         android:id="@+id/invitationReplyDialogFragment"
         android:name="kr.co.company.capstone.invitationReplyDialog.InvitationReplyDialogFragment"
         android:label="InvitationReplyDialogFragment" />
+    <fragment
+        android:id="@+id/myPageFragment"
+        android:name="kr.co.company.capstone.my.ui.MyPageFragment"
+        android:label="fragment_my_page"
+        tools:layout="@layout/fragment_my_page" >
+        <action
+            android:id="@+id/action_myPageFragment_to_editNicknameFragment"
+            app:destination="@id/editNicknameFragment" />
+    </fragment>
 
 </navigation>
