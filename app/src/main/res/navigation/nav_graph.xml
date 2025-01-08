@@ -124,6 +124,11 @@
         <argument
             android:name="goalId"
             app:argType="long" />
+
+        <argument
+            android:name="userId"
+            app:argType="long" />
+
         <argument
             android:name="mateId"
             app:argType="long" />

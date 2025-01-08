@@ -105,7 +105,7 @@ class AlbumFragment : Fragment(), AlbumContract.View {
             val selectedUris = presenter.getSelectedUris().keys.toList()
             val uriStrings = selectedUris.map { it.toString() }.toTypedArray()
 
-            val action = AlbumFragmentDirections.actionAlbumFragmentToPostFragment(uriStrings, args.title, args.goalId, args.mateId)
+            val action = AlbumFragmentDirections.actionAlbumFragmentToPostFragment(uriStrings, args.title, args.goalId, args.mateId, args.userId)
             findNavController().navigate(action)
         }
     }

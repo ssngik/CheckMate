@@ -125,7 +125,7 @@ class PostFragment : Fragment(), PostContract.View {
 
     // 게시물 등록 성공
     override fun onPostRegisterSuccess() {
-        val action = PostFragmentDirections.actionPostFragmentToTimeLineFragment(goalId)
+        val action = PostFragmentDirections.actionPostFragmentToTimeLineFragment(goalId, args.userId)
         findNavController().navigate(action)
     }
 
