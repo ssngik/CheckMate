@@ -16,7 +16,7 @@ class TimeLineRepositoryImpl : TimeLineRepository {
     private val postService = PostInquiryService.getService()
     private val likeService = LikeService.getService()
     override fun getGoalInfo(goalId: Long, callback: TimeLineRepository.GetGoalInfoCallback) {
-        val call = goalInquiryService.goalDetail(goalId)
+        val call = goalInquiryService.userGoalDetail(goalId)
         call.enqueue(object : Callback<GoalDetail> {
             override fun onResponse(call: Call<GoalDetail>, response: Response<GoalDetail>) {
                 if (response.isSuccessful) {

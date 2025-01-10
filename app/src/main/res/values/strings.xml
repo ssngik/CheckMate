@@ -180,5 +180,8 @@
     <string name="my_page_privacy_policy">개인정보 처리방</string>
     <string name="my_page_license">오픈소스 라이센스</string>
     <string name="my_page_delete_account">탈퇴하기</string>
+    <string name="achievement_text">목표 달성률</string>
+    <string name="history_empty">아직 성공한 목표가 없어요.</string>
+    <string name="history">히스토리</string>
 
 </resources>
