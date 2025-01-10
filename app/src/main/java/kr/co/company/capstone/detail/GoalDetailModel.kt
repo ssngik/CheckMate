@@ -24,7 +24,7 @@ class GoalDetailModel : GoalDetailContract.Model {
         onSuccess: (GoalDetail) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        GoalInquiryService.getService().goalDetail(goalId).enqueue(object : Callback<GoalDetail> {
+        GoalInquiryService.getService().userGoalDetail(goalId).enqueue(object : Callback<GoalDetail> {
             override fun onResponse(call: Call<GoalDetail>, response: Response<GoalDetail>) {
                 if (response.isSuccessful){
                     response.body()?.let { onSuccess(it) }
