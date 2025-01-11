@@ -51,20 +51,25 @@
 
 
     <fragment
-        android:id="@+id/goalCreateCompleteActivity"
-        android:name="kr.co.company.capstone.fragment.GoalCreateCompleteFragment"
-        android:label="completeactivity_main"
+        android:id="@+id/goalCreateCompleteFragment"
+        android:name="kr.co.company.capstone.createGoal.complete.ui.GoalCreateCompleteFragment"
+        android:label="complete_fragment"
         tools:layout="@layout/fragment_goal_creation_complete">
+        <argument
+            android:name="makeGoalRequest"
+            app:argType="kr.co.company.capstone.dto.goal.MakeGoalRequest" />
+        <argument
+            android:name="goalId"
+            app:argType="long" />
         <action
-            android:id="@+id/action_goalCreateCompleteActivity_to_navigation_home"
-            app:popUpTo="@id/navigation_home"
-        />
-        <action
-            android:id="@+id/action_goalCreateCompleteActivity_to_fragmentInviteUser"
+            android:id="@+id/action_goalCreateCompleteFragment_to_fragmentInviteUser"
             app:destination="@id/inviteUserFragment"
-            app:popUpTo="@id/goalCreateCompleteActivity"
+            app:popUpTo="@id/goalCreateCompleteFragment"
             app:popUpToInclusive="false"
         />
+        <action
+            android:id="@+id/action_goalCreateCompleteFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
 
 
@@ -94,6 +99,11 @@
         android:name="kr.co.company.capstone.fragment.InviteUserFragment"
         android:label="fragment_invite_user"
         tools:layout="@layout/fragment_invite_user" >
+
+        <argument
+            android:name="goalId"
+            app:argType="long" />
+
         <action android:id="@+id/action_inviteUserFragment_to_navigation_home"
                 app:destination="@id/navigation_home"
                 app:popUpTo="@id/navigation_home"
@@ -171,8 +181,8 @@
         android:label="fragment_create_new_goal_final_page"
         tools:layout="@layout/fragment_create_new_goal_final_page" >
         <action
-            android:id="@+id/action_createNewGoalFinalPage_to_goalCreateCompleteActivity"
-            app:destination="@id/goalCreateCompleteActivity" />
+            android:id="@+id/action_createNewGoalFinalPage_to_goalCreateCompleteFragment"
+            app:destination="@id/goalCreateCompleteFragment" />
     </fragment>
     <fragment
         android:id="@+id/albumFragment"

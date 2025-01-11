@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.GoalCreateCompleteFragment">
+    tools:context=".createGoal.complete.ui.GoalCreateCompleteFragment">
 
         <TextView
             android:id="@+id/check_my_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/check_my_goal_page_title"
-            style="@style/main_name"
+            style="@style/complete_page_title"
             android:layout_marginTop="28dp"
             android:layout_gravity="center_horizontal"
             />
