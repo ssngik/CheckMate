@@ -13,7 +13,6 @@ import kr.co.company.capstone.dto.goal.GoalCalendar
 import kr.co.company.capstone.dto.goal.GoalDetail
 import kr.co.company.capstone.dto.goal.Mate
 import kr.co.company.capstone.fragment.ErrorDialogFragment
-import kr.co.company.capstone.util.FragmentUtil
 import kr.co.company.capstone.util.SharedPreferenceUtil
 import kr.co.company.capstone.util.adapter.CalendarRecyclerViewAdapter
 import kr.co.company.capstone.util.adapter.TeamMateRecyclerViewAdapter
@@ -21,7 +20,6 @@ import kr.co.company.capstone.util.adapter.TeamMateRecyclerViewAdapter
 class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
     private var _binding : FragmentGoalDetailBinding? = null
     private lateinit var presenter : GoalDetailContract.Presenter
-    private val fragmentUtil = FragmentUtil()
     private val binding get() = _binding!!
     private var goalId: Long = 0
 
@@ -84,9 +82,11 @@ class GoalDetailFragment : Fragment(), GoalDetailContract.DetailView {
             }else {
                 showError("문제가 발생했습니다.")
             }
-
         }
-        binding.btnInvite.setOnClickListener { fragmentUtil.actionDetailToInvite(binding.root, goalId)}
+        binding.btnInvite.setOnClickListener {
+            val action = GoalDetailFragmentDirections.actionGoalDetailFragmentToInviteUserFragment(goalId)
+            findNavController().navigate(action)
+        }
         binding.btnTimeline.setOnClickListener {
             val userId = getUserId()
             if (userId != null) {

@@ -1,6 +1,5 @@
 package kr.co.company.capstone.service;
 
-import kr.co.company.capstone.dto.UserNicknameUpdateRequest;
 import kr.co.company.capstone.dto.login.LoginRequestKt;
 import kr.co.company.capstone.dto.login.LoginResponse;
 import kr.co.company.capstone.dto.login.SignUpRequest;
@@ -19,11 +18,6 @@ public interface UserService {
     // 회원가입
     @POST("/users")
     Call<Void> signUp(@Body SignUpRequest signUpRequest);
-
-    // 닉네임 변경
-    @PATCH("/users/nickname")
-    Call<Void> updateNickname(@Body UserNicknameUpdateRequest request);
-
 
     static UserService getService(){
         return RetrofitBuilder.INSTANCE.getRetrofit().create(UserService.class);
