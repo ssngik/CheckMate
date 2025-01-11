@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import kr.co.company.capstone.R
 import kr.co.company.capstone.databinding.FragmentCreateNewGoalFinalPageBinding
 import kr.co.company.capstone.dto.ErrorMessage
@@ -28,16 +28,12 @@ class CreateNewGoalFinalPage : Fragment() {
 
     private val weekDaysList = mutableListOf<String>()
     private lateinit var weekDays : String
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
+    override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCreateNewGoalFinalPageBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -106,18 +102,14 @@ class CreateNewGoalFinalPage : Fragment() {
 
     // 목표 완료 안내 페이지 이동
     private fun actionToGoalCreationComplete(makeGoalRequest: MakeGoalRequest, goalId:Long){
-
         if (checkNecessaryInputFields()){
-
-            val finalPageBundle = Bundle().apply{
-                putSerializable("makeGoalRequest", makeGoalRequest)
-                putLong("goalId", goalId)
-            }
-
-            Navigation.findNavController(binding.root).navigate(R.id.action_createNewGoalFinalPage_to_goalCreateCompleteActivity, finalPageBundle)
+            val action = CreateNewGoalFinalPageDirections.actionCreateNewGoalFinalPageToGoalCreateCompleteFragment(
+                makeGoalRequest = makeGoalRequest,
+                goalId = goalId
+            )
+            findNavController().navigate(action)
         }
     }
-
 
     private fun callMakeGoalRequest(){
         val title = arguments?.getString("title") ?: ""
@@ -133,7 +125,6 @@ class CreateNewGoalFinalPage : Fragment() {
                     if (response.isSuccessful){
                         actionToGoalCreationComplete(makeGoalRequest, response.body()?.goalId?:0L)
                     }else{
-                        // TODO: 다이어로그 디자인 확정시 에러 코드별 에러처리
                         Log.d("day", ErrorMessage.getErrorByResponse(response).code)
                     }
                 }
@@ -153,7 +144,6 @@ class CreateNewGoalFinalPage : Fragment() {
 
                 checkNecessaryInputFields()
             }
-        // TODO: 타임피커 테마 확정되면 변경
         val pickerDialog = TimePickerDialog(context, android.R.style.Theme_Dialog, timePickerListener,
             hour, minute, false)
         pickerDialog.show()

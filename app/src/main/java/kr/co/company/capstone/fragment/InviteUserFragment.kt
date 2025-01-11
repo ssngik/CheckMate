@@ -1,11 +1,11 @@
 package kr.co.company.capstone.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import kr.co.company.capstone.databinding.FragmentInviteUserBinding
 import kr.co.company.capstone.dto.ErrorMessage
 import kr.co.company.capstone.dto.team_mate.TeamMateInviteRequest
@@ -16,17 +16,13 @@ import retrofit2.Response
 
 // Retrofit
 class InviteUserFragment : Fragment() {
+    private val args by navArgs<InviteUserFragmentArgs>()
+
     private var _binding: FragmentInviteUserBinding? = null
 
-    // 매번 null 체크를 할 필요 없이 편의성을 위해 바인딩 변수 재 선언
     private val binding get() = _binding!!
 
-    private var goalId: Long = 0
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        goalId = arguments?.getLong("goalId")?:0L
-        Log.d(LOG_TAG, goalId.toString())
-    }
+    override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +44,7 @@ class InviteUserFragment : Fragment() {
         var dialogTitle : String
         var dialogBody : String
         var emoji : Boolean
-        TeamMateService.service().invite(goalId, inviteRequest)
+        TeamMateService.service().invite(args.goalId, inviteRequest)
             .enqueue(object : Callback<Void>{
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.code()==200) {
@@ -82,10 +78,6 @@ class InviteUserFragment : Fragment() {
             "success" -> "초대 요청을 보냈어요!\n응답이 오면 알려드릴게요"
             else -> "닉네임을 입력해주세요"
         }
-    }
-
-    companion object {
-        private val LOG_TAG = InviteUserFragment::class.java.simpleName
     }
 
     override fun onDestroy() {
