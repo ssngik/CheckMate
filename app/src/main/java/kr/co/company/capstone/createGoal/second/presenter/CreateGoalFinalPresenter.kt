@@ -28,8 +28,8 @@ class CreateGoalFinalPresenter(
         checkEssentialInput()
     }
 
-    override fun onTimeSelected(hour: Int, minute: Int) {
-        appointmentTime = String.format("%02d:%02d:00", hour, minute)
+    override fun onTimeSelected(selectedAmPm: Int, hour: Int, minute: Int) {
+        appointmentTime = String.format("%02d:%02d:00", hour, minute) // api 요청 형식
         checkEssentialInput()
     }
 

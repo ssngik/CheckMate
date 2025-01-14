@@ -12,7 +12,7 @@ interface CreateGoalFinalContract {
         fun attachView(view: View)
         fun detachView()
         fun onWeekdayChecked(day: String, isChecked: Boolean)
-        fun onTimeSelected(hour: Int, minute: Int)
+        fun onTimeSelected(selectedAmPm: Int, hour: Int, minute: Int)
         fun onCreateGoalButtonClicked(
             title: String,
             category: String,
