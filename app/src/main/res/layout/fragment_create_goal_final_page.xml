@@ -34,7 +34,7 @@
         android:layout_marginTop="56dp"
         android:layout_marginStart="20dp"
         style="@style/create_goal_page_contents"
-        android:text="@string/proof_time"
+        android:text="@string/appointment_time"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/make_goal_title" />
 
@@ -54,7 +54,7 @@
             android:id="@+id/time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="알림받을 시간을 설정해주세요"
+            android:text="@string/appointment_time_info"
             android:layout_gravity="center|start"
             />
 

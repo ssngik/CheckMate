@@ -46,7 +46,7 @@
     <string name="day_value">hello</string>
     <string name="certification_method">인증 방식</string>
     <string name="method">method</string>
-    <string name="proof_time">인증 시간</string>
+    <string name="appointment_time">인증 시간</string>
     <string name="certification_time_value">00:00</string>
     <string name="post_time">00:00:00</string>
     <string name="like_count_text">좋아요 개수</string>
@@ -183,5 +183,6 @@
     <string name="achievement_text">목표 달성률</string>
     <string name="history_empty">아직 성공한 목표가 없어요.</string>
     <string name="history">히스토리</string>
+    <string name="appointment_time_info">알림받을 시간을 설정해주세요</string>
 
 </resources>

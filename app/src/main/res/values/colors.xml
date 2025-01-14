@@ -26,6 +26,7 @@
     <color name="light_text">#383838</color>
     <color name="edit_text">#C0C0C0</color>
     <color name="dark_text">#ebebeb</color>
+    <color name="picker_selected_boundary">#F5F5F5</color>
     <color name="orange">#FF9518</color>
     <color name="grn">#AEE6B2</color>
     <color name="naver_green">#2DB400</color>
