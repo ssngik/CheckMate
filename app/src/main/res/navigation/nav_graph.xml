@@ -172,16 +172,28 @@
         android:label="fragment_create_goal_info"
         tools:layout="@layout/fragment_create_new_goal_first_page" >
         <action
-            android:id="@+id/action_createGoalFirstPage_to_createGoalFinalPage"
-            app:destination="@id/createNewGoalFinalPage" />
+            android:id="@+id/action_createGoalFirstPageFragment_to_createGoalFinalPageFragment"
+            app:destination="@id/createGoalFinalPageFragment" />
     </fragment>
     <fragment
-        android:id="@+id/createNewGoalFinalPage"
-        android:name="kr.co.company.capstone.fragment.CreateNewGoalFinalPage"
+        android:id="@+id/createGoalFinalPageFragment"
+        android:name="kr.co.company.capstone.createGoal.second.ui.CreateGoalFinalPageFragment"
         android:label="fragment_create_new_goal_final_page"
-        tools:layout="@layout/fragment_create_new_goal_final_page" >
+        tools:layout="@layout/fragment_create_goal_final_page" >
+        <argument
+            android:name="startDate"
+            app:argType="string" />
+        <argument
+            android:name="endDate"
+            app:argType="string" />
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
         <action
-            android:id="@+id/action_createNewGoalFinalPage_to_goalCreateCompleteFragment"
+            android:id="@+id/action_createGoalFinalPageFragment_to_goalCreateCompleteFragment"
             app:destination="@id/goalCreateCompleteFragment" />
     </fragment>
     <fragment

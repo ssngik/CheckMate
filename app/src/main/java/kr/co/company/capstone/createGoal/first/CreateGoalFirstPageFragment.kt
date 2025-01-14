@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import kr.co.company.capstone.R
 import kr.co.company.capstone.databinding.FragmentCreateNewGoalFirstPageBinding
@@ -147,13 +147,13 @@ class CreateGoalFirstPageFragment : Fragment(), CreateGoalFirstPageContract.View
         category: String,
         title: String
     ) {
-            val firstPageBundle = Bundle().apply {
-                putString("startDate", startDate)
-                putString("endDate", endDate)
-                putString("category", binding.spinner.selectedItem.toString())
-                putString("title", binding.inputTitle.text.toString())
-            }
-            Navigation.findNavController(binding.root).navigate(R.id.action_createGoalFirstPage_to_createGoalFinalPage, firstPageBundle)
+        val action = CreateGoalFirstPageFragmentDirections.actionCreateGoalFirstPageFragmentToCreateGoalFinalPageFragment(
+            startDate = startDate,
+            endDate = endDate,
+            category = binding.spinner.selectedItem.toString(),
+            title = binding.inputTitle.text.toString()
+        )
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {
