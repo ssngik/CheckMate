@@ -422,5 +422,35 @@
         <item name="android:textColor">#404040</item>
     </style>
 
+<!--custom number picker-->
+    <style name="custom_picker_title">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/nanum_gothic_b</item>
+        <item name="android:textColor">#222222</item>
+    </style>
+
+    <!-- custom number picker ok  -->
+    <style name="custom_picker_ok">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#6E86FF</item>
+        <item name="fontFamily">@font/nanum_gothic_r</item>
+    </style>
+
+    <style name="CustomBottomSheetDialogTheme" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearance</item>
+    </style>
+
+    <style name="CustomShapeAppearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
 
 </resources>

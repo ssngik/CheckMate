@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/picker_selected_boundary"
+        app:layout_constraintTop_toTopOf="@id/spinnerHour"
+        app:layout_constraintBottom_toBottomOf="@id/spinnerHour"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/btn_x_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/x_close_btn"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/time_picker_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/appointment_time"
+        android:textAppearance="@style/custom_picker_title"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_time_picker_ok"
+        app:layout_constraintLeft_toRightOf="@id/btn_x_close"/>
+
+    <TextView
+        android:id="@+id/btn_time_picker_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textAppearance="@style/custom_picker_ok"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <NumberPicker
+        android:id="@+id/spinnerAmPm"
+        android:layout_width="33dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginBottom="66dp"
+        android:layout_marginEnd="28dp"
+        android:theme="@style/CustomNumberPicker"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/time_picker_title"
+        app:layout_constraintRight_toLeftOf="@id/spinnerHour"
+        />
+    <!-- Hour Spinner  : 1~12 -->
+    <NumberPicker
+        android:id="@+id/spinnerHour"
+        android:layout_width="31dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginBottom="66dp"
+        android:theme="@style/CustomNumberPicker"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/time_picker_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <!-- Minute Spinner (00 / 30) -->
+    <NumberPicker
+        android:id="@+id/spinnerMinute"
+        android:layout_width="31dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginBottom="66dp"
+        android:layout_marginStart="28dp"
+        android:theme="@style/CustomNumberPicker"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/time_picker_title"
+        app:layout_constraintLeft_toRightOf="@id/spinnerHour"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
