@@ -168,7 +168,7 @@
 
     <fragment
         android:id="@+id/createGoalFirstPageFragment"
-        android:name="kr.co.company.capstone.createGoal.first.CreateGoalFirstPageFragment"
+        android:name="kr.co.company.capstone.createGoal.first.ui.CreateGoalFirstPageFragment"
         android:label="fragment_create_goal_info"
         tools:layout="@layout/fragment_create_new_goal_first_page" >
         <action

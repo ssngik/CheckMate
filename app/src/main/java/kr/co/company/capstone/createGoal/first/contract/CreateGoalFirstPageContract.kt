@@ -1,4 +1,4 @@
-package kr.co.company.capstone.createGoal.first
+package kr.co.company.capstone.createGoal.first.contract
 
 interface CreateGoalFirstPageContract {
     interface View{

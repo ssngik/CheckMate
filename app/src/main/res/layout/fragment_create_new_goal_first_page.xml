@@ -7,7 +7,7 @@
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
     android:layout_marginBottom="?attr/actionBarSize"
-    tools:context=".createGoal.first.CreateGoalFirstPageFragment">
+    tools:context=".createGoal.first.ui.CreateGoalFirstPageFragment">
 
     <TextView
         android:id="@+id/make_goal_title"

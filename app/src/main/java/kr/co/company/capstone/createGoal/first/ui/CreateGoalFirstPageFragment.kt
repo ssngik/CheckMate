@@ -1,4 +1,4 @@
-package kr.co.company.capstone.createGoal.first
+package kr.co.company.capstone.createGoal.first.ui
 
 import android.os.Bundle
 import android.text.Editable
@@ -15,10 +15,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import kr.co.company.capstone.R
+import kr.co.company.capstone.createGoal.first.contract.CreateGoalFirstPageContract
+import kr.co.company.capstone.createGoal.first.model.CreateGoalFirstPageModel
+import kr.co.company.capstone.createGoal.first.presenter.CreateGoalFirstPagePresenter
 import kr.co.company.capstone.databinding.FragmentCreateNewGoalFirstPageBinding
 
 
-class CreateGoalFirstPageFragment : Fragment(), CreateGoalFirstPageContract.View{
+class CreateGoalFirstPageFragment : Fragment(), CreateGoalFirstPageContract.View {
 
     private var _binding: FragmentCreateNewGoalFirstPageBinding? = null
     private val binding get() = _binding!!

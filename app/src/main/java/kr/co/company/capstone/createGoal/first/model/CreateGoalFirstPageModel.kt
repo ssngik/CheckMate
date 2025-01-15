@@ -1,5 +1,6 @@
-package kr.co.company.capstone.createGoal.first
+package kr.co.company.capstone.createGoal.first.model
 
+import kr.co.company.capstone.createGoal.first.contract.CreateGoalFirstPageContract
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

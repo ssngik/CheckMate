@@ -1,11 +1,12 @@
-package kr.co.company.capstone.createGoal.first
+package kr.co.company.capstone.createGoal.first.presenter
 
 import kr.co.company.capstone.R
+import kr.co.company.capstone.createGoal.first.contract.CreateGoalFirstPageContract
 
 class CreateGoalFirstPagePresenter(
     private val view : CreateGoalFirstPageContract.View,
     private val model : CreateGoalFirstPageContract.Model
-) :CreateGoalFirstPageContract.Presenter{
+) : CreateGoalFirstPageContract.Presenter{
 
     // 목표 이름 입력시 모든 필드 선택 여부 검증
     override fun onTitleTextChanged() {
