@@ -1,19 +1,21 @@
-package kr.co.company.capstone.dto;
+package kr.co.company.capstone.dto
 
-import com.google.gson.Gson;
+import com.google.gson.Gson
+import retrofit2.Response
 
-import lombok.Data;
-import retrofit2.Response;
-
-@Data
-public class ErrorMessage {
-    private String timestamp;
-    private int status;
-    private String error;
-    public String code;
-    public String message;
-
-    public static ErrorMessage getErrorByResponse(Response response) {
-        return new Gson().fromJson(response.errorBody().charStream(), ErrorMessage.class);
+data class ErrorMessage(
+    val timestamp: String? = null,
+    val status: Int = 0,
+    val error: String? = null,
+    val code: String? = null,
+    val message: String? = null
+) {
+    companion object {
+        fun getErrorByResponse(response: Response<*>): ErrorMessage {
+            response.errorBody()?.charStream()?.let {
+                return Gson().fromJson(it, ErrorMessage::class.java)
+            }
+            throw IllegalArgumentException("Invalid Response error")
+        }
     }
 }

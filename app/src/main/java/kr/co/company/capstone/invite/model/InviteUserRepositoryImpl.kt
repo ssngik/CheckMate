@@ -22,7 +22,7 @@ class InviteUserRepositoryImpl(
                     onSuccess()
                 } else {
                     val errorBody = ErrorMessage.getErrorByResponse(response)
-                    val errorMessage = errorBody?.code ?: "알 수 없는 오류 발생"
+                    val errorMessage = errorBody.code ?: "알 수 없는 오류 발생"
                     onError(errorMessage)
                 }
             }
