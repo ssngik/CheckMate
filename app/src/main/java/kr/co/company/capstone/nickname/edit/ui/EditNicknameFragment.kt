@@ -3,7 +3,6 @@ package kr.co.company.capstone.nickname.edit.ui
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,7 +77,12 @@ class EditNicknameFragment : Fragment(), EditNicknameContract.View  {
         isAvailable: Boolean,
         onPositiveAction: (() -> Unit)?
     ) {
-        AlertDialogFragment(title, body, isAvailable, onPositiveAction).show(parentFragmentManager, "nickname_dialog")
+        AlertDialogFragment(
+            title = title,
+            body = body,
+            emojiStatus = isAvailable,
+            positiveButtonText = "확인",
+            onPositiveAction = onPositiveAction).show(parentFragmentManager, "nickname_dialog")
     }
 
     override fun showErrorDialog(errorMessage: String) {
