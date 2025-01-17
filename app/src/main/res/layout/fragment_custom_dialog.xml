@@ -39,6 +39,45 @@
         app:layout_constraintTop_toBottomOf="@+id/dialog_title"
         />
 
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_body"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_select_cancel"
+            android:layout_width="122dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:background="#E0E0E0"
+            android:text="취소"
+            android:textAppearance="@style/main_negative_text"
+            android:visibility="visible" />
+
+        <!-- 확인 버튼 -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_select_ok"
+            android:layout_width="122dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="20dp"
+            android:background="#6E86FF"
+            android:text="확인"
+            android:textAppearance="@style/main_btn_text" />
+
+    </LinearLayout>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_ok"
         android:layout_width="256dp"
@@ -50,6 +89,7 @@
         android:textAppearance="@style/main_btn_text"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dialog_body"
