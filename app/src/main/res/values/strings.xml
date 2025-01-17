@@ -2,7 +2,6 @@
     <string name="app_name">Check mate</string>
     <string name="Category_spinner">카테고리</string>
     <string-array name="Category_Spinner">
-        <item>카테고리를 선택해주세요.</item>
         <item>EXERCISE</item>
         <item>LIFESTYLE</item>
         <item>READING</item>
@@ -11,8 +10,7 @@
         <item>ETC</item>
     </string-array>
 
-    <string name="choose_category">카테고리를 선택해주세요.</string>
-
+    <string name="choose_category">카테고리를 선택해 주세요.</string>
     <string name="default_notification_channel_id">Channel ID</string>
     <string name="default_notification_channel_name" translatable="true">Test</string>
     <string name="history_check_image">HistoryCheck</string>

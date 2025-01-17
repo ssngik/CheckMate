@@ -1,12 +1,5 @@
 package kr.co.company.capstone.home
 
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import android.view.View
-import kr.co.company.capstone.R
-import kr.co.company.capstone.util.NavigationUtil
-
 class MainPagePresenter(private val model: MainPageContract.Model) : MainPageContract.Presenter{
 
     private var mainView : MainPageContract.MainView? = null

@@ -25,7 +25,10 @@ class MainPageFragment : Fragment(), MainPageContract.MainView {
     private var _binding: FragmentMainPageBinding? = null
     private val binding get() = _binding!!
     private lateinit var presenter : MainPageContract.Presenter
-    override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter = MainPagePresenter(MainPageModel())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +41,6 @@ class MainPageFragment : Fragment(), MainPageContract.MainView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter = MainPagePresenter(MainPageModel())
         presenter.attachView(this)
         presenter.onViewCreated()
     }
@@ -119,7 +121,10 @@ class MainPageFragment : Fragment(), MainPageContract.MainView {
                 }
             }
     }
-    companion object {
-        private const val LOG_TAG = "MainPageFragment"
+
+    override fun onDestroy() {
+        presenter.detachView()
+        super.onDestroy()
+        _binding = null
     }
 }

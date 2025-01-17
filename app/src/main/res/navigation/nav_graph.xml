@@ -96,7 +96,7 @@
     </fragment>
     <fragment
         android:id="@+id/inviteUserFragment"
-        android:name="kr.co.company.capstone.fragment.InviteUserFragment"
+        android:name="kr.co.company.capstone.invite.ui.InviteUserFragment"
         android:label="fragment_invite_user"
         tools:layout="@layout/fragment_invite_user" >
 
@@ -168,7 +168,7 @@
 
     <fragment
         android:id="@+id/createGoalFirstPageFragment"
-        android:name="kr.co.company.capstone.createGoal.first.CreateGoalFirstPageFragment"
+        android:name="kr.co.company.capstone.createGoal.first.ui.CreateGoalFirstPageFragment"
         android:label="fragment_create_goal_info"
         tools:layout="@layout/fragment_create_new_goal_first_page" >
         <action
