@@ -5,6 +5,13 @@
 
 ![cm_uf](https://github.com/user-attachments/assets/50ea29c7-628c-4452-bc55-aef0f8979b8d)
 
+> **Note**  
+> 같은 목표를 가진 인원을 초대해 서로 동기부여가 되어 목표 달성을 도와주는 앱입니다.  
+> 팀원을 직접 모집하여 팀원의 목표 수행 여부, 본인의 달성률을 직관적으로 파악할 수 있습니다.
+>
+> Check Mate는 졸업 작품을 통해 개발 완료한 앱입니다.
+> 해당 포트폴리오의 Check Mate는 졸업 이후 서버, 디자이너와 함께 리팩토링한 과정입니다. 해당 프로젝트는 꾸준히 다양한 시도를 하기 위해 서버를 직접 연장하며 유지하고 있습니다.
+
 
 ### 📦 Stack & Tools
 #### 📦 Stack
@@ -44,8 +51,8 @@
 ### 🎨 전체 UI
 - Check Mate의 전체 UI입니다. 아래 버튼을 클릭하시면 이동하실 수 있습니다.
 
-[![View in Figma](https://img.shields.io/badge/View%20in%20Figma-Design-blue?style=for-the-badge&logo=figma&logoColor=white)]([https://www.figma.com/link-to-your-design](https://www.figma.com/design/pI1HLu43qOuQLf0MG2QHKo/readme_UI?node-id=0-1&t=Kh6dVS5co02pTZPx-1
-)
+[![View in Figma](https://img.shields.io/badge/View%20in%20Figma-Design-blue?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/design/pI1HLu43qOuQLf0MG2QHKo/readme_UI?node-id=0-1&t=Kh6dVS5co02pTZPx-1)
+
 
 
 
